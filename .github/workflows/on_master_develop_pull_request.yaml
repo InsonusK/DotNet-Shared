@@ -1,0 +1,51 @@
+name: Project Unit tests
+
+on:
+  pull_request:
+    branches: [ master, develop ]
+
+permissions:
+  contents: read
+  pull-requests: read
+  
+env:
+  src_path: 'src/**'
+
+jobs:
+  check_changing:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out repository src
+      uses: actions/checkout@v3
+    - name: Check does src or test changed
+      uses: dorny/paths-filter@v2
+      id: changed_obj
+      with:
+        filters: |
+          src:
+            - ${{ env.src_path }}
+    
+    outputs:
+      src_changed: ${{ steps.changed_obj.outputs.src }}  
+
+  testing:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/dotnet/sdk:9.0
+    needs: check_changing
+    if: ${{ needs.check_changing.outputs.src_changed == 'true' }}
+    
+    steps:
+      - name: Check out repository src
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build Release
+        run: dotnet build --configuration Debug --no-restore
+      - name: Run tests in Debug mode
+        run: dotnet test --configuration Debug --verbosity m --no-restore
+      - name: Build Release
+        run: dotnet build --configuration Release --no-restore
+      - name: Run tests in Release mode
+        run: dotnet test --configuration Release --verbosity m --no-restore
+  
