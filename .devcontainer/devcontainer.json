@@ -23,16 +23,16 @@
 	"customizations": {
         "vscode": {
             "extensions": [
-                "aliasadidev.nugetpackagemanagergui",
-                "mhutchie.git-graph",
-                "mutantdino.resourcemonitor",
-                "ms-dotnettools.csdevkit",
-                "github.vscode-github-actions",
-                "Codeium.codeium",
-                "GitHub.vscode-pull-request-github",
-                "ms-dotnettools.vscodeintellicode-csharp",
-                "Gruntfuggly.todo-tree"
-            ]
+				"aliasadidev.nugetpackagemanagergui",
+				"mhutchie.git-graph",
+				"mutantdino.resourcemonitor",
+				"ms-dotnettools.csdevkit",
+				"github.vscode-github-actions",
+				"Codeium.codeium",
+				"GitHub.vscode-pull-request-github",
+				"Gruntfuggly.todo-tree",
+				"GitHub.copilot-chat"
+			]
         }
     }
 
