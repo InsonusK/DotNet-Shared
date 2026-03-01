@@ -1,4 +1,4 @@
-name: Project Unit tests
+name: Pull Request Check
 
 on:
   pull_request:
@@ -7,45 +7,58 @@ on:
 permissions:
   contents: read
   pull-requests: read
-  
-env:
-  src_path: 'src/**'
+  packages: read
 
 jobs:
-  check_changing:
+  validate:
     runs-on: ubuntu-latest
-    
+    strategy:
+      matrix:
+        project:
+          - folder: src/AnnotationsForDI/**
+            csproj: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
+            package-id: InsonusK.Shared.AnnotationsForDI
+          - folder: src/DataBase/**
+            csproj: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
+            package-id: InsonusK.Shared.DataBase
+          - folder: src/Models/**
+            csproj: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
+            package-id: InsonusK.Shared.Models
+      fail-fast: false
+      
     steps:
-    - name: Check out repository src
-      uses: actions/checkout@v3
-    - name: Check does src or test changed
-      uses: dorny/paths-filter@v2
-      id: changed_obj
-      with:
-        filters: |
-          src:
-            - ${{ env.src_path }}
-    
-    outputs:
-      src_changed: ${{ steps.changed_obj.outputs.src }}  
+      - uses: actions/checkout@v4
 
-  testing:
+      - name: Detect changes
+        id: detect
+        uses: ./.github/actions/detect-changes
+        with:
+          project-folder: ${{ matrix.project.folder }}
+
+      - name: Test Project
+        if: steps.detect.outputs.changed == 'true'
+        uses: ./.github/actions/testing
+
+      - name: Check Version
+        if: steps.detect.outputs.changed == 'true'
+        uses: ./.github/actions/check-version
+        with:
+          csproj: ${{ matrix.project.csproj }}
+          package-id: ${{ matrix.project.package-id }}
+          owner: ${{ github.repository_owner }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  all_validations_passed:
+    name: All Validations Passed
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/dotnet/sdk:9.0
-    needs: check_changing
-    if: ${{ needs.check_changing.outputs.src_changed == 'true' }}
-    
+    needs: validate
+    if: ${{ always() }}  # run regardless of previous success/failure
     steps:
-      - name: Check out repository src
-        uses: actions/checkout@v3
-      - name: Install dependencies
-        run: dotnet restore
-      - name: Build Release
-        run: dotnet build --configuration Debug --no-restore
-      - name: Run tests in Debug mode
-        run: dotnet test --configuration Debug --verbosity m --no-restore
-      - name: Build Release
-        run: dotnet build --configuration Release --no-restore
-      - name: Run tests in Release mode
-        run: dotnet test --configuration Release --verbosity m --no-restore
-  
+      - name: Check validation results
+        run: |
+          if [[ "${{ needs.validate.result }}" != "success" ]]; then
+            echo "❌ Some validation jobs failed"
+            exit 1
+          else
+            echo "✅ All validations passed successfully"
+          fi

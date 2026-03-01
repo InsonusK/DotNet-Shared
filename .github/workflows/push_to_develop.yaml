@@ -1,0 +1,42 @@
+name: Push to Develop - Pre-release
+
+on:
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-publish:
+    strategy:
+      matrix:
+        project:
+          - folder: src/AnnotationsForDI/**
+            csproj: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
+            package-id: InsonusK.Shared.AnnotationsForDI
+            artifact: nupkg-annotations
+          - folder: src/DataBase/**
+            csproj: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
+            package-id: InsonusK.Shared.DataBase
+            artifact: nupkg-database
+          - folder: src/Models/**
+            csproj: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
+            package-id: InsonusK.Shared.Models
+            artifact: nupkg-models
+      fail-fast: false
+    
+    uses: ./.github/workflows/project-pipeline.yaml
+    with:
+      project-folder: ${{ matrix.project.folder }}
+      csproj: ${{ matrix.project.csproj }}
+      package-id: ${{ matrix.project.package-id }}
+      artifact-name: ${{ matrix.project.artifact }}
+      version-suffix: beta.${{ github.run_number }}
+      create-release: false
+      owner: ${{ github.repository_owner }}
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      nuget-token: ${{ secrets.NUGET_TOKEN }}

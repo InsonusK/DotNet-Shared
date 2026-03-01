@@ -1,0 +1,64 @@
+name: 'Publish Package'
+description: 'Publish NuGet Package to NuGet and GitHub'
+
+inputs:
+  artifact-name:
+    description: 'Name of the artifact produced by the build job (e.g. nupkg-models)'
+    required: true
+  create-release:
+    description: 'Whether to create a GitHub Release (true for master, false for develop)'
+    required: false
+    default: 'false'
+  release-tag:
+    description: 'Tag name for the GitHub Release (e.g. Models/v1.2.0)'
+    required: false
+    default: ''
+  release-name:
+    description: 'Display name for the GitHub Release (e.g. Models v1.2.0)'
+    required: false
+    default: ''
+  nuget-token:
+    description: 'NuGet Token for authentication'
+    required: true
+  github-token:
+    description: 'GitHub Token for authentication'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0'
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ./nuget-packages/
+
+    - name: Push to NuGet.org
+      run: |
+        dotnet nuget push ./nuget-packages/*.nupkg \
+          -s nuget \
+          -k ${{ inputs.nuget-token }} \
+          --skip-duplicate
+      shell: bash
+
+    - name: Push to GitHub Packages
+      run: |
+        dotnet nuget push ./nuget-packages/*.nupkg \
+          -s github \
+          -k ${{ inputs.github-token }} \
+          --skip-duplicate
+      shell: bash
+
+    - name: Create GitHub Release
+      if: inputs.create-release == 'true'
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ inputs.release-tag }}
+        name: ${{ inputs.release-name }}
+        files: ./nuget-packages/*.nupkg
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
