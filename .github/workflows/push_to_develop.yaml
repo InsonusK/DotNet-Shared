@@ -1,4 +1,4 @@
-name: Push to Develop – Build & Publish Pre-release
+name: Push to Develop – Pre-release
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   # ─────────────────────────────────────────────────────────────
-  # 1. Detect which projects have changed
+  # Detect which projects changed
   # ─────────────────────────────────────────────────────────────
   detect-changes:
     runs-on: ubuntu-latest
@@ -21,9 +21,7 @@ jobs:
       models:      ${{ steps.filter.outputs.models }}
     steps:
       - uses: actions/checkout@v4
-
-      - name: Detect changed projects
-        uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@v3
         id: filter
         with:
           filters: |
@@ -35,277 +33,121 @@ jobs:
               - 'src/Models/**'
 
   # ─────────────────────────────────────────────────────────────
-  # 2. Run tests – one job per project (skipped if not changed)
+  # AnnotationsForDI
   # ─────────────────────────────────────────────────────────────
   test-annotations:
     needs: detect-changes
     if: needs.detect-changes.outputs.annotations == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0'
-      - name: Restore
-        run: dotnet restore src/AnnotationsForDI/
-      - name: Build
-        run: dotnet build src/AnnotationsForDI/ --configuration Release --no-restore
-      - name: Test
-        run: dotnet test src/AnnotationsForDI/ --configuration Release --no-restore --verbosity minimal
+    uses: ./.github/workflows/jobs/test-project.yaml
+    with:
+      project-folder: src/AnnotationsForDI/
 
+  check-version-annotations:
+    needs: test-annotations
+    if: needs.detect-changes.outputs.annotations == 'true'
+    uses: ./.github/workflows/jobs/check-version.yaml
+    with:
+      csproj: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
+      package-id: InsonusK.Shared.AnnotationsForDI
+      owner: ${{ github.repository_owner }}
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-annotations:
+    needs: check-version-annotations
+    if: needs.detect-changes.outputs.annotations == 'true'
+    uses: ./.github/workflows/jobs/build-package.yaml
+    with:
+      csproj: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
+      artifact-name: nupkg-annotations
+      version-suffix: beta.${{ github.run_number }}
+
+  publish-annotations:
+    needs: build-annotations
+    if: needs.detect-changes.outputs.annotations == 'true'
+    uses: ./.github/workflows/jobs/publish-package.yaml
+    with:
+      artifact-name: nupkg-annotations
+      create-release: false
+    secrets:
+      nuget-token: ${{ secrets.NUGET_TOKEN }}
+
+  # ─────────────────────────────────────────────────────────────
+  # DataBase
+  # ─────────────────────────────────────────────────────────────
   test-database:
     needs: detect-changes
     if: needs.detect-changes.outputs.database == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0'
-      - name: Restore
-        run: dotnet restore src/DataBase/
-      - name: Build
-        run: dotnet build src/DataBase/ --configuration Release --no-restore
-      - name: Test
-        run: dotnet test src/DataBase/ --configuration Release --no-restore --verbosity minimal
-
-  test-models:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.models == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0'
-      - name: Restore
-        run: dotnet restore src/Models/
-      - name: Build
-        run: dotnet build src/Models/ --configuration Release --no-restore
-      - name: Test
-        run: dotnet test src/Models/ --configuration Release --no-restore --verbosity minimal
-
-  # ─────────────────────────────────────────────────────────────
-  # 3. Verify version was bumped (fail fast if not)
-  # ─────────────────────────────────────────────────────────────
-  check-version-annotations:
-    needs: [detect-changes, test-annotations]
-    if: needs.detect-changes.outputs.annotations == 'true'
-    runs-on: ubuntu-latest
-    env:
-      CSPROJ: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
-      PACKAGE_ID: InsonusK.Shared.AnnotationsForDI
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check version bump
-        run: |
-          LOCAL=$(grep -oPm1 '(?<=<PackageVersion>)[^<]+' "$CSPROJ")
-          echo "Local version: $LOCAL"
-          RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/orgs/${{ github.repository_owner }}/packages/nuget/${PACKAGE_ID}/versions" \
-            || echo "[]")
-          PUBLISHED=$(echo "$RESPONSE" | grep -oP '"name"\s*:\s*"\K[^"]+' | head -1 || echo "none")
-          echo "Latest published: $PUBLISHED"
-          if [ "$LOCAL" = "$PUBLISHED" ]; then
-            echo "::error::Version $LOCAL was not bumped! Please update <PackageVersion> in $CSPROJ."
-            exit 1
-          fi
+    uses: ./.github/workflows/jobs/test-project.yaml
+    with:
+      project-folder: src/DataBase/
 
   check-version-database:
-    needs: [detect-changes, test-database]
+    needs: test-database
     if: needs.detect-changes.outputs.database == 'true'
-    runs-on: ubuntu-latest
-    env:
-      CSPROJ: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
-      PACKAGE_ID: InsonusK.Shared.DataBase
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check version bump
-        run: |
-          LOCAL=$(grep -oPm1 '(?<=<PackageVersion>)[^<]+' "$CSPROJ")
-          echo "Local version: $LOCAL"
-          RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/orgs/${{ github.repository_owner }}/packages/nuget/${PACKAGE_ID}/versions" \
-            || echo "[]")
-          PUBLISHED=$(echo "$RESPONSE" | grep -oP '"name"\s*:\s*"\K[^"]+' | head -1 || echo "none")
-          echo "Latest published: $PUBLISHED"
-          if [ "$LOCAL" = "$PUBLISHED" ]; then
-            echo "::error::Version $LOCAL was not bumped! Please update <PackageVersion> in $CSPROJ."
-            exit 1
-          fi
-
-  check-version-models:
-    needs: [detect-changes, test-models]
-    if: needs.detect-changes.outputs.models == 'true'
-    runs-on: ubuntu-latest
-    env:
-      CSPROJ: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
-      PACKAGE_ID: InsonusK.Shared.Models
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check version bump
-        run: |
-          LOCAL=$(grep -oPm1 '(?<=<PackageVersion>)[^<]+' "$CSPROJ")
-          echo "Local version: $LOCAL"
-          RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/orgs/${{ github.repository_owner }}/packages/nuget/${PACKAGE_ID}/versions" \
-            || echo "[]")
-          PUBLISHED=$(echo "$RESPONSE" | grep -oP '"name"\s*:\s*"\K[^"]+' | head -1 || echo "none")
-          echo "Latest published: $PUBLISHED"
-          if [ "$LOCAL" = "$PUBLISHED" ]; then
-            echo "::error::Version $LOCAL was not bumped! Please update <PackageVersion> in $CSPROJ."
-            exit 1
-          fi
-
-  # ─────────────────────────────────────────────────────────────
-  # 4. Build NuGet packages (pre-release: append -beta.<run_number>)
-  # ─────────────────────────────────────────────────────────────
-  build-annotations:
-    needs: check-version-annotations
-    runs-on: ubuntu-latest
-    env:
-      CSPROJ: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0'
-      - name: Build pre-release package
-        run: |
-          BASE=$(grep -oPm1 '(?<=<PackageVersion>)[^<]+' "$CSPROJ")
-          VERSION="${BASE}-beta.${{ github.run_number }}"
-          echo "Packing version: $VERSION"
-          dotnet pack "$CSPROJ" \
-            -c Release \
-            /p:PackageVersion="$VERSION" \
-            -o ./nuget-packages/annotations/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: nupkg-annotations
-          path: ./nuget-packages/annotations/
+    uses: ./.github/workflows/jobs/check-version.yaml
+    with:
+      csproj: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
+      package-id: InsonusK.Shared.DataBase
+      owner: ${{ github.repository_owner }}
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
 
   build-database:
     needs: check-version-database
-    runs-on: ubuntu-latest
-    env:
-      CSPROJ: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0'
-      - name: Build pre-release package
-        run: |
-          BASE=$(grep -oPm1 '(?<=<PackageVersion>)[^<]+' "$CSPROJ")
-          VERSION="${BASE}-beta.${{ github.run_number }}"
-          echo "Packing version: $VERSION"
-          dotnet pack "$CSPROJ" \
-            -c Release \
-            /p:PackageVersion="$VERSION" \
-            -o ./nuget-packages/database/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: nupkg-database
-          path: ./nuget-packages/database/
-
-  build-models:
-    needs: check-version-models
-    runs-on: ubuntu-latest
-    env:
-      CSPROJ: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0'
-      - name: Build pre-release package
-        run: |
-          BASE=$(grep -oPm1 '(?<=<PackageVersion>)[^<]+' "$CSPROJ")
-          VERSION="${BASE}-beta.${{ github.run_number }}"
-          echo "Packing version: $VERSION"
-          dotnet pack "$CSPROJ" \
-            -c Release \
-            /p:PackageVersion="$VERSION" \
-            -o ./nuget-packages/models/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: nupkg-models
-          path: ./nuget-packages/models/
-
-  # ─────────────────────────────────────────────────────────────
-  # 5. Publish to GitHub Packages & NuGet.org
-  # ─────────────────────────────────────────────────────────────
-  publish-annotations:
-    needs: build-annotations
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0'
-      - uses: actions/download-artifact@v4
-        with:
-          name: nupkg-annotations
-          path: ./nuget-packages/
-      - name: Publish to GitHub Packages
-        run: |
-          dotnet nuget push ./nuget-packages/*.nupkg \
-            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            --api-key ${{ secrets.GITHUB_TOKEN }} \
-            --skip-duplicate
-      - name: Publish to NuGet.org
-        run: |
-          dotnet nuget push ./nuget-packages/*.nupkg \
-            --source "https://api.nuget.org/v3/index.json" \
-            --api-key ${{ secrets.NUGET_PACK_TOKEN }} \
-            --skip-duplicate
+    if: needs.detect-changes.outputs.database == 'true'
+    uses: ./.github/workflows/jobs/build-package.yaml
+    with:
+      csproj: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
+      artifact-name: nupkg-database
+      version-suffix: beta.${{ github.run_number }}
 
   publish-database:
     needs: build-database
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0'
-      - uses: actions/download-artifact@v4
-        with:
-          name: nupkg-database
-          path: ./nuget-packages/
-      - name: Publish to GitHub Packages
-        run: |
-          dotnet nuget push ./nuget-packages/*.nupkg \
-            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            --api-key ${{ secrets.GITHUB_TOKEN }} \
-            --skip-duplicate
-      - name: Publish to NuGet.org
-        run: |
-          dotnet nuget push ./nuget-packages/*.nupkg \
-            --source "https://api.nuget.org/v3/index.json" \
-            --api-key ${{ secrets.NUGET_PACK_TOKEN }} \
-            --skip-duplicate
+    if: needs.detect-changes.outputs.database == 'true'
+    uses: ./.github/workflows/jobs/publish-package.yaml
+    with:
+      artifact-name: nupkg-database
+      create-release: false
+    secrets:
+      nuget-token: ${{ secrets.NUGET_TOKEN }}
+
+  # ─────────────────────────────────────────────────────────────
+  # Models
+  # ─────────────────────────────────────────────────────────────
+  test-models:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.models == 'true'
+    uses: ./.github/workflows/jobs/test-project.yaml
+    with:
+      project-folder: src/Models/
+
+  check-version-models:
+    needs: test-models
+    if: needs.detect-changes.outputs.models == 'true'
+    uses: ./.github/workflows/jobs/check-version.yaml
+    with:
+      csproj: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
+      package-id: InsonusK.Shared.Models
+      owner: ${{ github.repository_owner }}
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-models:
+    needs: check-version-models
+    if: needs.detect-changes.outputs.models == 'true'
+    uses: ./.github/workflows/jobs/build-package.yaml
+    with:
+      csproj: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
+      artifact-name: nupkg-models
+      version-suffix: beta.${{ github.run_number }}
 
   publish-models:
     needs: build-models
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0'
-      - uses: actions/download-artifact@v4
-        with:
-          name: nupkg-models
-          path: ./nuget-packages/
-      - name: Publish to GitHub Packages
-        run: |
-          dotnet nuget push ./nuget-packages/*.nupkg \
-            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            --api-key ${{ secrets.GITHUB_TOKEN }} \
-            --skip-duplicate
-      - name: Publish to NuGet.org
-        run: |
-          dotnet nuget push ./nuget-packages/*.nupkg \
-            --source "https://api.nuget.org/v3/index.json" \
-            --api-key ${{ secrets.NUGET_PACK_TOKEN }} \
-            --skip-duplicate
+    if: needs.detect-changes.outputs.models == 'true'
+    uses: ./.github/workflows/jobs/publish-package.yaml
+    with:
+      artifact-name: nupkg-models
+      create-release: false
+    secrets:
+      nuget-token: ${{ secrets.NUGET_TOKEN }}
