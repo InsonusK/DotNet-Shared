@@ -6,6 +6,10 @@ Instead of wiring every class by hand in `Program.cs`, decorate your service cla
 - **Target framework:** .NET 9.0
 - **NuGet package id:** `InsonusK.Shared.AnnotationsForDI`
 
+## Nuget packages
+- [GitHub Packages](https://github.com/InsonusK/DotNet-Shared/pkgs/nuget/InsonusK.Shared.Models)
+- [Nuget](https://www.nuget.org/packages/InsonusK.Shared.Models/)
+
 ## Contents
 
 | Type | Description |

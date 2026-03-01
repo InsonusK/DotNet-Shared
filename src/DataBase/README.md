@@ -6,6 +6,10 @@ Reusable EF Core / Ardalis.Specification building blocks for repositories that u
 - **Key dependencies:** `Ardalis.Specification 9`, `Ardalis.GuardClauses 5`, `EF Core 9`, `Npgsql.EntityFrameworkCore.PostgreSQL 9`
 - **Depends on:** `InsonusK.Shared.Models`
 
+## Nuget packages
+- [GitHub Packages](https://github.com/InsonusK/DotNet-Shared/pkgs/nuget/InsonusK.Shared.DataBase)
+- [Nuget](https://www.nuget.org/packages/InsonusK.Shared.DataBase/)
+
 ## Project layout
 
 ```

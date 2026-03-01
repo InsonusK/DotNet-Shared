@@ -5,6 +5,11 @@ Shared domain contracts, DTO templates, FluentValidation validators, and utility
 - **Target framework:** .NET 9.0
 - **Key dependencies:** `FluentValidation 12`, `Ardalis.Result 10`
 
+## Nuget packages
+- [GitHub Packages](https://github.com/InsonusK/DotNet-Shared/pkgs/nuget/InsonusK.Shared.Models)
+- [Nuget](https://www.nuget.org/packages/InsonusK.Shared.Models/)
+
+
 ## Project layout
 
 ```
