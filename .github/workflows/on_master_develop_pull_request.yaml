@@ -16,15 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Check out repository src
-      uses: actions/checkout@v3
-    - name: Check does src or test changed
-      uses: dorny/paths-filter@v2
-      id: changed_obj
-      with:
-        filters: |
-          src:
-            - ${{ env.src_path }}
+      - uses: actions/checkout@v4
+      - name: Check does src or test changed
+        uses: dorny/paths-filter@v2
+        id: changed_obj
+        with:
+          filters: |
+            src:
+              - ${{ env.src_path }}
     
     outputs:
       src_changed: ${{ steps.changed_obj.outputs.src }}  
@@ -36,5 +35,6 @@ jobs:
     if: ${{ needs.check_changing.outputs.src_changed == 'true' }}
 
     steps:
+      - uses: actions/checkout@v4
       - name: Run project unit tests
         uses: ./.github/workflows/actions/testing  
