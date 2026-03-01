@@ -34,8 +34,6 @@ jobs:
     container: mcr.microsoft.com/dotnet/sdk:9.0
     needs: check_changing
     if: ${{ needs.check_changing.outputs.src_changed == 'true' }}
-    
-    steps:
-      - name: Run project unit tests
-        uses: ./.github/workflows/jobs/testing.yaml
+    uses: ./.github/workflows/jobs/testing.yaml
+
   
