@@ -18,7 +18,7 @@ public class {TestedClassName}_Test : LoggingTestsBase<{TestedClassName}_Test>
     }
 
     [Fact]
-    public void test_{comment}_WHEN_{condition}__THEN_{result}()
+    public void test_{group}_WHEN_{condition}__THEN_{result}()
     {
         #region Array
         Logger.LogDebug("Test ARRAY");
