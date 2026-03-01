@@ -1,0 +1,74 @@
+name: Build and Push Docker Image
+
+on:
+  release:
+    types: released
+
+env:
+  project_path: "src/InsonusK.Xunit.ExpectationsTest/InsonusK.Xunit.ExpectationsTest.csproj"
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/dotnet/sdk:7.0
+
+    steps:
+      - name: Run project unit tests
+        uses: ./.github/workflows/jobs/testing.yaml
+    
+  build:
+    runs-on: ubuntu-latest
+    needs: testing
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Build package
+        run: |
+          dotnet pack ${{ env.project_path }} \
+            -c Release \
+            -o ./nuget-packages/ 
+      
+      - name: upload nupkg 
+        uses: actions/upload-artifact@v3
+        with:
+          name: nupkg
+          path: ./nuget-packages/
+
+  deploy-gihub:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Check out nuget.config
+        uses: actions/checkout@v3
+      - name: download nupkg
+        uses: actions/download-artifact@v3
+        with:
+          name: nupkg
+          path: ./nuget-packages/
+
+      - name: push package to github
+        run: |
+          dotnet nuget push \
+            ./nuget-packages/*.nupkg \
+            -s github \
+            -k ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-nuget:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Check out nuget.config
+        uses: actions/checkout@v3
+      - name: download nupkg
+        uses: actions/download-artifact@v3
+        with:
+          name: nupkg
+          path: ./nuget-packages/
+
+      - name: push package to nuget
+        run: |
+          dotnet nuget push \
+            ./nuget-packages/*.nupkg \
+            -s nuget \
+            -k ${{ secrets.NUGET_PACK_TOKEN }}

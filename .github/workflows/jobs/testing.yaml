@@ -1,0 +1,18 @@
+name: 'Test project'
+
+description: 'Run project unittests'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+    - name: Install dependencies
+      run: dotnet restore
+      shell: bash
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      shell: bash
+    - name: Run tests
+      run: dotnet test --configuration Release --verbosity m --no-restore
+      shell: bash
