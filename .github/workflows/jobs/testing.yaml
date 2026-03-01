@@ -1,18 +1,32 @@
 name: 'Test project'
 
-description: 'Run project unittests'
+description: 'Run project unit tests'
+
+inputs:
+  dotnet-version:
+    description: '.NET SDK version'
+    required: false
+    default: '9.0'
 
 runs:
   using: "composite"
   steps:
     - name: Check out repository code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+
     - name: Install dependencies
       run: dotnet restore
       shell: bash
+
     - name: Build
       run: dotnet build --configuration Release --no-restore
       shell: bash
+
     - name: Run tests
       run: dotnet test --configuration Release --verbosity m --no-restore
       shell: bash
