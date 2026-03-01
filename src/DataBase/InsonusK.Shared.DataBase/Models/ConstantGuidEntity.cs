@@ -12,7 +12,7 @@ public abstract class ConstantGuidEntity : ConstantNoGuidEntity, IGuidModel
     {
         get => _guid; set
         {
-            if (Id != 0 && Guid != value)
+            if (this.Guid != Guid.Empty)
                 throw new ApplicationException("Cann't set up Guid for exist entity");
             _guid = value;
         }

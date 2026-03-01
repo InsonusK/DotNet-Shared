@@ -73,9 +73,8 @@ public class ConstantGuidEntity_Test : LoggingTestsBase<ConstantGuidEntity_Test>
     {
         #region Array
         Logger.LogDebug("Test ARRAY");
-
-        var asserted_entity = new TestEntity { Id = 5 };
-        asserted_entity.Guid = Guid.NewGuid();
+        
+        var asserted_entity = new TestEntity { Id = 5, Guid = Guid.NewGuid() };
 
         #endregion
 
@@ -102,8 +101,8 @@ public class ConstantGuidEntity_Test : LoggingTestsBase<ConstantGuidEntity_Test>
         #region Array
         Logger.LogDebug("Test ARRAY");
 
-        var asserted_entity = new TestEntity { Id = 10 };
-        asserted_entity.Guid = Guid.NewGuid(); // first assignment — ok
+        var asserted_entity = new TestEntity { Id = 10, Guid = Guid.NewGuid() };
+        
 
         #endregion
 
