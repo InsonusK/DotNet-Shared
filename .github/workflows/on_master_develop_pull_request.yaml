@@ -34,18 +34,7 @@ jobs:
     container: mcr.microsoft.com/dotnet/sdk:9.0
     needs: check_changing
     if: ${{ needs.check_changing.outputs.src_changed == 'true' }}
-    
+
     steps:
-      - name: Check out repository src
-        uses: actions/checkout@v3
-      - name: Install dependencies
-        run: dotnet restore
-      - name: Build Release
-        run: dotnet build --configuration Debug --no-restore
-      - name: Run tests in Debug mode
-        run: dotnet test --configuration Debug --verbosity m --no-restore
-      - name: Build Release
-        run: dotnet build --configuration Release --no-restore
-      - name: Run tests in Release mode
-        run: dotnet test --configuration Release --verbosity m --no-restore
-  
+      - name: Run project unit tests
+        uses: ./.github/workflows/actions/testing  
