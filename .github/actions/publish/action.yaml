@@ -63,4 +63,4 @@ runs:
         files: ./nuget-packages/*.nupkg
         generate_release_notes: true
       env:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
+        GITHUB_TOKEN: ${{ secrets.github-token }}
