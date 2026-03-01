@@ -1,0 +1,28 @@
+name: Test Project
+
+on:
+  workflow_call:
+    inputs:
+      project-folder:
+        description: 'Folder under src/ containing the project and test (e.g. src/Models/)'
+        required: true
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0'
+
+      - name: Restore
+        run: dotnet restore ${{ inputs.project-folder }}
+
+      - name: Build
+        run: dotnet build ${{ inputs.project-folder }} --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ${{ inputs.project-folder }} --configuration Release --no-restore --verbosity minimal

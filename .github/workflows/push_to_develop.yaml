@@ -1,0 +1,153 @@
+name: Push to Develop – Pre-release
+
+on:
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # Detect which projects changed
+  # ─────────────────────────────────────────────────────────────
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      annotations: ${{ steps.filter.outputs.annotations }}
+      database:    ${{ steps.filter.outputs.database }}
+      models:      ${{ steps.filter.outputs.models }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            annotations:
+              - 'src/AnnotationsForDI/**'
+            database:
+              - 'src/DataBase/**'
+            models:
+              - 'src/Models/**'
+
+  # ─────────────────────────────────────────────────────────────
+  # AnnotationsForDI
+  # ─────────────────────────────────────────────────────────────
+  test-annotations:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.annotations == 'true'
+    uses: ./.github/workflows/jobs/test-project.yaml
+    with:
+      project-folder: src/AnnotationsForDI/
+
+  check-version-annotations:
+    needs: test-annotations
+    if: needs.detect-changes.outputs.annotations == 'true'
+    uses: ./.github/workflows/jobs/check-version.yaml
+    with:
+      csproj: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
+      package-id: InsonusK.Shared.AnnotationsForDI
+      owner: ${{ github.repository_owner }}
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-annotations:
+    needs: check-version-annotations
+    if: needs.detect-changes.outputs.annotations == 'true'
+    uses: ./.github/workflows/jobs/build-package.yaml
+    with:
+      csproj: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
+      artifact-name: nupkg-annotations
+      version-suffix: beta.${{ github.run_number }}
+
+  publish-annotations:
+    needs: build-annotations
+    if: needs.detect-changes.outputs.annotations == 'true'
+    uses: ./.github/workflows/jobs/publish-package.yaml
+    with:
+      artifact-name: nupkg-annotations
+      create-release: false
+    secrets:
+      nuget-token: ${{ secrets.NUGET_TOKEN }}
+
+  # ─────────────────────────────────────────────────────────────
+  # DataBase
+  # ─────────────────────────────────────────────────────────────
+  test-database:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.database == 'true'
+    uses: ./.github/workflows/jobs/test-project.yaml
+    with:
+      project-folder: src/DataBase/
+
+  check-version-database:
+    needs: test-database
+    if: needs.detect-changes.outputs.database == 'true'
+    uses: ./.github/workflows/jobs/check-version.yaml
+    with:
+      csproj: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
+      package-id: InsonusK.Shared.DataBase
+      owner: ${{ github.repository_owner }}
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-database:
+    needs: check-version-database
+    if: needs.detect-changes.outputs.database == 'true'
+    uses: ./.github/workflows/jobs/build-package.yaml
+    with:
+      csproj: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
+      artifact-name: nupkg-database
+      version-suffix: beta.${{ github.run_number }}
+
+  publish-database:
+    needs: build-database
+    if: needs.detect-changes.outputs.database == 'true'
+    uses: ./.github/workflows/jobs/publish-package.yaml
+    with:
+      artifact-name: nupkg-database
+      create-release: false
+    secrets:
+      nuget-token: ${{ secrets.NUGET_TOKEN }}
+
+  # ─────────────────────────────────────────────────────────────
+  # Models
+  # ─────────────────────────────────────────────────────────────
+  test-models:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.models == 'true'
+    uses: ./.github/workflows/jobs/test-project.yaml
+    with:
+      project-folder: src/Models/
+
+  check-version-models:
+    needs: test-models
+    if: needs.detect-changes.outputs.models == 'true'
+    uses: ./.github/workflows/jobs/check-version.yaml
+    with:
+      csproj: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
+      package-id: InsonusK.Shared.Models
+      owner: ${{ github.repository_owner }}
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-models:
+    needs: check-version-models
+    if: needs.detect-changes.outputs.models == 'true'
+    uses: ./.github/workflows/jobs/build-package.yaml
+    with:
+      csproj: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
+      artifact-name: nupkg-models
+      version-suffix: beta.${{ github.run_number }}
+
+  publish-models:
+    needs: build-models
+    if: needs.detect-changes.outputs.models == 'true'
+    uses: ./.github/workflows/jobs/publish-package.yaml
+    with:
+      artifact-name: nupkg-models
+      create-release: false
+    secrets:
+      nuget-token: ${{ secrets.NUGET_TOKEN }}

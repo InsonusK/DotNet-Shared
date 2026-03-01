@@ -4,6 +4,13 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+        <PackageId>InsonusK.Shared.Models</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>InsonusK</Authors>
+    <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
+    <Description>Shared models, validators and etc </Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,5 +18,8 @@
     <PackageReference Include="FluentValidation" Version="12.0.0" />
   </ItemGroup>
 
-  
+  <ItemGroup>
+    <None Include="./../../../LICENSE" Pack="true" PackagePath="/"/>
+    <None Include="./../README.md" Pack="true" PackagePath="/"/>
+  </ItemGroup>
 </Project>

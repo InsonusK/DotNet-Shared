@@ -1,0 +1,58 @@
+name: Build NuGet Package
+
+on:
+  workflow_call:
+    inputs:
+      csproj:
+        description: 'Relative path to the .csproj file'
+        required: true
+        type: string
+      artifact-name:
+        description: 'Name for the uploaded artifact (e.g. nupkg-models)'
+        required: true
+        type: string
+      version-suffix:
+        description: 'Optional pre-release suffix appended to PackageVersion (e.g. beta.42). Leave empty for a release build.'
+        required: false
+        type: string
+        default: ''
+    outputs:
+      version:
+        description: 'The final NuGet package version that was packed'
+        value: ${{ jobs.build.outputs.version }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0'
+
+      - name: Resolve version
+        id: version
+        run: |
+          BASE=$(grep -oPm1 '(?<=<PackageVersion>)[^<]+' "${{ inputs.csproj }}")
+          if [ -n "${{ inputs.version-suffix }}" ]; then
+            VERSION="${BASE}-${{ inputs.version-suffix }}"
+          else
+            VERSION="$BASE"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Packing version: $VERSION"
+
+      - name: Pack
+        run: |
+          dotnet pack "${{ inputs.csproj }}" \
+            -c Release \
+            /p:PackageVersion="${{ steps.version.outputs.version }}" \
+            -o ./nuget-packages/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ./nuget-packages/
