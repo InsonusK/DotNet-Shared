@@ -36,8 +36,5 @@ jobs:
     if: ${{ needs.check_changing.outputs.src_changed == 'true' }}
 
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
       - name: Run project unit tests
-        uses: ./.github/workflows/jobs/testing.yaml
-  
+        uses: ./.github/workflows/actions/testing  

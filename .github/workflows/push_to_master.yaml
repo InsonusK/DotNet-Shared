@@ -38,14 +38,14 @@ jobs:
   test-annotations:
     needs: detect-changes
     if: needs.detect-changes.outputs.annotations == 'true'
-    uses: ./.github/workflows/jobs/test-project.yaml
+    uses: ./.github/workflows/actions/testing  
     with:
       project-folder: src/AnnotationsForDI/
 
   check-version-annotations:
     needs: test-annotations
     if: needs.detect-changes.outputs.annotations == 'true'
-    uses: ./.github/workflows/jobs/check-version.yaml
+    uses: ./.github/workflows/actions/check-version
     with:
       csproj: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
       package-id: InsonusK.Shared.AnnotationsForDI
@@ -56,7 +56,7 @@ jobs:
   build-annotations:
     needs: check-version-annotations
     if: needs.detect-changes.outputs.annotations == 'true'
-    uses: ./.github/workflows/jobs/build-package.yaml
+    uses: ./.github/workflows/actions/build-package
     with:
       csproj: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
       artifact-name: nupkg-annotations
@@ -64,7 +64,7 @@ jobs:
   publish-annotations:
     needs: build-annotations
     if: needs.detect-changes.outputs.annotations == 'true'
-    uses: ./.github/workflows/jobs/publish-package.yaml
+    uses: ./.github/workflows/publish-package
     with:
       artifact-name: nupkg-annotations
       create-release: true
@@ -79,14 +79,14 @@ jobs:
   test-database:
     needs: detect-changes
     if: needs.detect-changes.outputs.database == 'true'
-    uses: ./.github/workflows/jobs/test-project.yaml
+    uses: ./.github/workflows/actions/testing  
     with:
       project-folder: src/DataBase/
 
   check-version-database:
     needs: test-database
     if: needs.detect-changes.outputs.database == 'true'
-    uses: ./.github/workflows/jobs/check-version.yaml
+    uses: ./.github/workflows/actions/check-version
     with:
       csproj: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
       package-id: InsonusK.Shared.DataBase
@@ -97,7 +97,7 @@ jobs:
   build-database:
     needs: check-version-database
     if: needs.detect-changes.outputs.database == 'true'
-    uses: ./.github/workflows/jobs/build-package.yaml
+    uses: ./.github/workflows/actions/build-package
     with:
       csproj: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
       artifact-name: nupkg-database
@@ -105,7 +105,7 @@ jobs:
   publish-database:
     needs: build-database
     if: needs.detect-changes.outputs.database == 'true'
-    uses: ./.github/workflows/jobs/publish-package.yaml
+    uses: ./.github/workflows/publish-package
     with:
       artifact-name: nupkg-database
       create-release: true
@@ -120,14 +120,14 @@ jobs:
   test-models:
     needs: detect-changes
     if: needs.detect-changes.outputs.models == 'true'
-    uses: ./.github/workflows/jobs/test-project.yaml
+    uses: ./.github/workflows/actions/testing  
     with:
       project-folder: src/Models/
 
   check-version-models:
     needs: test-models
     if: needs.detect-changes.outputs.models == 'true'
-    uses: ./.github/workflows/jobs/check-version.yaml
+    uses: ./.github/workflows/actions/check-version
     with:
       csproj: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
       package-id: InsonusK.Shared.Models
@@ -138,7 +138,7 @@ jobs:
   build-models:
     needs: check-version-models
     if: needs.detect-changes.outputs.models == 'true'
-    uses: ./.github/workflows/jobs/build-package.yaml
+    uses: ./.github/workflows/actions/build-package
     with:
       csproj: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
       artifact-name: nupkg-models
@@ -146,7 +146,7 @@ jobs:
   publish-models:
     needs: build-models
     if: needs.detect-changes.outputs.models == 'true'
-    uses: ./.github/workflows/jobs/publish-package.yaml
+    uses: ./.github/workflows/publish-package
     with:
       artifact-name: nupkg-models
       create-release: true
