@@ -17,8 +17,6 @@ inputs:
     description: 'Display name for the GitHub Release (e.g. Models v1.2.0)'
     required: false
     default: ''
-
-secrets:
   nuget-token:
     description: 'NuGet Token for authentication'
     required: true
@@ -42,7 +40,7 @@ runs:
       run: |
         dotnet nuget push ./nuget-packages/*.nupkg \
           -s nuget \
-          -k ${{ secrets.nuget-token }} \
+          -k ${{ inputs.nuget-token }} \
           --skip-duplicate
       shell: bash
 
@@ -50,7 +48,7 @@ runs:
       run: |
         dotnet nuget push ./nuget-packages/*.nupkg \
           -s github \
-          -k ${{ secrets.github-token }} \
+          -k ${{ inputs.github-token }} \
           --skip-duplicate
       shell: bash
 
@@ -63,4 +61,4 @@ runs:
         files: ./nuget-packages/*.nupkg
         generate_release_notes: true
       env:
-        GITHUB_TOKEN: ${{ secrets.github-token }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
