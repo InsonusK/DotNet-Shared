@@ -1,0 +1,52 @@
+name: 'Build Package'
+description: 'Build NuGet Package'
+
+inputs:
+  csproj:
+    description: 'Relative path to the .csproj file'
+    required: true
+  artifact-name:
+    description: 'Name for the uploaded artifact (e.g. nupkg-models)'
+    required: true
+  version-suffix:
+    description: 'Optional pre-release suffix appended to PackageVersion (e.g. beta.42). Leave empty for a release build.'
+    required: false
+    default: ''
+
+outputs:
+  version:
+    description: 'The final NuGet package version that was packed'
+    value: ${{ steps.version.outputs.version }}
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0'
+
+    - name: Resolve version
+      id: version
+      run: |
+        BASE=$(grep -oPm1 '(?<=<PackageVersion>)[^<]+' "${{ inputs.csproj }}")
+        if [ -n "${{ inputs.version-suffix }}" ]; then
+          VERSION="${BASE}-${{ inputs.version-suffix }}"
+        else
+          VERSION="$BASE"
+        fi
+        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+        echo "Packing version: $VERSION"
+      shell: bash
+
+    - name: Pack
+      run: |
+        dotnet pack "${{ inputs.csproj }}" \
+          -c Release \
+          /p:PackageVersion="${{ steps.version.outputs.version }}" \
+          -o ./nuget-packages/
+      shell: bash
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ./nuget-packages/

@@ -1,4 +1,4 @@
-name: Project Unit tests
+name: Pull Request Check
 
 on:
   pull_request:
@@ -7,34 +7,43 @@ on:
 permissions:
   contents: read
   pull-requests: read
-  
-env:
-  src_path: 'src/**'
+  packages: read
 
 jobs:
-  check_changing:
+  validate:
     runs-on: ubuntu-latest
-    
+    strategy:
+      matrix:
+        project:
+          - folder: src/AnnotationsForDI/**
+            csproj: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
+            package-id: InsonusK.Shared.AnnotationsForDI
+          - folder: src/DataBase/**
+            csproj: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
+            package-id: InsonusK.Shared.DataBase
+          - folder: src/Models/**
+            csproj: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
+            package-id: InsonusK.Shared.Models
+      fail-fast: false
+      
     steps:
       - uses: actions/checkout@v4
-      - name: Check does src or test changed
-        uses: dorny/paths-filter@v2
-        id: changed_obj
+
+      - name: Detect changes
+        id: detect
+        uses: ./.github/actions/detect-changes
         with:
-          filters: |
-            src:
-              - ${{ env.src_path }}
-    
-    outputs:
-      src_changed: ${{ steps.changed_obj.outputs.src }}  
+          project-folder: ${{ matrix.project.folder }}
 
-  testing:
-    runs-on: ubuntu-latest
-    container: mcr.microsoft.com/dotnet/sdk:9.0
-    needs: check_changing
-    if: ${{ needs.check_changing.outputs.src_changed == 'true' }}
+      - name: Test Project
+        if: steps.detect.outputs.changed == 'true'
+        uses: ./.github/actions/testing
 
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run project unit tests
-        uses: ./.github/workflows/actions/testing  
+      - name: Check Version
+        if: steps.detect.outputs.changed == 'true'
+        uses: ./.github/actions/check-version
+        with:
+          csproj: ${{ matrix.project.csproj }}
+          package-id: ${{ matrix.project.package-id }}
+          owner: ${{ github.repository_owner }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
