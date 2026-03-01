@@ -4,9 +4,20 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>InsonusK.Shared.AnnotationsForDI</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>InsonusK</Authors>
+    <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
+    <Description>Annotations for Dependency Injection</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="./../../../LICENSE" Pack="true" PackagePath="/"/>
+    <None Include="./../README.md" Pack="true" PackagePath="/"/>
   </ItemGroup>
 </Project>
