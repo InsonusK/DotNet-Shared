@@ -84,7 +84,6 @@ jobs:
           artifact-name: ${{ inputs.artifact-name }}
           create-release: ${{ inputs.create-release }}
           release-tag: '${{ inputs.package-id }}/${{ steps.build.outputs.version }}'
-          release-name: '${{ inputs.package-id }} v${{ steps.build.outputs.version }}'
-        secrets:        
+          release-name: '${{ inputs.package-id }} v${{ steps.build.outputs.version }}'       
           nuget-token: ${{ secrets.nuget-token }}
           github-token: ${{ secrets.github-token }}
