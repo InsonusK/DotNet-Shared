@@ -52,11 +52,6 @@ jobs:
         with:
           project-folder: ${{ inputs.project-folder }}
 
-      - name: Testing
-        id: testing
-        if: steps.detect.outputs.changed == 'true'
-        uses: ./.github/actions/testing
-
       - name: Check version
         id: check
         if: steps.detect.outputs.changed == 'true'
@@ -66,6 +61,11 @@ jobs:
           package-id: ${{ inputs.package-id }}
           owner: ${{ inputs.owner }}
           github-token: ${{ secrets.github-token }}
+
+      - name: Testing
+        id: testing
+        if: steps.detect.outputs.changed == 'true'
+        uses: ./.github/actions/testing
 
       - name: Build package
         id: build
@@ -85,5 +85,6 @@ jobs:
           create-release: ${{ inputs.create-release }}
           release-tag: '${{ inputs.package-id }}/${{ steps.build.outputs.version }}'
           release-name: '${{ inputs.package-id }} v${{ steps.build.outputs.version }}'
+        secrets:        
           nuget-token: ${{ secrets.nuget-token }}
           github-token: ${{ secrets.github-token }}
