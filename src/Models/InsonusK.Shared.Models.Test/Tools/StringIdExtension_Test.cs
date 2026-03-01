@@ -1,6 +1,7 @@
 using Divergic.Logging.Xunit;
 using Microsoft.Extensions.Logging;
 using InsonusK.Shared.Models.Tools;
+using Xunit.Abstractions;
 
 namespace InsonusK.Shared.Models.Test.Tools;
 

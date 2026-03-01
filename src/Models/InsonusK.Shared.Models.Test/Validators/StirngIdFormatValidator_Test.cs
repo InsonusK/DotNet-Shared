@@ -2,6 +2,7 @@ using Divergic.Logging.Xunit;
 using Microsoft.Extensions.Logging;
 using InsonusK.Shared.Models.Validators;
 using FluentValidation;
+using Xunit.Abstractions;
 
 namespace InsonusK.Shared.Models.Test.Validators;
 

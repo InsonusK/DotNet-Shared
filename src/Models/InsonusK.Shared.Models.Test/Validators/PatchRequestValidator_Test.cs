@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using InsonusK.Shared.Models.Validators;
 using InsonusK.Shared.Models.Interfaces;
 using FluentValidation;
+using Xunit.Abstractions;
 
 namespace InsonusK.Shared.Models.Test.Validators;
 
