@@ -1,0 +1,89 @@
+name: 'Project Pipeline'
+
+on:
+  workflow_call:
+    inputs:
+      project-folder:
+        description: 'Folder path to monitor (e.g. src/Models/**)'
+        required: true
+        type: string
+      csproj:
+        description: 'Relative path to the .csproj file'
+        required: true
+        type: string
+      package-id:
+        description: 'NuGet package ID'
+        required: true
+        type: string
+      artifact-name:
+        description: 'Name for the uploaded artifact'
+        required: true
+        type: string
+      version-suffix:
+        description: 'Optional pre-release suffix'
+        required: false
+        type: string
+        default: ''
+      create-release:
+        description: 'Whether to create a GitHub Release'
+        required: false
+        type: boolean
+        default: false
+      owner:
+        description: 'GitHub owner / org (used for the GitHub Packages API call)'
+        required: true
+        type: string
+    secrets:
+      github-token:
+        required: true
+      nuget-token:
+        required: true
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Detect changes
+        id: detect
+        uses: ./.github/actions/detect-changes
+        with:
+          project-folder: ${{ inputs.project-folder }}
+
+      - name: Testing
+        id: testing
+        if: steps.detect.outputs.changed == 'true'
+        uses: ./.github/actions/testing
+
+      - name: Check version
+        id: check
+        if: steps.detect.outputs.changed == 'true'
+        uses: ./.github/actions/check-version
+        with:
+          csproj: ${{ inputs.csproj }}
+          package-id: ${{ inputs.package-id }}
+          owner: ${{ inputs.owner }}
+          github-token: ${{ secrets.github-token }}
+
+      - name: Build package
+        id: build
+        if: steps.detect.outputs.changed == 'true'
+        uses: ./.github/actions/build
+        with:
+          csproj: ${{ inputs.csproj }}
+          artifact-name: ${{ inputs.artifact-name }}
+          version-suffix: ${{ inputs.version-suffix }}
+
+      - name: Publish package
+        id: publish
+        if: steps.detect.outputs.changed == 'true'
+        uses: ./.github/actions/publish
+        with:
+          artifact-name: ${{ inputs.artifact-name }}
+          create-release: ${{ inputs.create-release }}
+          release-tag: '${{ inputs.package-id }}/${{ steps.build.outputs.version }}'
+          release-name: '${{ inputs.package-id }} v${{ steps.build.outputs.version }}'
+          nuget-token: ${{ secrets.nuget-token }}
+          github-token: ${{ secrets.github-token }}
