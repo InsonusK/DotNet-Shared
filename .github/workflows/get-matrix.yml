@@ -10,8 +10,6 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    container:
-      image: stedolan/jq:latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
