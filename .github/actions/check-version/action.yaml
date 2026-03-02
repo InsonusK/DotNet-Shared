@@ -26,7 +26,7 @@ runs:
         RESPONSE=$(curl -sf \
           -H "Authorization: Bearer ${{ inputs.github-token }}" \
           -H "Accept: application/vnd.github+json" \
-          "https://api.github.com/orgs/${{ inputs.owner }}/packages/nuget/${{ inputs.package-id }}/versions" \
+          "https://api.github.com/users/${{ inputs.owner }}/packages/nuget/${{ inputs.package-id }}/versions" \
           || echo "[]")
 
         PUBLISHED=$(echo "$RESPONSE" | grep -oP '"name"\s*:\s*"\K[^"]+' | head -1 || echo "none")
