@@ -10,6 +10,8 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    container:
+      image: stedolan/jq:latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -17,6 +19,5 @@ jobs:
       - name: Load matrix config
         id: set-matrix
         run: |
-          sudo apt-get update && sudo apt-get install -y jq
           MATRIX=$(jq -c . .github/config/projects.json)
           echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
