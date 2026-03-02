@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>InsonusK.Shared.Models</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>10.0.0</PackageVersion>
     <Authors>InsonusK</Authors>
     <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
     <Description>Shared models, validators and etc </Description>
@@ -15,11 +15,11 @@
 
   <ItemGroup>
     <PackageReference Include="Ardalis.Result" Version="10.1.0" />
-    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="./../../../LICENSE" Pack="true" PackagePath="/"/>
-    <None Include="./../README.md" Pack="true" PackagePath="/"/>
+    <None Include="./../../../LICENSE" Pack="true" PackagePath="/" />
+    <None Include="./../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>InsonusK.Shared.DataBase</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>10.0.0</PackageVersion>
     <Authors>InsonusK</Authors>
     <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
     <Description>Shared database models and spec</Description>
@@ -16,15 +16,15 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.Specification" Version="9.3.1" />
     <PackageReference Include="Ardalis.GuardClauses" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../../Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="./../../../LICENSE" Pack="true" PackagePath="/"/>
-    <None Include="./../README.md" Pack="true" PackagePath="/"/>
+    <None Include="./../../../LICENSE" Pack="true" PackagePath="/" />
+    <None Include="./../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>
