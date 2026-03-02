@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>InsonusK.Shared.Mediator.CommandContext</PackageId>
-    <PackageVersion>10.0.1</PackageVersion>
+    <PackageVersion>10.1.1</PackageVersion>
     <Authors>InsonusK</Authors>
     <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
     <Description>Shared command context handling for MediatR </Description>
