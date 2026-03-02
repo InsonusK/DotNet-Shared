@@ -17,8 +17,6 @@ jobs:
       - name: Load matrix config
         id: set-matrix
         run: |
-          {
-            echo 'matrix<<EOF'
-            cat .github/config/projects.json
-            echo 'EOF'
-          } >> "$GITHUB_OUTPUT"
+          sudo apt-get update && sudo apt-get install -y jq
+          MATRIX=$(jq -c . .github/config/projects.json)
+          echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
