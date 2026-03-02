@@ -5,13 +5,13 @@ namespace InsonusK.Shared.DataBase.Test.Models;
 
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-public class UXConfig_Test
+public class IndexConfig_Test
 {
     [Fact]
     public void test_IndexName_WHEN_field_ordered_THEN_return_correct_indexName()
     {
         // Arrange
-        var config = new UXConfig<TestEntity>
+        var config = new IndexConfig<TestEntity>
         {
             Fields = new[] { "Field1", "Field2" }
         };
@@ -28,7 +28,7 @@ public class UXConfig_Test
     public void test_IndexName_WHEN_field_worng_ordered_THEN_return_correct_indexName()
     {
         // Arrange
-        var config = new UXConfig<TestEntity>
+        var config = new IndexConfig<TestEntity>
         {
             Fields = new[] { "Field2", "Field1" }
         };
@@ -45,7 +45,7 @@ public class UXConfig_Test
     public void test_IndexName_WHEN_not_unique_THEN_return_ix_indexName()
     {
         // Arrange
-        var config = new UXConfig<TestEntity>
+        var config = new IndexConfig<TestEntity>
         {
             Fields = new[] { "Field2", "Field1" },
             IsUnique = false
@@ -64,7 +64,7 @@ public class UXConfig_Test
     {
         // Arrange
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => new UXConfig<TestEntity>
+        Assert.Throws<ArgumentException>(() => new IndexConfig<TestEntity>
         {
             Fields = System.Array.Empty<string>()
         });
