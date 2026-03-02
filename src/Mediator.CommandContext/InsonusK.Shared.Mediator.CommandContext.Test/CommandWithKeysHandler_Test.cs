@@ -13,6 +13,8 @@ using InsonusK.Shared.DataBase.Models;
 
 namespace InsonusK.Shared.Mediator.CommandContext.Test;
 
+
+
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class CommandWithKeysHandler_Test : LoggingTestsBase<CommandWithKeysHandler_Test>
 {
@@ -20,18 +22,7 @@ public class CommandWithKeysHandler_Test : LoggingTestsBase<CommandWithKeysHandl
     {
     }
 
-    private class TestEntity : EntityBase { }
 
-    private class TestEntityKey : IEntityKey
-    {
-        public string EntityStringId { get; init; } = "1";
-        public Type EntityType => typeof(TestEntity);
-    }
-
-    private class TestCommand : CommandWithEntityKeys
-    {
-        public override IEnumerable<IEntityKey> EntityKeys { get; init; } = new List<IEntityKey>();
-    }
 
     [Fact]
     public async Task Handle_WHEN_CalledWithKeys_THEN_FillsContextAndCallsNext()
@@ -39,21 +30,25 @@ public class CommandWithKeysHandler_Test : LoggingTestsBase<CommandWithKeysHandl
         #region Array
         Logger.LogDebug("Test ARRAY");
 
-        var key1 = new TestEntityKey { EntityStringId = "1" };
-        var key2 = new TestEntityKey { EntityStringId = "2" };
-        var request = new TestCommand { EntityKeys = new[] { key1, key2 } };
+        var key1 = new TestEntityKey1 { EntityStringId = "1" };
+        var key2 = new TestEntityKey2 { EntityStringId = "2" };
+        var request = new TestCommand { EntityKeys = new List<IEntityKey>() { key1, key2 } };
 
-        var extractor = Substitute.For<IEntityCommandExtractor<TestEntity>>();
-        extractor.GetAsync(Arg.Any<IEntityKey>(), Arg.Any<CancellationToken>())
-                 .Returns(Task.FromResult(new TestEntity { Id = 1 }));
+        var extractor1 = Substitute.For<IEntityCommandExtractor<TestEntity1>>();
+        extractor1.GetAsync(Arg.Any<IEntityKey>(), Arg.Any<CancellationToken>())
+                 .Returns(Task.FromResult(new TestEntity1 { Id = 1 }));
+        var extractor2 = Substitute.For<IEntityCommandExtractor<TestEntity2>>();
+        extractor2.GetAsync(Arg.Any<IEntityKey>(), Arg.Any<CancellationToken>())
+                 .Returns(Task.FromResult(new TestEntity2 { Id = 2 }));
 
         var services = new ServiceCollection();
-        services.AddSingleton(extractor);
+        services.AddSingleton(extractor1);
+        services.AddSingleton(extractor2);
         var provider = services.BuildServiceProvider();
 
         var container = new CommandContextContainer(provider);
         var logger = Substitute.For<ILogger<CommandWithKeysHandler<TestCommand, Result<string>>>>();
-        
+
         var handler = new CommandWithKeysHandler<TestCommand, Result<string>>(logger, container, provider);
 
         bool nextCalled = false;

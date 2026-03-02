@@ -11,7 +11,33 @@ using InsonusK.Shared.Mediator.ExceptionHandler;
 using InsonusK.Shared.Models.Common;
 
 namespace InsonusK.Shared.Mediator.CommandContext.Test;
+public class TestEntity : EntityBase
+    {
+    }
 
+    public class TestGuidEntity : EntityBase, IGuidModel
+    {
+        public Guid Guid { get; set; } = Guid.NewGuid();
+    }
+
+    public class TestVersionedEntity : EntityBase, IVersionatedModel
+    {
+        public uint Version { get; set; }
+    }
+
+    public class TestEntityKey : IEntityKey
+    {
+        public string EntityStringId { get; init; } = "";
+        public Type EntityType => typeof(TestEntity);
+    }
+
+    public class TestEntityKeyWithVersion : IEntityKeyWithVersion
+    {
+        public string EntityStringId { get; init; } = "";
+        public Type EntityType => typeof(TestVersionedEntity);
+        public uint Version { get; init; }
+    }
+    
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class CommandContextContainer_Test : LoggingTestsBase<CommandContextContainer_Test>
 {
@@ -19,32 +45,7 @@ public class CommandContextContainer_Test : LoggingTestsBase<CommandContextConta
     {
     }
 
-    private class TestEntity : EntityBase
-    {
-    }
-
-    private class TestGuidEntity : EntityBase, IGuidModel
-    {
-        public Guid Guid { get; set; } = Guid.NewGuid();
-    }
-
-    private class TestVersionedEntity : EntityBase, IVersionatedModel
-    {
-        public uint Version { get; set; }
-    }
-
-    private class TestEntityKey : IEntityKey
-    {
-        public string EntityStringId { get; init; } = "";
-        public Type EntityType => typeof(TestEntity);
-    }
-
-    private class TestEntityKeyWithVersion : IEntityKeyWithVersion
-    {
-        public string EntityStringId { get; init; } = "";
-        public Type EntityType => typeof(TestVersionedEntity);
-        public uint Version { get; init; }
-    }
+    
 
     private CommandContextContainer CreateContainer(IServiceProvider provider)
     {

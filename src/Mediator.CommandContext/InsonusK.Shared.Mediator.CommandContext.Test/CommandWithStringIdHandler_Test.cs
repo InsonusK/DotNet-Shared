@@ -12,6 +12,7 @@ using InsonusK.Shared.DataBase.Models;
 
 namespace InsonusK.Shared.Mediator.CommandContext.Test;
 
+
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class CommandWithStringIdHandler_Test : LoggingTestsBase<CommandWithStringIdHandler_Test>
 {
@@ -19,13 +20,8 @@ public class CommandWithStringIdHandler_Test : LoggingTestsBase<CommandWithStrin
     {
     }
 
-    private class TestEntity : EntityBase { }
 
-    private class TestRequest : IEntityKey
-    {
-        public string EntityStringId { get; init; } = "1";
-        public Type EntityType => typeof(TestEntity);
-    }
+
 
     [Fact]
     public async Task Handle_WHEN_CalledWithKey_THEN_FillsContextAndCallsNext()
@@ -33,20 +29,20 @@ public class CommandWithStringIdHandler_Test : LoggingTestsBase<CommandWithStrin
         #region Array
         Logger.LogDebug("Test ARRAY");
 
-        var request = new TestRequest { EntityStringId = "1" };
+        var request = new TestEntityKey1 { EntityStringId = "1" };
 
-        var extractor = Substitute.For<IEntityCommandExtractor<TestEntity>>();
+        var extractor = Substitute.For<IEntityCommandExtractor<TestEntity1>>();
         extractor.GetAsync(request, Arg.Any<CancellationToken>())
-                 .Returns(Task.FromResult(new TestEntity { Id = 1 }));
+                 .Returns(Task.FromResult(new TestEntity1 { Id = 1 }));
 
         var services = new ServiceCollection();
         services.AddSingleton(extractor);
         var provider = services.BuildServiceProvider();
 
         var container = new CommandContextContainer(provider);
-        var logger = Substitute.For<ILogger<CommandWithStringIdHandler<TestRequest, Result<string>>>>();
-        
-        var handler = new CommandWithStringIdHandler<TestRequest, Result<string>>(logger, container, provider);
+        var logger = Substitute.For<ILogger<CommandWithStringIdHandler<TestEntityKey1, Result<string>>>>();
+
+        var handler = new CommandWithStringIdHandler<TestEntityKey1, Result<string>>(logger, container, provider);
 
         bool nextCalled = false;
         RequestHandlerDelegate<Result<string>> next = (ct) =>
