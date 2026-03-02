@@ -1,0 +1,34 @@
+{
+    "project": [
+        {
+            "folder": "src/AnnotationsForDI/**",
+            "csproj": "src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj",
+            "package-id": "InsonusK.Shared.AnnotationsForDI",
+            "artifact": "nupkg-annotations"
+        },
+        {
+            "folder": "src/DataBase/**",
+            "csproj": "src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj",
+            "package-id": "InsonusK.Shared.DataBase",
+            "artifact": "nupkg-database"
+        },
+        {
+            "folder": "src/Models/**",
+            "csproj": "src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj",
+            "package-id": "InsonusK.Shared.Models",
+            "artifact": "nupkg-models"
+        },
+        {
+            "folder": "src/Mediator.CommandContext/**",
+            "csproj": "src/Mediator.CommandContext/InsonusK.Shared.Mediator.CommandContext/InsonusK.Shared.Mediator.CommandContext.csproj",
+            "package-id": "InsonusK.Shared.Mediator.CommandContext",
+            "artifact": "nupkg-mediator-command-context"
+        },
+        {
+            "folder": "src/Mediator.ExceptionHandler/**",
+            "csproj": "src/Mediator.ExceptionHandler/InsonusK.Shared.Mediator.ExceptionHandler/InsonusK.Shared.Mediator.ExceptionHandler.csproj",
+            "package-id": "InsonusK.Shared.Mediator.ExceptionHandler",
+            "artifact": "nupkg-mediator-exception-handler"
+        }
+    ]
+}
