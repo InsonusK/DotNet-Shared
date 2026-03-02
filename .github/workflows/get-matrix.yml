@@ -1,0 +1,20 @@
+name: Get Project Matrix
+
+on:
+  workflow_call:
+    outputs:
+      matrix:
+        description: "Matrix JSON for projects"
+        value: ${{ jobs.generate.outputs.matrix }}
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.read.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: read
+        run: |
+          MATRIX=$(cat .github/config/projects.json)
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT

@@ -10,20 +10,13 @@ permissions:
   packages: read
 
 jobs:
+  load-matrix:
+    uses: ./.github/workflows/get-matrix.yml
+
   validate:
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        project:
-          - folder: src/AnnotationsForDI/**
-            csproj: src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj
-            package-id: InsonusK.Shared.AnnotationsForDI
-          - folder: src/DataBase/**
-            csproj: src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj
-            package-id: InsonusK.Shared.DataBase
-          - folder: src/Models/**
-            csproj: src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj
-            package-id: InsonusK.Shared.Models
+      matrix: ${{ fromJSON(needs.load-matrix.outputs.matrix) }}
       fail-fast: false
       
     steps:

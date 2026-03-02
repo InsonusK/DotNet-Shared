@@ -1,0 +1,22 @@
+{
+    "project": [
+        {
+            "folder": "src/AnnotationsForDI/**",
+            "csproj": "src/AnnotationsForDI/InsonusK.Shared.AnnotationsForDI/InsonusK.Shared.AnnotationsForDI.csproj",
+            "package-id": "InsonusK.Shared.AnnotationsForDI",
+            "artifact": "nupkg-annotations"
+        },
+        {
+            "folder": "src/DataBase/**",
+            "csproj": "src/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj",
+            "package-id": "InsonusK.Shared.DataBase",
+            "artifact": "nupkg-database"
+        },
+        {
+            "folder": "src/Models/**",
+            "csproj": "src/Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj",
+            "package-id": "InsonusK.Shared.Models",
+            "artifact": "nupkg-models"
+        }
+    ]
+}
