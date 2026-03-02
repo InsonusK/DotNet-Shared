@@ -9,7 +9,7 @@ namespace InsonusK.Shared.Mediator.ExceptionHandler;
 
 public static class ExceptionHandlerModuleRegister
 {
-    public static IServiceCollection Register(this IServiceCollection sc, IConfiguration config = null)
+    public static IServiceCollection Register(this IServiceCollection sc, IConfiguration? config = null)
     {
         var assembly = typeof(ExceptionHandlerModuleRegister).Assembly;
         sc.AddScoped(typeof(IPipelineBehavior<,>), typeof(CommandValidationHandler<,>));
