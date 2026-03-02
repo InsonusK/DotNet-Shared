@@ -9,7 +9,7 @@ namespace InsonusK.Shared.Mediator.CommandContext;
 
 public static class CommandContextModuleRegister
 {
-    public static IServiceCollection Register(this IServiceCollection sc,  IConfiguration config = null)
+    public static IServiceCollection Register(this IServiceCollection sc, IConfiguration? config = null)
     {
         sc.AddScoped(typeof(IPipelineBehavior<,>), typeof(CommandWithStringIdHandler<,>));
         sc.AddScoped(typeof(IPipelineBehavior<,>), typeof(CommandWithKeysHandler<,>));
