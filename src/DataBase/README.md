@@ -34,7 +34,7 @@ All entities inherit from `EntityBase → ConstantNoGuidEntity → ConstantGuidE
 | `EditableNoGuidEntity` | `int Id` + audit fields | Adds `ICreationInfoModel` + `IUpdateInfoModel` |
 | `EditableGuidEntity` | `int Id`, `Guid Guid` + audit | Editable variant with both keys |
 | `IDeleteStatusEntity` | `bool IsDeleted` | Soft-delete flag |
-| `UXConfig` | `UX_name`, `UX_fields` | Maps a unique-constraint name to its field list for user-friendly error messages |
+| `IndexConfig` | `TableName`, `UFields`, `IsUnique`, `IndexName`,`AddToEntityTypeBuilder(builder)` | Maps a unique-constraint name to its field list for user-friendly error messages |
 
 ---
 
