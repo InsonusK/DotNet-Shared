@@ -14,6 +14,7 @@ jobs:
     uses: ./.github/workflows/get-matrix.yml
 
   build-and-publish:
+    needs: load-matrix
     strategy:
       matrix: ${{ fromJSON(needs.load-matrix.outputs.matrix) }}
       fail-fast: false
