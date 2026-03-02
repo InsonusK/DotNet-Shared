@@ -17,6 +17,8 @@ jobs:
       - name: Load matrix config
         id: set-matrix
         run: |
-          echo "matrix<<EOF" >> $GITHUB_OUTPUT
-          cat .github/config/projects.json >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          {
+            echo 'matrix<<EOF'
+            cat .github/config/projects.json
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
