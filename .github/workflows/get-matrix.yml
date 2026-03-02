@@ -14,7 +14,9 @@ jobs:
       matrix: ${{ steps.read.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
-      - id: read
+      - name: Load matrix config
+        id: set-matrix
         run: |
-          MATRIX=$(cat .github/config/projects.json)
-          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+          echo "matrix<<EOF" >> $GITHUB_OUTPUT
+          cat .github/config/projects.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
