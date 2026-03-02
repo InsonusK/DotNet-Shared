@@ -20,7 +20,7 @@ public class CommandValidationHandler_Test : LoggingTestsBase<CommandValidationH
 
     private class TestRequest : IClientActionTimeStamp
     {
-        public DateTime ClientActionTimeStamp { get; init; }
+        public DateTimeOffset ActionTimeStamp { get; init; }
     }
 
     private CommandValidationHandler<TestRequest, Result<string>> CreateHandler()
@@ -38,9 +38,9 @@ public class CommandValidationHandler_Test : LoggingTestsBase<CommandValidationH
         Logger.LogDebug("Test ARRAY");
 
         var handler = CreateHandler();
-        var request = new TestRequest { ClientActionTimeStamp = DateTime.UtcNow };
+        var request = new TestRequest { ActionTimeStamp = DateTime.UtcNow };
         bool nextCalled = false;
-        RequestHandlerDelegate<Result<string>> next = () =>
+        RequestHandlerDelegate<Result<string>> next = (ct) =>
         {
             nextCalled = true;
             return Task.FromResult(Result<string>.Success("Success"));
@@ -71,9 +71,9 @@ public class CommandValidationHandler_Test : LoggingTestsBase<CommandValidationH
         Logger.LogDebug("Test ARRAY");
 
         var handler = CreateHandler();
-        var request = new TestRequest { ClientActionTimeStamp = default }; // Invalid, typically default date is invalid
+        var request = new TestRequest { ActionTimeStamp = default }; // Invalid, typically default date is invalid
         bool nextCalled = false;
-        RequestHandlerDelegate<Result<string>> next = () =>
+        RequestHandlerDelegate<Result<string>> next = (ct) =>
         {
             nextCalled = true;
             return Task.FromResult(Result<string>.Success("Success"));

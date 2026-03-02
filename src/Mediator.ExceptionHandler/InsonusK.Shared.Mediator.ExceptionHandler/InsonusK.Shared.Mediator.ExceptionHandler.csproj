@@ -4,6 +4,13 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>InsonusK.Shared.Mediator.ExceptionHandler</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>InsonusK</Authors>
+    <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
+    <Description>Shared mediator exception handler </Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   
   <ItemGroup>

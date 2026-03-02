@@ -57,7 +57,7 @@ public class CommandWithKeysHandler_Test : LoggingTestsBase<CommandWithKeysHandl
         var handler = new CommandWithKeysHandler<TestCommand, Result<string>>(logger, container, provider);
 
         bool nextCalled = false;
-        RequestHandlerDelegate<Result<string>> next = () =>
+        RequestHandlerDelegate<Result<string>> next = (ct) =>
         {
             nextCalled = true;
             return Task.FromResult(Result<string>.Success("Success"));

@@ -34,7 +34,7 @@ public class ExceptionHandler_Test : LoggingTestsBase<ExceptionHandler_Test>
         Logger.LogDebug("Test ARRAY");
 
         var handler = CreateHandler();
-        RequestHandlerDelegate<Result<string>> next = () => Task.FromResult(Result<string>.Success("Success"));
+        RequestHandlerDelegate<Result<string>> next = (ct) => Task.FromResult(Result<string>.Success("Success"));
 
         #endregion
 
@@ -63,7 +63,7 @@ public class ExceptionHandler_Test : LoggingTestsBase<ExceptionHandler_Test>
         var handler = CreateHandler();
         var innerResult = Result.NotFound("Item not found");
         var exception = new ResultException(innerResult);
-        RequestHandlerDelegate<Result<string>> next = () => throw exception;
+        RequestHandlerDelegate<Result<string>> next = (ct) => throw exception;
 
         #endregion
 
@@ -92,7 +92,7 @@ public class ExceptionHandler_Test : LoggingTestsBase<ExceptionHandler_Test>
         var handler = CreateHandler();
         var validationFailures = new List<ValidationFailure> { new ValidationFailure("Prop", "Error msg") };
         var exception = new ValidationException(validationFailures);
-        RequestHandlerDelegate<Result<string>> next = () => throw exception;
+        RequestHandlerDelegate<Result<string>> next = (ct) => throw exception;
 
         #endregion
 
@@ -108,7 +108,7 @@ public class ExceptionHandler_Test : LoggingTestsBase<ExceptionHandler_Test>
 
         Assert.Equal(ResultStatus.Invalid, asserted_result.Status);
         Assert.Single(asserted_result.ValidationErrors);
-        Assert.Equal("Prop", asserted_result.ValidationErrors[0].Identifier);
+        Assert.Equal("Prop", asserted_result.ValidationErrors.ElementAt(0).Identifier);
 
         #endregion
     }
@@ -121,7 +121,7 @@ public class ExceptionHandler_Test : LoggingTestsBase<ExceptionHandler_Test>
 
         var handler = CreateHandler();
         var exception = new InvalidOperationException("Some invalid op");
-        RequestHandlerDelegate<Result<string>> next = () => throw exception;
+        RequestHandlerDelegate<Result<string>> next = (ct) => throw exception;
 
         #endregion
 
@@ -149,7 +149,7 @@ public class ExceptionHandler_Test : LoggingTestsBase<ExceptionHandler_Test>
 
         var handler = CreateHandler();
         var exception = new Exception("General exception");
-        RequestHandlerDelegate<Result<string>> next = () => throw exception;
+        RequestHandlerDelegate<Result<string>> next = (ct) => throw exception;
 
         #endregion
 

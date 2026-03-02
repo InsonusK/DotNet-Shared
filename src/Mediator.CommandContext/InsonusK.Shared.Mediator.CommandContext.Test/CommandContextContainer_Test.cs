@@ -8,6 +8,7 @@ using InsonusK.Shared.Mediator.CommandContext.Interfaces;
 using InsonusK.Shared.DataBase.Models;
 using Ardalis.Specification;
 using InsonusK.Shared.Mediator.ExceptionHandler;
+using InsonusK.Shared.Models.Common;
 
 namespace InsonusK.Shared.Mediator.CommandContext.Test;
 
@@ -29,7 +30,7 @@ public class CommandContextContainer_Test : LoggingTestsBase<CommandContextConta
 
     private class TestVersionedEntity : EntityBase, IVersionatedModel
     {
-        public int Version { get; set; }
+        public uint Version { get; set; }
     }
 
     private class TestEntityKey : IEntityKey
@@ -42,7 +43,7 @@ public class CommandContextContainer_Test : LoggingTestsBase<CommandContextConta
     {
         public string EntityStringId { get; init; } = "";
         public Type EntityType => typeof(TestVersionedEntity);
-        public int Version { get; init; }
+        public uint Version { get; init; }
     }
 
     private CommandContextContainer CreateContainer(IServiceProvider provider)

@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-        <PackageId>InsonusK.Shared.Models</PackageId>
+    <PackageId>InsonusK.Shared.Models</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
     <Authors>InsonusK</Authors>
     <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>

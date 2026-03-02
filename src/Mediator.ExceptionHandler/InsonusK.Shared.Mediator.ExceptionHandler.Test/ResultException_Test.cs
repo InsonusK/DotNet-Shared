@@ -69,7 +69,7 @@ public class ResultException_Test : LoggingTestsBase<ResultException_Test>
 
         Assert.Equal(ResultStatus.Invalid, asserted_result.Status);
         Assert.Single(asserted_result.ValidationErrors);
-        Assert.Equal("Field", asserted_result.ValidationErrors[0].Identifier);
+        Assert.Equal("Field", asserted_result.ValidationErrors.ElementAt(0).Identifier);
 
         #endregion
     }

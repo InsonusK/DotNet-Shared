@@ -4,6 +4,13 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>InsonusK.Shared.Mediator.CommandContext</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>InsonusK</Authors>
+    <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
+    <Description>Shared command context handling for MediatR </Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="13.0.0" />
@@ -13,5 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="../../DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj" />
     <ProjectReference Include="../../Mediator.ExceptionHandler/InsonusK.Shared.Mediator.ExceptionHandler/InsonusK.Shared.Mediator.ExceptionHandler.csproj" />
+    <ProjectReference Include="../../Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj" />
   </ItemGroup>
 </Project>

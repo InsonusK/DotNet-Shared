@@ -15,7 +15,7 @@ public class CommandValidator_Test : LoggingTestsBase<CommandValidator_Test>
 
     private class TestRequest : IClientActionTimeStamp
     {
-        public DateTime ClientActionTimeStamp { get; init; }
+        public DateTimeOffset ActionTimeStamp { get; init; }
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class CommandValidator_Test : LoggingTestsBase<CommandValidator_Test>
         Logger.LogDebug("Test ARRAY");
 
         var validator = new CommandValidator();
-        var request = new TestRequest { ClientActionTimeStamp = default };
+        var request = new TestRequest { ActionTimeStamp = default };
 
         #endregion
 
@@ -52,7 +52,7 @@ public class CommandValidator_Test : LoggingTestsBase<CommandValidator_Test>
         Logger.LogDebug("Test ARRAY");
 
         var validator = new CommandValidator();
-        var request = new TestRequest { ClientActionTimeStamp = DateTime.UtcNow };
+        var request = new TestRequest { ActionTimeStamp = DateTime.UtcNow };
 
         #endregion
 
