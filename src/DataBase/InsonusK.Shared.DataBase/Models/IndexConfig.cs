@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace InsonusK.Shared.DataBase.Models;
 
 
-public class UXConfig<TEntity>: IIndexConfig where TEntity : class
+public class IndexConfig<TEntity> : IIndexConfig where TEntity : class
 {
     public string TableName => typeof(TEntity).Name;
     private string[] _fields = null!;
@@ -34,5 +34,16 @@ public class UXConfig<TEntity>: IIndexConfig where TEntity : class
         var indexBuilder = builder.HasIndex(Fields).HasDatabaseName(IndexName);
         if (IsUnique)
             indexBuilder.IsUnique();
+    }
+}
+
+public static class IndexConfigExtensions
+{
+    public static void Apply<TEntity>(this IndexConfig<TEntity>[] indexConfig, EntityTypeBuilder<TEntity> builder) where TEntity : class
+    {
+        foreach (var config in indexConfig)
+        {
+            config.AddToEntityTypeBuilder(builder);
+        }
     }
 }
