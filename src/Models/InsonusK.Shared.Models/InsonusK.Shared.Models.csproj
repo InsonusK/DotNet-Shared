@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>InsonusK.Shared.Models</PackageId>
-    <PackageVersion>10.1.1</PackageVersion>
+    <PackageVersion>10.1.2</PackageVersion>
     <Authors>InsonusK</Authors>
     <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
     <Description>Shared models, validators and etc </Description>
