@@ -4,7 +4,7 @@ using InsonusK.Shared.DataBase.Models;
 
 namespace InsonusK.Shared.DataBase.Spec;
 
-public class ByStringIdSpec<T> : Specification<T>, ISingleResultSpecification<T> where T : ConstantGuidEntity
+public class ByStringIdSpec<T> : SingleResultSpecification<T>, ISingleResultSpecification<T> where T : ConstantGuidEntity
 {
     public readonly bool QueryIsEmpty = false;
     public static bool TryBuild(string stringId, out ByStringIdSpec<T> spec)
@@ -53,7 +53,7 @@ public class ByStringIdSpec<T> : Specification<T>, ISingleResultSpecification<T>
 
 }
 
-public class ByStringIdsSpec<T> : Specification<T> where T : ConstantGuidEntity
+public class ByStringIdsSpec<T> : Specification<T>, ISpecification<T> where T : ConstantGuidEntity
 {
     private List<string> _wrongFormatList = new List<string>();
     public string[] WrongFormatList => _wrongFormatList.ToArray();
