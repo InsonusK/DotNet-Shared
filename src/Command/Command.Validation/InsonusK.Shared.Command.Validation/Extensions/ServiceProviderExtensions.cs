@@ -6,7 +6,7 @@ namespace InsonusK.Shared.Command.Validation.Extensions;
 /// <summary>
 /// Dependency injection extensions for adding command validation.
 /// </summary>
-public static class DIExtension
+public static class ServiceProviderExtensions
 {
     /// <summary>
     /// Adds validation behavior to MediatR pipeline. 

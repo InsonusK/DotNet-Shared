@@ -9,9 +9,9 @@ using Xunit.Abstractions;
 namespace InsonusK.Shared.Command.Validation.Test.Extensions;
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-public class DIExtension_Test : LoggingTestsBase<DIExtension_Test>
+public class ServiceProviderExtensions_Test : LoggingTestsBase<ServiceProviderExtensions_Test>
 {
-    public DIExtension_Test(ITestOutputHelper output, LogLevel logLevel = LogLevel.Debug) : base(output, logLevel)
+    public ServiceProviderExtensions_Test(ITestOutputHelper output, LogLevel logLevel = LogLevel.Debug) : base(output, logLevel)
     {
     }
 

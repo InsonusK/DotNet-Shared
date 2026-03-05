@@ -9,3 +9,9 @@ public interface IEntityKey : IEntityType
 {
     string StringId { get; }
 }
+
+public interface IEntityVersionedKey : IEntityKey
+{
+    string? Version { get; }
+    bool VersionRequired { get; }
+}

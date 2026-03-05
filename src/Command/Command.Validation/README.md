@@ -1,11 +1,11 @@
 # InsonusK.Shared.Command.Validation
 
 # Components
-- [DIExtension](#DIExtension)
+- [ServiceProviderExtensions](#ServiceProviderExtensions)
 - [ValidationContextExtensions](#ValidationContextExtensions)
 - [ValidationBehavior](#ValidationBehavior)
 
-## DIExtension
+## ServiceProviderExtensions
 Method list
 - Dependency Injection Registration - [AddCommandValidation](#AddCommandValidation) - Registers validation behavior to MediatR pipeline.
 

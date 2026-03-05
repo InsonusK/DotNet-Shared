@@ -1,9 +1,9 @@
 namespace InsonusK.Shared.Command.Interfaces.Models;
 
-public class EntityKey<TEntity> : IEntityKey where TEntity : class
+public class EntityKey<TEntity> : IEntityVersionedKey where TEntity : class
 {
     public string StringId { get; }
-    public string? Version { get; }
+    public string? Version { get; }    
     public bool VersionRequired { get; }
 
     public Type EntityType => typeof(TEntity);

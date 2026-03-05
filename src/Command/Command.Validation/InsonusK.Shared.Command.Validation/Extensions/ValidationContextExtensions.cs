@@ -1,5 +1,6 @@
 using FluentValidation;
 using InsonusK.Shared.Command.EntityLoading.Interfaces;
+using InsonusK.Shared.Command.Interfaces;
 using InsonusK.Shared.DataBase.Models;
 namespace InsonusK.Shared.Command.Validation.Extensions;
 
@@ -44,4 +45,16 @@ public static class ValidationContextExtensions
     public static TEntity? GetEntity<TEntity>(this IValidationContext context)
         where TEntity : EntityBase
         => context.GetEntitiesContext().Get<TEntity>();
+
+    public static object? GetEntityFromContext(this IValidationContext context, IEntityKey key)
+    {
+        var method = typeof(ValidationContextExtensions)
+            .GetMethod(nameof(ValidationContextExtensions.GetEntity))
+            ?.MakeGenericMethod(key.EntityType);
+
+        if (method == null)
+            throw new InvalidOperationException("Cannot find GetEntity generic method.");
+
+        return method.Invoke(null, new object[] { context });
+    }
 }
