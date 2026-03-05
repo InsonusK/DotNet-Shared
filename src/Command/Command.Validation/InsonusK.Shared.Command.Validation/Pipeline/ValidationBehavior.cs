@@ -3,7 +3,9 @@ using FluentValidation;
 using InsonusK.Shared.Command.Validation.Extensions;
 using InsonusK.Shared.Command.Validation.Interfaces;
 using InsonusK.Shared.Command.Validation.Tools;
+using InsonusK.Shared.DataBase.Models;
 using InsonusK.Shared.DataBase.Spec;
+using InsonusK.Shared.Models.Common;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -39,25 +41,17 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
 
         var validationContext = new ValidationContext<TRequest>(request);
         var entitiesContext = new ValidationEntitiesContext();
-
+        var resolver = new EntityResolver(_serviceProvider);
+        
         foreach (KeyValuePair<Type, string> kvp in request.EntityKeys.ToArray())
         {
             Type entityType = kvp.Key;
             string stringId = kvp.Value;
 
-            // динамически получить IReadRepository<TEntity>
-            var repoType = typeof(IReadRepositoryBase<>).MakeGenericType(entityType);
-            var repo = (dynamic)_serviceProvider.GetService(repoType)!;
+            var entity = await resolver.Resolve(entityType, stringId, ct);
 
-            // Создаём generic-тип спецификации ByStringIdSpec<TEntity>
-            var specType = typeof(ByStringIdSpec<>).MakeGenericType(entityType);
-
-            // Создаём экземпляр спецификации через Activator
-            var spec = Activator.CreateInstance(specType, stringId, true)!;
-
-            var entity = await repo.SingleOrDefaultAsync(spec,ct);
             if (entity != null)
-                entitiesContext.AddEntity(entity);
+                entitiesContext.AddEntity((EntityBase)entity);
             else
                 throw new ValidationException($"Entity of type {entityType.Name} with id {stringId} not found");
         }
@@ -68,13 +62,13 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(validationContext, ct)));
 
         var validationErrors = validationResults.SelectMany(r => r.Errors);
-        var serverities = validationErrors.Select(e=>e.Severity);
+        var serverities = validationErrors.Select(e => e.Severity);
         var errorCount = serverities.Count(s => s == Severity.Error);
         var otherCount = serverities.Count(s => s != Severity.Error);
 
         _logger.LogInformation("Validation completed for command {CommandType} with {ErrorCount} errors and {OtherCount} warnings", typeof(TRequest).Name, errorCount, otherCount);
         if (errorCount > 0)
-            throw new ValidationException(validationErrors);        
+            throw new ValidationException(validationErrors);
         else if (otherCount > 0)
             if (request is IForcableValidatableCommand forcableCommand)
                 if (!forcableCommand.Force)

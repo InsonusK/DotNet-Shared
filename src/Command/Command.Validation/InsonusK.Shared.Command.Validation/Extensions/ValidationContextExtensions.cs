@@ -8,10 +8,10 @@ public static class ValidationContextExtensions
 {
     private const string EntitiesKey = "ValidationEntitiesContext";
 
-    public static void SetEntitiesContext(this ValidationContext context, ValidationEntitiesContext ctx)
+    public static void SetEntitiesContext(this IValidationContext context, ValidationEntitiesContext ctx)
         => context.RootContextData[EntitiesKey] = ctx;
 
-    public static IValidationEntitiesReadContext GetEntitiesContext(this ValidationContext context)
+    public static IValidationEntitiesReadContext GetEntitiesContext(this IValidationContext context)
     {
         if (context.RootContextData.TryGetValue(EntitiesKey, out var obj)
             && obj is ValidationEntitiesContext ctx)
@@ -19,7 +19,7 @@ public static class ValidationContextExtensions
         throw new InvalidOperationException("ValidationEntitiesContext not found in RootContextData");
     }
 
-    public static TEntity? GetEntity<TEntity>(this ValidationContext context)
+    public static TEntity? GetEntity<TEntity>(this IValidationContext context)
         where TEntity : EntityBase
         => context.GetEntitiesContext().GetEntity<TEntity>();
 }
