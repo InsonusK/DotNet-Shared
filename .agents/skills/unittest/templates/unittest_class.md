@@ -1,4 +1,6 @@
 # Template of unit test class
+Use this [template](#tempalte) to create unit test
+
 ## Tempalte
 ```csharp
 using Microsoft.Extensions.Logging;

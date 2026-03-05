@@ -1,4 +1,6 @@
 # Template of usecases list
+When you need confirm list of usecases for unittes. Use [template below](#template) to show them for user confirmation.
+
 ## Template
 ```
 - {Class}
