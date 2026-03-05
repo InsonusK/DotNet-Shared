@@ -12,9 +12,10 @@ public class CommandWithEntityKeysValidator<TCommand, TResponse> : AbstractValid
     {
         RuleFor(cmd => cmd.EntityKeys)
             .NotNull().WithMessage("Entity keys cannot be null.");
-
-        RuleForEach(cmd => cmd.EntityKeys)
-            .SetValidator(new EntityKeyValidator())
-            .When(cmd => cmd.EntityKeys != null);
+        When(cmd => cmd.EntityKeys != null, () =>
+        {
+            RuleForEach(cmd => cmd.EntityKeys)
+                .SetValidator(new EntityKeyValidator());
+        });
     }
 }
