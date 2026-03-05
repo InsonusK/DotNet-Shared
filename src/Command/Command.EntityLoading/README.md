@@ -62,7 +62,7 @@ This registers the pipeline behavior (`EntityLoadingBehavior`), `CommandContextM
 3. Receive `ICommandContextSource` injected into your Command Handler to access perfectly pre-loaded `ICommandContext` entities.
 
 ```csharp
-public class MyCommandHandler : IRequestHandler<MyCommand>
+public class MyCommandHandler : IBaseRequestHandler<MyCommand>
 {
     private readonly ICommandContextSource _contextSource;
 

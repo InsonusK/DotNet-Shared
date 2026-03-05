@@ -18,7 +18,7 @@ namespace InsonusK.Shared.Command.EntityLoading.Services;
 /// Провайдер сущностей. Отвечает за извлечение и создание контекста сущностей (<see cref="CommandContext"/>) для команды.
 /// Реализует паттерн получения сущностей через кастомные извлекатели или стандартные репозитории (по Guid или int).
 /// </summary>
-public class EntityProvider: ICommandContextSource
+public class EntityProvider : ICommandContextSource
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger _logger;
@@ -40,12 +40,15 @@ public class EntityProvider: ICommandContextSource
     public async Task<object?> Resolve(IEntityKey entityKey, CancellationToken ct)
     {
         var method = typeof(EntityProvider)
-            .GetMethod(nameof(Resolve), BindingFlags.Public | BindingFlags.Instance)!
-            .MakeGenericMethod(entityKey.EntityType);
+            .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+            .Where(m => m.Name == nameof(EntityProvider.Resolve))
+            .Single(m => m.IsGenericMethodDefinition);
+        var genericMethod = method!.MakeGenericMethod(entityKey.EntityType);
 
-        return await (Task<object?>)method.Invoke(this, new object[] { entityKey, ct })!;
+        var entity = await this.InvokeGenericAsync(genericMethod, entityKey, ct);
+        return entity;
     }
-
+    
     /// <summary>
     /// Получает сущность известного типа на основе ключа, используя IEntityCommandExtractor, Guid или int репозитории.
     /// </summary>
@@ -69,8 +72,7 @@ public class EntityProvider: ICommandContextSource
             var method = typeof(EntityProvider)
                 .GetMethod(nameof(ResolveGuid), BindingFlags.NonPublic | BindingFlags.Instance)!
                 .MakeGenericMethod(typeof(TEntity));
-
-            return (TEntity?)await (Task<object?>)method.Invoke(this, new object[] { entityKey, ct })!;
+            return (TEntity?)await this.InvokeGenericAsync(method, entityKey, ct)!;
         }
         else if (typeof(EntityBase).IsAssignableFrom(typeof(TEntity)))
         {
@@ -79,7 +81,7 @@ public class EntityProvider: ICommandContextSource
                     .GetMethod(nameof(ResolveInt), BindingFlags.NonPublic | BindingFlags.Instance)!
                     .MakeGenericMethod(typeof(TEntity));
 
-            return (TEntity?)await (Task<object?>)method.Invoke(this, new object[] { entityKey, ct })!;
+            return (TEntity?)await this.InvokeGenericAsync(method, entityKey, ct)!;
         }
         else
         {
@@ -113,7 +115,7 @@ public class EntityProvider: ICommandContextSource
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Готовый контекст с сущностями.</returns>
     /// <exception cref="NotFoundException">Выбрасывается (из <see cref="CommandContextExtensions.CreateNewFor"/>), если хотя бы одна сущность не найдена в хранилище.</exception>
-    public async Task<ICommandContext> GetForAsync<TRequest>(TRequest command, CancellationToken cancellationToken) where TRequest : ICommandWithEntityKeys, IRequest
+    public async Task<ICommandContext> GetForAsync<TRequest>(TRequest command, CancellationToken cancellationToken) where TRequest : ICommandWithEntityKeys, IBaseRequest
     {
         return await this.CreateNewFor(command, cancellationToken);
     }

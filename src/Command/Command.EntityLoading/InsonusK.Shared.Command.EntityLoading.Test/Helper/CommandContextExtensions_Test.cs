@@ -8,8 +8,28 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit.Abstractions;
 using Ardalis.Specification;
+using Ardalis.GuardClauses;
 
 namespace InsonusK.Shared.Command.EntityLoading.Test.Helper;
+
+public class TestEntity1 : EntityBase
+{
+}
+
+public class TestEntity2 : EntityBase
+{
+}
+
+public class TestEntityKey : IEntityKey
+{
+    public Type EntityType { get; set; } = typeof(object);
+    public string StringId { get; set; } = string.Empty;
+}
+
+public class TestCommand : ICommandWithEntityKeys
+{
+    public IReadOnlyCollection<IEntityKey> EntityKeys { get; set; } = Array.Empty<IEntityKey>();
+}
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class CommandContextExtensions_Test : LoggingTestsBase<CommandContextExtensions_Test>
@@ -18,24 +38,7 @@ public class CommandContextExtensions_Test : LoggingTestsBase<CommandContextExte
     {
     }
 
-    private class TestEntity1 : EntityBase
-    {
-    }
 
-    private class TestEntity2 : EntityBase
-    {
-    }
-
-    private class TestEntityKey : IEntityKey
-    {
-        public Type EntityType { get; set; } = typeof(object);
-        public string StringId { get; set; } = string.Empty;
-    }
-
-    private class TestCommand : ICommandWithEntityKeys
-    {
-        public IEnumerable<IEntityKey> EntityKeys { get; set; } = Array.Empty<IEntityKey>();
-    }
 
     /// <summary>
     /// description: Call CreateNewFor with command having multiple entity keys that are all resolved
@@ -49,7 +52,7 @@ public class CommandContextExtensions_Test : LoggingTestsBase<CommandContextExte
         #region Arrange
         Logger.LogDebug("Test ARRANGE");
         var serviceProvider = Substitute.For<IServiceProvider>();
-        
+
         var repo1 = Substitute.For<IReadRepositoryBase<TestEntity1>>();
         var repo2 = Substitute.For<IReadRepositoryBase<TestEntity2>>();
         var entity1 = new TestEntity1 { Id = 1 };
@@ -61,7 +64,7 @@ public class CommandContextExtensions_Test : LoggingTestsBase<CommandContextExte
         repo1.GetByIdAsync(1, Arg.Any<CancellationToken>()).Returns(entity1);
         repo2.GetByIdAsync(2, Arg.Any<CancellationToken>()).Returns(entity2);
 
-        var provider = new EntityProvider(serviceProvider, Logger);
+        var provider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
 
         var command = new TestCommand
         {
@@ -103,11 +106,11 @@ public class CommandContextExtensions_Test : LoggingTestsBase<CommandContextExte
         var repo1 = Substitute.For<IReadRepositoryBase<TestEntity1>>();
 
         serviceProvider.GetService(typeof(IReadRepositoryBase<TestEntity1>)).Returns(repo1);
-        
+
         // Return null to simulate not found
         repo1.GetByIdAsync(1, Arg.Any<CancellationToken>()).Returns((TestEntity1?)null);
 
-        var provider = new EntityProvider(serviceProvider, Logger);
+        var provider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
 
         var command = new TestCommand
         {

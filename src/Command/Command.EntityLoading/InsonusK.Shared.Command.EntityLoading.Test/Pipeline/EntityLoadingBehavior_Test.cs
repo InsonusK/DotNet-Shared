@@ -12,6 +12,23 @@ using Ardalis.Specification;
 
 namespace InsonusK.Shared.Command.EntityLoading.Test.Pipeline;
 
+public class TestResponse
+{
+}
+
+public class TestCommand : ICommandWithEntityKeys, IRequest<TestResponse>, IBaseRequest
+{
+    public IReadOnlyCollection<IEntityKey> EntityKeys { get; set; } = Array.Empty<IEntityKey>();
+}
+public class TestEntity : EntityBase
+{
+}
+
+public class TestEntityKey : IEntityKey
+{
+    public Type EntityType { get; set; } = typeof(object);
+    public string StringId { get; set; } = string.Empty;
+}
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class EntityLoadingBehavior_Test : LoggingTestsBase<EntityLoadingBehavior_Test>
 {
@@ -19,24 +36,9 @@ public class EntityLoadingBehavior_Test : LoggingTestsBase<EntityLoadingBehavior
     {
     }
 
-    private class TestResponse
-    {
-    }
 
-    private class TestCommand : ICommandWithEntityKeys, IRequest<TestResponse>
-    {
-        public IEnumerable<IEntityKey> EntityKeys { get; set; } = Array.Empty<IEntityKey>();
-    }
 
-    private class TestEntity : EntityBase
-    {
-    }
 
-    private class TestEntityKey : IEntityKey
-    {
-        public Type EntityType { get; set; } = typeof(object);
-        public string StringId { get; set; } = string.Empty;
-    }
 
     /// <summary>
     /// description: Call pipeline handle
@@ -51,14 +53,14 @@ public class EntityLoadingBehavior_Test : LoggingTestsBase<EntityLoadingBehavior
         Logger.LogDebug("Test ARRANGE");
         var commandContextManager = new CommandContextManager();
         var serviceProvider = Substitute.For<IServiceProvider>();
-        
+
         var repo = Substitute.For<IReadRepositoryBase<TestEntity>>();
         serviceProvider.GetService(typeof(IReadRepositoryBase<TestEntity>)).Returns(repo);
         repo.GetByIdAsync(1, Arg.Any<CancellationToken>()).Returns(new TestEntity { Id = 1 });
 
-        var entityProvider = new EntityProvider(serviceProvider, Logger);
+        var entityProvider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
 
-        var behavior = new EntityLoadingBehavior<TestCommand, TestResponse>(Logger, commandContextManager, entityProvider);
+        var behavior = new EntityLoadingBehavior<TestCommand, TestResponse>(Output.BuildLoggerFor<EntityLoadingBehavior<TestCommand, TestResponse>>(), commandContextManager, entityProvider);
 
         var command = new TestCommand
         {
@@ -71,7 +73,7 @@ public class EntityLoadingBehavior_Test : LoggingTestsBase<EntityLoadingBehavior
         var expectedResponse = new TestResponse();
         var nextDelegate = Substitute.For<RequestHandlerDelegate<TestResponse>>();
         nextDelegate.Invoke().Returns(Task.FromResult(expectedResponse));
-        
+
         var ct = CancellationToken.None;
         #endregion
 
@@ -105,17 +107,17 @@ public class EntityLoadingBehavior_Test : LoggingTestsBase<EntityLoadingBehavior
         Logger.LogDebug("Test ARRANGE");
         var commandContextManager = new CommandContextManager();
         var serviceProvider = Substitute.For<IServiceProvider>();
-        
-        var entityProvider = new EntityProvider(serviceProvider, Logger);
 
-        var behavior = new EntityLoadingBehavior<TestCommand, TestResponse>(Logger, commandContextManager, entityProvider);
+        var entityProvider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
+
+        var behavior = new EntityLoadingBehavior<TestCommand, TestResponse>(Output.BuildLoggerFor<EntityLoadingBehavior<TestCommand, TestResponse>>(), commandContextManager, entityProvider);
 
         var command = new TestCommand(); // empty keys, so provider won't fail
 
         var expectedException = new InvalidOperationException("Test inner exception");
         var nextDelegate = Substitute.For<RequestHandlerDelegate<TestResponse>>();
         nextDelegate.Invoke().Returns(Task.FromException<TestResponse>(expectedException));
-        
+
         var ct = CancellationToken.None;
         #endregion
 

@@ -17,5 +17,5 @@ public interface ICommandContextSource
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Контекст команды, содержащий загруженные сущности.</returns>
     /// <exception cref="InvalidOperationException">Возможна ошибка, если контекст не был создан или не найден.</exception>
-    Task<ICommandContext> GetForAsync<TRequest>(TRequest command, CancellationToken cancellationToken = default) where TRequest : ICommandWithEntityKeys, IRequest;
+    Task<ICommandContext> GetForAsync<TRequest>(TRequest command, CancellationToken cancellationToken = default) where TRequest : ICommandWithEntityKeys, IBaseRequest;
 }

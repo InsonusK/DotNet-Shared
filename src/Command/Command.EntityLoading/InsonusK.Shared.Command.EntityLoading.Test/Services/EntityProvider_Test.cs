@@ -13,6 +13,30 @@ using Ardalis.Specification;
 
 namespace InsonusK.Shared.Command.EntityLoading.Test.Services;
 
+public class TestEntity : EntityBase
+{
+    public string Name { get; set; } = string.Empty;
+}
+
+public class TestGuidEntity : EntityBase, IGuidModel
+{
+    public Guid Guid { get; set; }
+}
+
+public class TestNormalClass
+{
+}
+
+public class TestEntityKey : IEntityKey
+{
+    public Type EntityType { get; set; } = typeof(object);
+    public string StringId { get; set; } = string.Empty;
+}
+
+public class TestCommand : ICommandWithEntityKeys, IBaseRequest
+{
+    public IReadOnlyCollection<IEntityKey> EntityKeys { get; set; } = Array.Empty<IEntityKey>();
+}
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class EntityProvider_Test : LoggingTestsBase<EntityProvider_Test>
 {
@@ -20,30 +44,7 @@ public class EntityProvider_Test : LoggingTestsBase<EntityProvider_Test>
     {
     }
 
-    private class TestEntity : EntityBase
-    {
-        public string Name { get; set; } = string.Empty;
-    }
 
-    private class TestGuidEntity : EntityBase, IGuidModel
-    {
-        public Guid GuidId { get; set; }
-    }
-
-    private class TestNormalClass
-    {
-    }
-
-    private class TestEntityKey : IEntityKey
-    {
-        public Type EntityType { get; set; } = typeof(object);
-        public string StringId { get; set; } = string.Empty;
-    }
-
-    private class TestCommand : ICommandWithEntityKeys, IRequest
-    {
-        public IEnumerable<IEntityKey> EntityKeys { get; set; } = Array.Empty<IEntityKey>();
-    }
 
     /// <summary>
     /// description: Call Resolve where IEntityCommandExtractor is in DI
@@ -65,7 +66,7 @@ public class EntityProvider_Test : LoggingTestsBase<EntityProvider_Test>
         serviceProvider.GetService(typeof(IEntityCommandExtractor<TestNormalClass>)).Returns(extractor);
         extractor.GetAsync(entityKey, ct).Returns(expectedEntity);
 
-        var provider = new EntityProvider(serviceProvider, Logger);
+        var provider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
         #endregion
 
         #region Act
@@ -93,15 +94,15 @@ public class EntityProvider_Test : LoggingTestsBase<EntityProvider_Test>
         Logger.LogDebug("Test ARRANGE");
         var serviceProvider = Substitute.For<IServiceProvider>();
         var repo = Substitute.For<IReadRepositoryBase<TestGuidEntity>>();
-        var expectedEntity = new TestGuidEntity { GuidId = Guid.NewGuid() };
-        var entityKey = new TestEntityKey { EntityType = typeof(TestGuidEntity), StringId = expectedEntity.GuidId.ToString() };
+        var expectedEntity = new TestGuidEntity { Guid = Guid.NewGuid() };
+        var entityKey = new TestEntityKey { EntityType = typeof(TestGuidEntity), StringId = expectedEntity.Guid.ToString() };
         var ct = CancellationToken.None;
 
         serviceProvider.GetService(typeof(IEntityCommandExtractor<TestGuidEntity>)).Returns((object?)null);
         serviceProvider.GetService(typeof(IReadRepositoryBase<TestGuidEntity>)).Returns(repo);
-        repo.SingleOrDefaultAsync(Arg.Any<ISpecification<TestGuidEntity>>(), ct).Returns(expectedEntity);
+        repo.SingleOrDefaultAsync(Arg.Any<ISingleResultSpecification<TestGuidEntity>>(), ct).Returns(expectedEntity);
 
-        var provider = new EntityProvider(serviceProvider, Logger);
+        var provider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
         #endregion
 
         #region Act
@@ -137,7 +138,7 @@ public class EntityProvider_Test : LoggingTestsBase<EntityProvider_Test>
         serviceProvider.GetService(typeof(IReadRepositoryBase<TestEntity>)).Returns(repo);
         repo.GetByIdAsync(10, ct).Returns(expectedEntity);
 
-        var provider = new EntityProvider(serviceProvider, Logger);
+        var provider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
         #endregion
 
         #region Act
@@ -169,7 +170,7 @@ public class EntityProvider_Test : LoggingTestsBase<EntityProvider_Test>
 
         serviceProvider.GetService(typeof(IEntityCommandExtractor<TestNormalClass>)).Returns((object?)null);
 
-        var provider = new EntityProvider(serviceProvider, Logger);
+        var provider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
         #endregion
 
         #region Act
@@ -202,7 +203,7 @@ public class EntityProvider_Test : LoggingTestsBase<EntityProvider_Test>
         serviceProvider.GetService(typeof(IEntityCommandExtractor<TestEntity>)).Returns((object?)null);
         serviceProvider.GetService(typeof(IReadRepositoryBase<TestEntity>)).Returns(repo);
 
-        var provider = new EntityProvider(serviceProvider, Logger);
+        var provider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
         #endregion
 
         #region Act
@@ -237,7 +238,7 @@ public class EntityProvider_Test : LoggingTestsBase<EntityProvider_Test>
         serviceProvider.GetService(typeof(IReadRepositoryBase<TestEntity>)).Returns(repo);
         repo.GetByIdAsync(15, ct).Returns(expectedEntity);
 
-        var provider = new EntityProvider(serviceProvider, Logger);
+        var provider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
         #endregion
 
         #region Act

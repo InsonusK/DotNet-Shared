@@ -16,14 +16,14 @@ public class CommandContextManager_Test : LoggingTestsBase<CommandContextManager
     {
     }
 
-    private class TestCommand : ICommandWithEntityKeys, IRequest
+    private class TestCommand : ICommandWithEntityKeys, IBaseRequest
     {
-        public IEnumerable<IEntityKey> EntityKeys { get; set; } = Array.Empty<IEntityKey>();
+        public IReadOnlyCollection<IEntityKey> EntityKeys { get; set; } = Array.Empty<IEntityKey>();
     }
 
     /// <summary>
     /// description: Start explicit context for command
-    /// input: IRequest, CommandContext
+    /// input: IBaseRequest, CommandContext
     /// output: none
     /// expected_result: Context is tracked
     /// </summary>
@@ -50,7 +50,7 @@ public class CommandContextManager_Test : LoggingTestsBase<CommandContextManager
 
     /// <summary>
     /// description: Start explicit context twice for same command
-    /// input: IRequest, CommandContext
+    /// input: IBaseRequest, CommandContext
     /// output: exception
     /// expected_result: InvalidOperationException is thrown
     /// </summary>
@@ -80,7 +80,7 @@ public class CommandContextManager_Test : LoggingTestsBase<CommandContextManager
 
     /// <summary>
     /// description: Start new context for command
-    /// input: IRequest
+    /// input: IBaseRequest
     /// output: CommandContext
     /// expected_result: New context is tracked and returned
     /// </summary>
@@ -106,7 +106,7 @@ public class CommandContextManager_Test : LoggingTestsBase<CommandContextManager
 
     /// <summary>
     /// description: End existing tracked command
-    /// input: IRequest
+    /// input: IBaseRequest
     /// output: none
     /// expected_result: Context tracking is removed
     /// </summary>
@@ -133,7 +133,7 @@ public class CommandContextManager_Test : LoggingTestsBase<CommandContextManager
 
     /// <summary>
     /// description: End non-tracked command
-    /// input: IRequest
+    /// input: IBaseRequest
     /// output: exception
     /// expected_result: InvalidOperationException is thrown
     /// </summary>
@@ -160,7 +160,7 @@ public class CommandContextManager_Test : LoggingTestsBase<CommandContextManager
 
     /// <summary>
     /// description: Get context for tracked command
-    /// input: IRequest
+    /// input: IBaseRequest
     /// output: CommandContext
     /// expected_result: Returns the tracked context
     /// </summary>

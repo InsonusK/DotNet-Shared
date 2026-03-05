@@ -18,7 +18,7 @@ namespace InsonusK.Shared.Command.EntityLoading.Pipeline;
 /// <typeparam name="TRequest">Тип обрабатываемой команды.</typeparam>
 /// <typeparam name="TResponse">Тип возвращаемого ответа.</typeparam>
 internal class EntityLoadingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : ICommandWithEntityKeys, IRequest
+    where TRequest : ICommandWithEntityKeys, IBaseRequest
 {
     private readonly ILogger _logger;
     private readonly CommandContextManager _commandContextManager;

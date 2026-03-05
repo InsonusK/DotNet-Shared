@@ -19,7 +19,7 @@ namespace InsonusK.Shared.Command.Validation.Pipeline;
 /// <typeparam name="TResponse">The type of the response.</typeparam>
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : ICommandWithEntityKeys,IRequest
+    where TRequest : ICommandWithEntityKeys,IBaseRequest
 {
     private readonly ILogger<ValidationBehavior<TRequest, TResponse>> _logger;
     private readonly IEnumerable<IValidator<TRequest>> _validators;
