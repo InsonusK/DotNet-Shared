@@ -10,20 +10,8 @@ public class ByStringIdSpec<T> : SingleResultSpecification<T>, ISingleResultSpec
     public readonly bool QueryIsEmpty = false;
     public static bool TryBuild(string stringId, out ByStringIdSpec<T> spec)
     {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-        spec = null;
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-
-        if (Guid.TryParse(stringId, out var guid))
-        {
-            spec = new ByStringIdSpec<T>(guid);
-        }
-        else if (int.TryParse(stringId, out var intId))
-        {
-            spec = new ByStringIdSpec<T>(intId);
-        }
-
-        return spec != null;
+        spec = new ByStringIdSpec<T>(stringId);
+        return !spec.QueryIsEmpty;
     }
     public ByStringIdSpec(Guid guidId)
     {
@@ -33,7 +21,7 @@ public class ByStringIdSpec<T> : SingleResultSpecification<T>, ISingleResultSpec
     {
         Query.Where(x => x.Id == Id);
     }
-    public ByStringIdSpec(string stringId, bool tryParse = false)
+    public ByStringIdSpec(string stringId, bool ExceptinoIfNotParsed = false)
     {
         if (Guid.TryParse(stringId, out var guid))
         {
@@ -43,13 +31,13 @@ public class ByStringIdSpec<T> : SingleResultSpecification<T>, ISingleResultSpec
         {
             Query.Where(x => x.Id == intId);
         }
-        else if (tryParse)
+        else if (ExceptinoIfNotParsed)
+            throw new ArgumentException($"String id is not Guid or Int: {stringId}");
+        else
         {
             Query.Where(x => false);
             this.QueryIsEmpty = true;
         }
-        else
-            throw new ArgumentException($"String id is not Guid or Int: {stringId}");
     }
 
 }
