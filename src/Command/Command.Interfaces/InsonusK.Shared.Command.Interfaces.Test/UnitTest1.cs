@@ -1,4 +1,4 @@
-﻿namespace InsonusK.Shared.Command.Validation.Interfaces.Test;
+﻿namespace InsonusK.Shared.Command.Interfaces.Test;
 
 public class UnitTest1
 {

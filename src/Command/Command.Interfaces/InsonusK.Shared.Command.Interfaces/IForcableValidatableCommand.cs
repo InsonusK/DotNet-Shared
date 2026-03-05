@@ -1,4 +1,4 @@
-namespace InsonusK.Shared.Command.Validation.Interfaces;
+namespace InsonusK.Shared.Command.Interfaces;
 
 public interface IForcableValidatableCommand : IValidatableCommand
 {

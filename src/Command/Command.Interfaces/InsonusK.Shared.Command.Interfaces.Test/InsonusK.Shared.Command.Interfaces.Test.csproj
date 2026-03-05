@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InsonusK.Shared.Command.Validation.Interfaces\InsonusK.Shared.Command.Validation.Interfaces.csproj" />
+    <ProjectReference Include="..\InsonusK.Shared.Command.Interfaces\InsonusK.Shared.Command.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
