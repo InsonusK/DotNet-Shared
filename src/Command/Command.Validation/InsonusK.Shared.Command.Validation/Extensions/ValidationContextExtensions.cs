@@ -8,7 +8,7 @@ public static class ValidationContextExtensions
 {
     private const string EntitiesKey = "ValidationEntitiesContext";
 
-    public static void SetEntitiesContext(this IValidationContext context, ValidationEntitiesContext ctx)
+    internal static void SetEntitiesContext(this IValidationContext context, ValidationEntitiesContext ctx)
         => context.RootContextData[EntitiesKey] = ctx;
 
     public static IValidationEntitiesReadContext GetEntitiesContext(this IValidationContext context)

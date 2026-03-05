@@ -13,3 +13,4 @@ Use this skill when you need to create readme file fol library or project which 
   
 # How to use it
 Use [readme template](./templates/readme_template.md) to create README.md file. you can made docs folder and split readme into several files if it is needed.
+In readme describe only components and methods which is public and used by other projects. If you need to describe internal methods or components use comments in code and create readme for developers.

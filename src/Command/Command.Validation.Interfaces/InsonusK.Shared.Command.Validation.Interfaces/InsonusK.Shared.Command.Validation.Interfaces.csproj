@@ -4,6 +4,17 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>InsonusK.Shared.Command.Validation.Interfaces</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>InsonusK</Authors>
+    <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
+    <Description>Shared command validation interfaces</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="./../../../LICENSE" Pack="true" PackagePath="/" />
+    <None Include="./../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
 </Project>
