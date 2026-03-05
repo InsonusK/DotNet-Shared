@@ -2,7 +2,7 @@
 
 namespace InsonusK.Shared.Command.Interfaces;
 
-public interface IValidatableCommand
+public interface ICommandWithEntityKeys
 {
     IReadOnlyCollection<IEntityKey> EntityKeys { get; }
 }

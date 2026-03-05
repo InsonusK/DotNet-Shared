@@ -1,6 +1,6 @@
 namespace InsonusK.Shared.Command.Interfaces;
 
-public interface IForcableValidatableCommand : IValidatableCommand
+public interface IForcableValidatableCommand : ICommandWithEntityKeys
 {
     bool Force { get; }
 }

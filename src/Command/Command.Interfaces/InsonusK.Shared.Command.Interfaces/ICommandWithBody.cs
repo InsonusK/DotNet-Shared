@@ -1,6 +1,6 @@
 namespace InsonusK.Shared.Command.Interfaces;
 
-public interface IValidatableCommandWithBody<TBody>
+public interface ICommandWithBody<TBody>
 {
     TBody Body { get; }
 }
