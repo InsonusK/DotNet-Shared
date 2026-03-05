@@ -25,6 +25,11 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     private readonly ICommandContextSource _commandContextSrc;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ValidationBehavior{TRequest, TResponse}"/> class.
+    /// </summary>
+    /// <param name="validators">Collection of validators for the request.</param>
+    /// <param name="serviceProvider">The service provider to resolve dependencies.</param>
     public ValidationBehavior(
         IEnumerable<IValidator<TRequest>> validators, 
         IServiceProvider serviceProvider)
@@ -38,6 +43,16 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         }
     }
 
+    /// <summary>
+    /// Handles the command validation before passing it to the next handler in MediatR pipeline.
+    /// Loads entities related to the command, creates a validation context with these entities, 
+    /// and runs all registered validators.
+    /// </summary>
+    /// <param name="request">The incoming command request.</param>
+    /// <param name="next">The delegate to the next handler in the pipeline.</param>
+    /// <param name="ct">The cancellation token.</param>
+    /// <returns>The response from the next handler.</returns>
+    /// <exception cref="ValidationException">Thrown when there are validation errors, or warnings if the command does not force execution.</exception>
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
     {
         if (!_validators.Any())
