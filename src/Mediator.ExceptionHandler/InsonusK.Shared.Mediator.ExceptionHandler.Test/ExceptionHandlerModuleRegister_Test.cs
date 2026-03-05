@@ -3,7 +3,6 @@ using Divergic.Logging.Xunit;
 using Xunit.Abstractions;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using InsonusK.Shared.Mediator.ExceptionHandler;
 using InsonusK.Shared.Mediator.ExceptionHandler.Handler;
 using InsonusK.Shared.Mediator.ExceptionHandler.Service;
 using InsonusK.Shared.Mediator.ExceptionHandler.Validators;

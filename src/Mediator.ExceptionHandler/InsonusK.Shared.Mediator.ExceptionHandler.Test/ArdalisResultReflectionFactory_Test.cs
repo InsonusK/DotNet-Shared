@@ -5,7 +5,6 @@ using Ardalis.Result;
 using FluentValidation.Results;
 using NSubstitute;
 using InsonusK.Shared.Mediator.ExceptionHandler.Service;
-using InsonusK.Shared.Mediator.ExceptionHandler;
 
 namespace InsonusK.Shared.Mediator.ExceptionHandler.Test;
 

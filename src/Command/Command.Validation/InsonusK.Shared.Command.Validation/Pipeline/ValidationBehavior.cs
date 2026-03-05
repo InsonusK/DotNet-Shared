@@ -59,9 +59,8 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         if (errorCount > 0)
             throw new ValidationException(validationErrors);
         else if (otherCount > 0)
-            if (request is IForcableValidatableCommand forcableCommand)
-                if (!forcableCommand.Force)
-                    throw new ValidationException(validationErrors);
+            if (request is not IForcableValidatableCommand forcableCommand || !forcableCommand.Force)
+                throw new ValidationException(validationErrors);
 
         return await next();
     }

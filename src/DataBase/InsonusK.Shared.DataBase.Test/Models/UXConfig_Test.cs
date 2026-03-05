@@ -1,5 +1,4 @@
 using InsonusK.Shared.DataBase.Models;
-using Xunit;
 
 namespace InsonusK.Shared.DataBase.Test.Models;
 

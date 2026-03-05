@@ -2,7 +2,6 @@ using Divergic.Logging.Xunit;
 using InsonusK.Shared.Command.EntityLoading.Helper;
 using InsonusK.Shared.Command.EntityLoading.Services;
 using InsonusK.Shared.Command.Interfaces;
-using InsonusK.Shared.Command.Interfaces.Models;
 using InsonusK.Shared.DataBase.Models;
 using Microsoft.Extensions.Logging;
 using NSubstitute;

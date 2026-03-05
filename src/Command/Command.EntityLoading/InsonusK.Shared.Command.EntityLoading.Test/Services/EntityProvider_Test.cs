@@ -5,7 +5,6 @@ using InsonusK.Shared.Command.Interfaces;
 using InsonusK.Shared.DataBase.Models;
 using InsonusK.Shared.Models.Common;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit.Abstractions;

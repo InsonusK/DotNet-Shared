@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="InsonusK.Shared.Command.Validation.Test" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="../../../DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj" />
     <ProjectReference Include="../../Command.EntityLoading/InsonusK.Shared.Command.EntityLoading/InsonusK.Shared.Command.EntityLoading.csproj" />
     <ProjectReference Include="../../Command.Interfaces/InsonusK.Shared.Command.Interfaces/InsonusK.Shared.Command.Interfaces.csproj" />
