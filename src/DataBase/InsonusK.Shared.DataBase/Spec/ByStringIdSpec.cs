@@ -1,10 +1,11 @@
 using Ardalis.GuardClauses;
 using Ardalis.Specification;
 using InsonusK.Shared.DataBase.Models;
+using InsonusK.Shared.Models.Common;
 
 namespace InsonusK.Shared.DataBase.Spec;
 
-public class ByStringIdSpec<T> : SingleResultSpecification<T>, ISingleResultSpecification<T> where T : ConstantGuidEntity
+public class ByStringIdSpec<T> : SingleResultSpecification<T>, ISingleResultSpecification<T> where T : EntityBase, IGuidModel
 {
     public readonly bool QueryIsEmpty = false;
     public static bool TryBuild(string stringId, out ByStringIdSpec<T> spec)
