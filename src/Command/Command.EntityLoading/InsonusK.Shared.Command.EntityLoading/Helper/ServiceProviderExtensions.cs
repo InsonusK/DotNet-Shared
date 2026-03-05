@@ -9,6 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace InsonusK.Shared.Command.EntityLoading.Helper;
 public static class ServiceProviderExtensions
 {
+    /// <summary>
+    /// Регистрирует зависимости для работы с загрузкой контекста сущностей: PipelineBehavior, CommandContextManager и EntityProvider.
+    /// </summary>
+    /// <param name="sc">Коллекция сервисов.</param>
+    /// <param name="config">Конфигурация (опционально).</param>
+    /// <returns>Коллекция сервисов.</returns>
     public static IServiceCollection AddCommandEntityLoading(this IServiceCollection sc,  IConfiguration? config = null)
     {
         sc.AddScoped(typeof(IPipelineBehavior<,>), typeof(EntityLoadingBehavior<,>));

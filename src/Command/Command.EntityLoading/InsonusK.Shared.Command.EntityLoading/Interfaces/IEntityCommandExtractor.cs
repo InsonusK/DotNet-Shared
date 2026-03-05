@@ -12,5 +12,11 @@ namespace InsonusK.Shared.Command.EntityLoading.Interfaces;
 /// <typeparam name="TEntity">Тип сущности</typeparam>
 public interface IEntityCommandExtractor<TEntity> where TEntity : class
 {
+    /// <summary>
+    /// Извлекает сущность на основе ключа идентификации.
+    /// </summary>
+    /// <param name="entityKey">Ключ сущности с ее идентификатором и типом.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Загруженная сущность.</returns>
     public Task<TEntity> GetAsync(IEntityKey entityKey, CancellationToken cancellationToken = default);
 }
