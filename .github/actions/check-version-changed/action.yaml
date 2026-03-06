@@ -1,0 +1,26 @@
+name: 'Check Version Changed'
+description: 'Checks if project version was changed and if it must be changed according to diffs.'
+inputs:
+  needs_change:
+    description: 'JSON object from define-version-need-changed'
+    required: true
+  projects_path:
+    description: 'Path to projects.json'
+    required: true
+    default: '.github/config/projects.json'
+  base_ref:
+    description: 'Base ref to compare against (e.g. origin/develop)'
+    required: true
+outputs:
+  versions:
+    description: 'JSON string with mustChanged and hasChanged per project'
+    value: ${{ steps.check.outputs.versions }}
+runs:
+  using: "composite"
+  steps:
+    - name: Run version check
+      id: check
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: |
+        node ${{ github.action_path }}/main.js '${{ inputs.needs_change }}' '${{ inputs.projects_path }}' '${{ inputs.base_ref }}'

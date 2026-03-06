@@ -65,7 +65,7 @@ jobs:
       - name: Testing
         id: testing
         if: steps.detect.outputs.changed == 'true'
-        uses: ./.github/actions/testing
+        uses: ./.github/actions/run-unittest
 
       - name: Build package
         id: build

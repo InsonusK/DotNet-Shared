@@ -1,0 +1,19 @@
+name: 'Define is Need Unittest'
+description: 'Determines if any project needs a version bump, and therefore if any unit tests should be executed globally'
+inputs:
+  needs_change:
+    description: 'JSON object from define-version-need-changed'
+    required: true
+outputs:
+  is_need_unittest:
+    description: 'Boolean string true or false'
+    value: ${{ steps.check.outputs.is_need_unittest }}
+runs:
+  using: "composite"
+  steps:
+    - name: Evaluate unittest need
+      id: check
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: |
+        node ${{ github.action_path }}/main.js '${{ inputs.needs_change }}'

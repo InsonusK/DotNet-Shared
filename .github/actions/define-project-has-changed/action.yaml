@@ -1,0 +1,24 @@
+name: 'Define Project Changed'
+description: 'Checks which parts of projects have changed based on projects.json'
+inputs:
+  projects_path:
+    description: 'Path to projects.json'
+    required: true
+    default: '.github/config/projects.json'
+  base_ref:
+    description: 'Base ref to compare against (e.g. origin/develop)'
+    required: true
+outputs:
+  changes:
+    description: 'JSON string of changes for each project'
+    value: ${{ steps.check.outputs.changes }}
+runs:
+  using: "composite"
+  steps:
+    - name: Run check
+      id: check
+      shell: bash
+      # Ensure working directory is the repo root so path resolution works correctly
+      working-directory: ${{ github.workspace }}
+      run: |
+        node ${{ github.action_path }}/main.js "${{ inputs.projects_path }}" "${{ inputs.base_ref }}"
