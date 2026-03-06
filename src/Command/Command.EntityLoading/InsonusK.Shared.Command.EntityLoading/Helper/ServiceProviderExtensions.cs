@@ -16,7 +16,10 @@ public static class ServiceProviderExtensions
     /// <returns>Коллекция сервисов.</returns>
     public static IServiceCollection AddCommandEntityLoading(this IServiceCollection sc,  IConfiguration? config = null)
     {
-        sc.AddScoped(typeof(IPipelineBehavior<,>), typeof(EntityLoadingBehavior<,>));
+        sc.AddMediatR(cfg =>
+        {
+            cfg.AddOpenBehavior(typeof(EntityLoadingBehavior<,>));
+        });
         sc.AddScoped<CommandContextManager>();
         sc.AddScoped<ICommandContextSource>(sp => sp.GetRequiredService<CommandContextManager>());
         sc.AddScoped<EntityProvider>();

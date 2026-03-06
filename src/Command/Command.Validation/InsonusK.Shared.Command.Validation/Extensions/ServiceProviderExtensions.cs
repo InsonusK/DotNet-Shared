@@ -1,5 +1,7 @@
+using FluentValidation;
 using InsonusK.Shared.Command.Validation.Pipeline;
-using MediatR;
+using InsonusK.Shared.Command.Validation.Validators;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InsonusK.Shared.Command.Validation.Extensions;
@@ -13,8 +15,14 @@ public static class ServiceProviderExtensions
     /// This enables automatic validation of commands before their execution.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
-    public static void AddCommandValidation(this IServiceCollection services)
+    /// <param name="config">The configuration (optional).</param>
+    public static void AddCommandValidation(this IServiceCollection services, IConfiguration? config = null)
     {
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddMediatR(cfg =>
+        {
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        });
+        services.AddTransient(typeof(IValidator<>), typeof(CommandWithEntityKeysValidator<>));
+        services.AddTransient(typeof(IValidator<>), typeof(CommandWithBodyValidator<,>));
     }
 }

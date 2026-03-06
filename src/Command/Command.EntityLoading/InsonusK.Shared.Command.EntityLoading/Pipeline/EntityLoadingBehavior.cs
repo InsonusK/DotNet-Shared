@@ -48,12 +48,13 @@ internal class EntityLoadingBehavior<TRequest, TResponse> : IPipelineBehavior<TR
         try
         {
             var newContext = await _entityProvider.CreateNewFor(request, cancellationToken);
-            _commandContextManager.StartFor(request, newContext);
-            
+            _logger.LogInformation("Starting New CommandContext for command {CommandType}:\n{request}", typeof(TRequest).Name, request.ToString());
+            _commandContextManager.StartFor(request, newContext);            
             return await next();
         }
         finally
         {
+            _logger.LogInformation("Ending CommandContext for command {CommandType}:\n{request}", typeof(TRequest).Name, request.ToString());
             _commandContextManager.EndFor(request);
         }
 
