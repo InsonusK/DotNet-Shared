@@ -23,7 +23,6 @@
     <ProjectReference Include="../../Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="./../../../LICENSE" Pack="true" PackagePath="/" />
     <None Include="./../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

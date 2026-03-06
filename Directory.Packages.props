@@ -27,5 +27,7 @@
     <PackageVersion Include="Divergic.Logging.Xunit" Version="4.3.1" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
   </ItemGroup>
-
+   <ItemGroup>
+    <None Include="./LICENSE" Pack="true" PackagePath="/" />
+  </ItemGroup>
 </Project>
