@@ -2,7 +2,6 @@ using Divergic.Logging.Xunit;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 using InsonusK.Shared.DataBase.Spec;
-using InsonusK.Shared.DataBase.Models;
 
 namespace InsonusK.Shared.DataBase.Test.Spec;
 
@@ -92,7 +91,8 @@ public class ByStringIdSpec_Test : LoggingTestsBase<ByStringIdSpec_Test>
         Logger.LogDebug("Test ASSERT");
 
         Assert.False(asserted_result);
-        Assert.Null(asserted_spec);
+        Assert.NotNull(asserted_spec);
+        Assert.True(asserted_spec.QueryIsEmpty);
 
         #endregion
     }
@@ -111,7 +111,7 @@ public class ByStringIdSpec_Test : LoggingTestsBase<ByStringIdSpec_Test>
         #region Act & Assert
         Logger.LogDebug("Test ACT");
 
-        Assert.Throws<ArgumentException>(() => new ByStringIdSpec<TestEntity>(input, tryParse: false));
+        Assert.Throws<ArgumentException>(() => new ByStringIdSpec<TestEntity>(input, ExceptinoIfNotParsed: true));
 
         #endregion
     }
@@ -131,7 +131,7 @@ public class ByStringIdSpec_Test : LoggingTestsBase<ByStringIdSpec_Test>
         #region Act
         Logger.LogDebug("Test ACT");
 
-        var asserted_spec = new ByStringIdSpec<TestEntity>(input, tryParse: true);
+        var asserted_spec = new ByStringIdSpec<TestEntity>(input, ExceptinoIfNotParsed: false);
 
         #endregion
 

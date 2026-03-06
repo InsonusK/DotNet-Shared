@@ -12,7 +12,6 @@ public static class ExceptionHandlerModuleRegister
     public static IServiceCollection Register(this IServiceCollection sc, IConfiguration? config = null)
     {
         var assembly = typeof(ExceptionHandlerModuleRegister).Assembly;
-        sc.AddScoped(typeof(IPipelineBehavior<,>), typeof(CommandValidationHandler<,>));
         sc.AddScoped(typeof(IPipelineBehavior<,>), typeof(ExceptionHandler<,>));
         sc.AddScoped(typeof(ArdalisResultReflectionFactory<>));
         sc.AddValidatorsFromAssembly(assembly);

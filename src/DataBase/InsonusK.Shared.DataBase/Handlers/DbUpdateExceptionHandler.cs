@@ -2,7 +2,6 @@ using Ardalis.Result;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Npgsql;
-using InsonusK.Shared.DataBase.Models;
 using InsonusK.Shared.DataBase.Models.Interfaces;
 
 namespace InsonusK.Shared.DataBase.Handlers;

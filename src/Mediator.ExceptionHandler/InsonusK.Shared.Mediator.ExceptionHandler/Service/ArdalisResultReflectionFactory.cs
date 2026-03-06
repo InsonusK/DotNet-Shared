@@ -2,6 +2,7 @@ using System.Reflection;
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using FluentValidation.Results;
+using InsonusK.Shared.Command.Exceptions;
 using Microsoft.Extensions.Logging;
 
 namespace InsonusK.Shared.Mediator.ExceptionHandler.Service;
@@ -20,7 +21,7 @@ public class ArdalisResultReflectionFactory<TResult> where TResult : IResult
         if (exception == null)
             throw new ArgumentNullException(nameof(exception));
 
-        return Map(exception.innerResult);
+        return Map(exception.InnerResult);
     }
     public TResult Map(IResult result)
     {
