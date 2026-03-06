@@ -4,6 +4,13 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>InsonusK.Shared.Command.EntityLoading</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>InsonusK</Authors>
+    <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
+    <Description>Shared command entity loading logic</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="InsonusK.Shared.Command.EntityLoading.Test" />
@@ -13,7 +20,7 @@
     <ProjectReference Include="../../Command.Interfaces/InsonusK.Shared.Command.Interfaces/InsonusK.Shared.Command.Interfaces.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Ardalis.Specification" Version="9.3.1" />
-    <PackageReference Include="MediatR" Version="14.1.0" />
+    <PackageReference Include="Ardalis.Specification"/>
+    <PackageReference Include="MediatR"/>
   </ItemGroup>
 </Project>

@@ -1,7 +1,6 @@
 using InsonusK.Shared.Command.EntityLoading.Interfaces;
 using InsonusK.Shared.Command.EntityLoading.Pipeline;
 using InsonusK.Shared.Command.EntityLoading.Services;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
