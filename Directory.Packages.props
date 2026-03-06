@@ -2,8 +2,12 @@
   <PropertyGroup>
     <!-- Enable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <TargetFramework>net10.0</TargetFramework>
+    <Authors>InsonusK</Authors>
+    <RepositoryUrl>https://github.com/InsonusK/DotNet-Shared</RepositoryUrl>
   </PropertyGroup>
- <ItemGroup>
+
+  <ItemGroup>
     <PackageVersion Include="MediatR" Version="14.1.0" />
     <PackageVersion Include="Ardalis.Specification" Version="9.3.1" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />

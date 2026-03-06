@@ -1,13 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>InsonusK.Shared.Command.Interfaces</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
-    <Authors>InsonusK</Authors>
-    <PackageProjectUrl>https://github.com/InsonusK/DotNet-Shared</PackageProjectUrl>
     <Description>Shared command interfaces</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
