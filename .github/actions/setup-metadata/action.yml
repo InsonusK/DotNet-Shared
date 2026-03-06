@@ -1,0 +1,16 @@
+name: 'Setup Monorepo Metadata'
+description: 'Gathers metadata about .NET projects, dependencies, and changed files'
+inputs:
+  github-token:
+    description: 'GitHub token to fetch commit diffs reliably'
+    required: true
+  base-branch:
+    description: 'Base branch for diff comparison (e.g., origin/develop)'
+    required: true
+    default: 'origin/main'
+outputs:
+  context-path:
+    description: 'Path to the generated ci-context.json file'
+runs:
+  using: 'node20'
+  main: 'index.js'
