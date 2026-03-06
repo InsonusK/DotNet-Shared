@@ -20,9 +20,10 @@ public static class ServiceProviderExtensions
     {
         services.AddMediatR(cfg =>
         {
-            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+            cfg.RegisterServicesFromAssembly(typeof(ValidationBehavior<,>).Assembly);
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>), ServiceLifetime.Scoped);
         });
         services.AddTransient(typeof(IValidator<>), typeof(CommandWithEntityKeysValidator<>));
-        services.AddTransient(typeof(IValidator<>), typeof(CommandWithBodyValidator<,>));
+        services.AddTransient(typeof(IValidator<>), typeof(CommandWithBodyValidator<>));
     }
 }

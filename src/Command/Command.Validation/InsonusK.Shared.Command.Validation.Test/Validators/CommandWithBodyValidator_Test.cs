@@ -5,6 +5,8 @@ using InsonusK.Shared.Command.Validation.Validators;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 using FluentValidation;
+using NSubstitute;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace InsonusK.Shared.Command.Validation.Test.Validators;
 
@@ -12,18 +14,28 @@ public class MockBodyValidator : AbstractValidator<string>
 {
     public MockBodyValidator()
     {
-        RuleFor(x => x).NotEmpty();
+        RuleFor(x => x).Must(value => value.Contains("aaa")).WithErrorCode("Code1");
     }
 }
-
+public class MockBody2Validator : AbstractValidator<string>
+{
+    public MockBody2Validator()
+    {
+        RuleFor(x => x).Length(5, 10).WithErrorCode("Code2");
+    }
+}
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class CommandWithBodyValidator_Test : LoggingTestsBase<CommandWithBodyValidator_Test>
 {
-    private readonly CommandWithBodyValidator<MockCommandWithBody, string> _validator;
+    private readonly CommandWithBodyValidator<MockCommandWithBody> _validator;
+    private readonly IServiceProvider _serviceProvider;
 
     public CommandWithBodyValidator_Test(ITestOutputHelper output, LogLevel logLevel = LogLevel.Debug) : base(output, logLevel)
     {
-        _validator = new CommandWithBodyValidator<MockCommandWithBody, string>(new[] { new MockBodyValidator() });
+        _serviceProvider = Substitute.For<IServiceProvider>();
+        var validators = new IValidator<string>[] { new MockBodyValidator() };
+        _serviceProvider.GetService(typeof(IEnumerable<IValidator<string>>)).Returns(validators);
+        _validator = new CommandWithBodyValidator<MockCommandWithBody>(_serviceProvider);
     }
 
     /// <summary>
@@ -59,7 +71,7 @@ public class CommandWithBodyValidator_Test : LoggingTestsBase<CommandWithBodyVal
     /// expected_result: No validation errors
     /// </summary>
     [Fact]
-    public void test_Validate_WHEN_BodyIsNotNull_And_Required_THEN_Success()
+    public async Task test_Validate_WHEN_BodyIsNotNull_And_Required_THEN_SuccessAsync()
     {
         #region Arrange
         Logger.LogDebug("Test ARRANGE");
@@ -68,7 +80,7 @@ public class CommandWithBodyValidator_Test : LoggingTestsBase<CommandWithBodyVal
 
         #region Act
         Logger.LogDebug("Test ACT");
-        var result = _validator.TestValidate(command);
+        var result = await _validator.TestValidateAsync(command);
         #endregion
 
         #region Assert
@@ -84,7 +96,7 @@ public class CommandWithBodyValidator_Test : LoggingTestsBase<CommandWithBodyVal
     /// expected_result: No validation errors
     /// </summary>
     [Fact]
-    public void test_Validate_WHEN_BodyIsNull_And_NotRequired_THEN_Success()
+    public async Task test_Validate_WHEN_BodyIsNull_And_NotRequired_THEN_SuccessAsync()
     {
         #region Arrange
         Logger.LogDebug("Test ARRANGE");
@@ -93,7 +105,7 @@ public class CommandWithBodyValidator_Test : LoggingTestsBase<CommandWithBodyVal
 
         #region Act
         Logger.LogDebug("Test ACT");
-        var result = _validator.TestValidate(command);
+        var result = await _validator.TestValidateAsync(command);
         #endregion
 
         #region Assert

@@ -18,6 +18,7 @@ public static class ServiceProviderExtensions
     {
         sc.AddMediatR(cfg =>
         {
+            cfg.RegisterServicesFromAssembly(typeof(EntityLoadingBehavior<,>).Assembly);
             cfg.AddOpenBehavior(typeof(EntityLoadingBehavior<,>));
         });
         sc.AddScoped<CommandContextManager>();

@@ -10,6 +10,10 @@ public class MockCommandWithBody : ICommandWithBody<string>
     public string Body { get; set; }
 
     public bool BodyRequired { get; set; }
+
+    public Type BodyType => typeof(string);
+
+    public object objBody => Body;
 }
 
 public class MockCommandWithEntityKeys : ICommandWithEntityKeys
