@@ -1,8 +1,10 @@
 using System.Collections.Concurrent;
+using Ardalis.GuardClauses;
 using InsonusK.Shared.Command.EntityLoading.Interfaces;
 using InsonusK.Shared.Command.EntityLoading.Tools;
 using InsonusK.Shared.Command.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace InsonusK.Shared.Command.EntityLoading.Services;
 
@@ -38,7 +40,7 @@ internal class CommandContextManager : ICommandContextSource
         StartFor(command, context);
         return context;
     }
-    
+
     /// <summary>
     /// Завершает отслеживание контекста для заданной команды и удаляет его.
     /// </summary>
@@ -53,6 +55,13 @@ internal class CommandContextManager : ICommandContextSource
 
     public async Task<ICommandContext> GetForAsync<TRequest>(TRequest command, CancellationToken cancellationToken = default) where TRequest : ICommandWithEntityKeys, IBaseRequest
     {
-        return _commandContext[command];
+        try
+        {
+            return _commandContext[command];
+        }
+        catch (KeyNotFoundException ex)
+        {
+            throw new KeyNotFoundException("No context found for this command. Perhase you call AddCommandEntityLoading after other command Pipeline and handlers");
+        }
     }
 }

@@ -8,6 +8,8 @@ using NSubstitute;
 using Xunit.Abstractions;
 using Ardalis.Specification;
 using Ardalis.GuardClauses;
+using InsonusK.Shared.Command.Exceptions;
+using Ardalis.Result;
 
 namespace InsonusK.Shared.Command.EntityLoading.Test.Helper;
 
@@ -128,7 +130,8 @@ public class CommandContextExtensions_Test : LoggingTestsBase<CommandContextExte
         #region Assert
         Logger.LogDebug("Test ASSERT");
         Assert.NotNull(exception);
-        Assert.IsType<NotFoundException>(exception);
+        var resultEx = Assert.IsType<ResultException>(exception);
+        Assert.True(resultEx.InnerResult.Status == ResultStatus.NotFound);
         #endregion
     }
 }

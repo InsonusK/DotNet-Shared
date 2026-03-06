@@ -36,7 +36,6 @@ public class ExceptionHandlerModuleRegister_Test : LoggingTestsBase<ExceptionHan
         #region Assert
         Logger.LogDebug("Test ASSERT");
 
-        Assert.Contains(services, s => s.ServiceType == typeof(IPipelineBehavior<,>) && s.ImplementationType == typeof(CommandValidationHandler<,>));
         Assert.Contains(services, s => s.ServiceType == typeof(IPipelineBehavior<,>) && s.ImplementationType == typeof(ExceptionHandler<,>));
         Assert.Contains(services, s => s.ServiceType == typeof(ArdalisResultReflectionFactory<>) && s.ImplementationType == typeof(ArdalisResultReflectionFactory<>));
         

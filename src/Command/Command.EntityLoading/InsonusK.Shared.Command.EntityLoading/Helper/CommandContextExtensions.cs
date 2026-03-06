@@ -1,6 +1,8 @@
 using Ardalis.GuardClauses;
+using Ardalis.Result;
 using InsonusK.Shared.Command.EntityLoading.Services;
 using InsonusK.Shared.Command.EntityLoading.Tools;
+using InsonusK.Shared.Command.Exceptions;
 using InsonusK.Shared.Command.Interfaces;
 
 namespace InsonusK.Shared.Command.EntityLoading.Helper;
@@ -25,7 +27,7 @@ public static class CommandContextExtensions
             if (entity != null)
                 context.AddEntity(entityKey.EntityType, entity);
             else
-                throw new NotFoundException(entityKey.StringId, $"Entity of type {entityKey.EntityType.Name} with id {entityKey.StringId} not found");
+                throw new ResultException(Result.NotFound($"Entity of type {entityKey.EntityType.Name} with id {entityKey.StringId} not found"));
         }
         return context;
     }
