@@ -19,10 +19,28 @@
             "artifact": "nupkg-models"
         },
         {
-            "folder": "src/Mediator.CommandContext/**",
-            "csproj": "src/Mediator.CommandContext/InsonusK.Shared.Mediator.CommandContext/InsonusK.Shared.Mediator.CommandContext.csproj",
-            "package-id": "InsonusK.Shared.Mediator.CommandContext",
-            "artifact": "nupkg-mediator-command-context"
+            "folder": "src/Command/Command.EntityLoading/**",
+            "csproj": "src/Command/Command.EntityLoading/InsonusK.Shared.Command.EntityLoading/InsonusK.Shared.Command.EntityLoading.csproj",
+            "package-id": "InsonusK.Shared.Command.EntityLoading",
+            "artifact": "nupkg-mediator-command-entity-loading"
+        },
+        {
+            "folder": "src/Command/Command.Exceptions/**",
+            "csproj": "src/Command/Command.Exceptions/InsonusK.Shared.Command.Exceptions/InsonusK.Shared.Command.Exceptions.csproj",
+            "package-id": "InsonusK.Shared.Command.Exceptions",
+            "artifact": "nupkg-mediator-command-exceptions"
+        },        
+        {
+            "folder": "src/Command/Command.Interfaces/**",
+            "csproj": "src/Command/Command.Interfaces/InsonusK.Shared.Command.Interfaces/InsonusK.Shared.Command.Interfaces.csproj",
+            "package-id": "InsonusK.Shared.Command.Interfaces",
+            "artifact": "nupkg-mediator-command-interfaces"
+        },   
+        {
+            "folder": "src/Command/Command.Validation/**",
+            "csproj": "src/Command/Command.Validation/InsonusK.Shared.Command.Validation/InsonusK.Shared.Command.Validation.csproj",
+            "package-id": "InsonusK.Shared.Command.Validation",
+            "artifact": "nupkg-mediator-command-validation"
         },
         {
             "folder": "src/Mediator.ExceptionHandler/**",
