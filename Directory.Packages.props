@@ -2,9 +2,6 @@
   <PropertyGroup>
     <!-- Enable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <TargetFramework>net10.0</TargetFramework>
-    <Authors>InsonusK</Authors>
-    <RepositoryUrl>https://github.com/InsonusK/DotNet-Shared</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
