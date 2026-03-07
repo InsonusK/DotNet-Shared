@@ -4,7 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>InsonusK.Shared.Command.EntityLoading</PackageId>
-    <PackageVersion>1.0.3</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <Description>Shared command entity loading logic</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -16,6 +16,7 @@
     <ProjectReference Include="../../../DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj" />
     <ProjectReference Include="../../Command.Exceptions/InsonusK.Shared.Command.Exceptions/InsonusK.Shared.Command.Exceptions.csproj" />
     <ProjectReference Include="../../Command.Interfaces/InsonusK.Shared.Command.Interfaces/InsonusK.Shared.Command.Interfaces.csproj" />
+    <ProjectReference Include="../../Command.Service.Interface/InsonusK.Shared.Command.Service.Interface/InsonusK.Shared.Command.Service.Interface.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Ardalis.Specification" />
