@@ -29,7 +29,7 @@ for (const projName of Object.keys(context.projects)) {
 
     const projectNeedsUpdate = Object.values(reasons).some(r => r === true);
     if (projectNeedsUpdate) 
-        console.log("Project " + projName + " needs update. Reason: " + reasons.filter(r => r === true));
+        console.log("Project " + projName + " needs update.\nReason: " + reasons.filter(r => r === true));
     flags[projName] = !!projectNeedsUpdate;
 }
 
