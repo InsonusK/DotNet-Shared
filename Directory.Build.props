@@ -4,4 +4,7 @@
     <Authors>InsonusK</Authors>
     <RepositoryUrl>https://github.com/InsonusK/DotNet-Shared</RepositoryUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="./LICENSE" Pack="true" PackagePath="/" />
+  </ItemGroup>
 </Project>
