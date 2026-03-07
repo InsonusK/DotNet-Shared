@@ -10,7 +10,7 @@ if (!fs.existsSync(contextPath)) {
 }
 
 const context = JSON.parse(fs.readFileSync(contextPath, 'utf8'));
-console.log('context', JSON.stringify(context, null, 2));
+console.log('context: ', JSON.stringify(context, null, 2));
 const flags = {};
 
 const commonChanged = context.common_changes.licence_changed || context.common_changes.directory_build_props_changed;
@@ -29,7 +29,7 @@ for (const projName of Object.keys(context.projects)) {
 
     const projectNeedsUpdate = Object.values(reasons).some(r => r === true);
     if (projectNeedsUpdate) 
-        console.log("Project " + projName + " needs update.\nReason: " + reasons);
+        console.log("Project " + projName + " needs update.\nReason: " + JSON.stringify(reasons, null, 2));
     flags[projName] = !!projectNeedsUpdate;
 }
 
@@ -53,7 +53,7 @@ for (const projName of Object.keys(flags)) {
 // Write to GITHUB_OUTPUT so subsequent steps can check if tests are needed
 const isNeedUnittest = Object.values(flags).some(f => f === true);
 console.log('isNeedUnittest', isNeedUnittest);
-console.log('matrixProjects', JSON.stringify(matrixProjects, null, 2));
+console.log('matrixProjects: ', JSON.stringify(matrixProjects, null, 2));
 if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `is_need_unittest=${isNeedUnittest}\n`);
 

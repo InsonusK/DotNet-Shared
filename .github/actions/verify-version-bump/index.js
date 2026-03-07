@@ -11,9 +11,9 @@ if (!fs.existsSync(contextPath) || !fs.existsSync(flagsPath)) {
 }
 
 const context = JSON.parse(fs.readFileSync(contextPath, 'utf8'));
-console.log('context', JSON.stringify(context, null, 2));
+console.log('context: ', JSON.stringify(context, null, 2));
 const flags = JSON.parse(fs.readFileSync(flagsPath, 'utf8'));
-console.log('flags', JSON.stringify(flags, null, 2));
+console.log('flags: ', JSON.stringify(flags, null, 2));
 
 let failed = false;
 
