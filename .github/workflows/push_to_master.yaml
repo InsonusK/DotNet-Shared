@@ -75,44 +75,9 @@ jobs:
       csproj: ${{ matrix.project.csproj }}
       package-id: ${{ matrix.project.package-id }}
       artifact-name: ${{ matrix.project.artifact }}
-      create-release: false
+      create-release: true
       owner: ${{ github.repository_owner }}
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
       nuget-token: ${{ secrets.NUGET_TOKEN }}
 
-  release:
-    needs: [check-commit-changes, publish-package]
-    if: needs.check-commit-changes.outputs.matrix != '{"project":[]}'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: ci-context
-
-      - name: Create Release Notes
-        id: release-notes
-        run: |
-          echo "## Updated Packages" > release-notes.md
-          node -e "
-            const fs = require('fs');
-            const flags = JSON.parse(fs.readFileSync('version-change-flags.json'));
-            const context = JSON.parse(fs.readFileSync('ci-context.json'));
-            for(const proj of Object.keys(flags)) {
-              if (flags[proj]) {
-                 console.log('- **' + proj + '**: \`' + context.projects[proj].version.new + '\`');
-              }
-            }
-          " >> release-notes.md
-          
-      - name: Create Global Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: release-${{ github.run_number }}
-          name: Release ${{ github.run_number }}
-          body_path: release-notes.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -48,7 +48,6 @@ jobs:
 
       - name: Build package
         id: build
-        if: steps.detect.outputs.changed == 'true'
         uses: ./.github/actions/build
         with:
           csproj: ${{ inputs.csproj }}
@@ -57,7 +56,6 @@ jobs:
 
       - name: Publish package
         id: publish
-        if: steps.detect.outputs.changed == 'true'
         uses: ./.github/actions/publish
         with:
           artifact-name: ${{ inputs.artifact-name }}
