@@ -10,22 +10,77 @@ permissions:
   packages: write
 
 jobs:
-  load-matrix:
-    uses: ./.github/workflows/get-matrix.yml
+  check-commit-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      is_need_unittest: ${{ steps.evaluate-version-flags.outputs.is_need_unittest }}
+      matrix: ${{ steps.evaluate-version-flags.outputs.matrix }}
+      suffix: ${{ steps.suffix.outputs.value }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
 
-  build-and-publish:
-    needs: load-matrix
+      - name: Generate Suffix
+        id: suffix
+        run: echo "value=$(date +'%Y%m%d').${{ github.run_number }}" >> $GITHUB_OUTPUT
+
+      - name: Setup CI Context
+        id: setup-ci-context
+        uses: ./.github/actions/setup-ci-context
+        with:
+          base_ref: ${{ github.event.before }}
+
+      - name: Evaluate Version Flags
+        id: evaluate-version-flags
+        uses: ./.github/actions/evaluate-version-flags
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-context
+          path: |
+            ci-context.json
+            version-change-flags.json
+
+  run-unittest:
+    needs: [check-commit-changes]
+    runs-on: ubuntu-latest
+    if: needs.check-commit-changes.outputs.is_need_unittest == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test Project
+        uses: ./.github/actions/run-unittest
+
+  version-check:
+    needs: [check-commit-changes]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ci-context
+
+      - name: Verify Version Bump
+        uses: ./.github/actions/verify-version-bump
+
+  publish-package:
+    needs: [check-commit-changes, run-unittest, version-check]
+    if: needs.check-commit-changes.outputs.matrix != '{"project":[]}'
     strategy:
-      matrix: ${{ fromJSON(needs.load-matrix.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.check-commit-changes.outputs.matrix) }}
       fail-fast: false
     
-    uses: ./.github/workflows/project-pipeline.yaml
+    uses: ./.github/workflows/project-build-pipeline.yaml
     with:
       project-folder: ${{ matrix.project.folder }}
       csproj: ${{ matrix.project.csproj }}
       package-id: ${{ matrix.project.package-id }}
       artifact-name: ${{ matrix.project.artifact }}
-      version-suffix: beta.${{ github.run_number }}
+      version-suffix: beta.${{ needs.check-commit-changes.outputs.suffix }}
       create-release: false
       owner: ${{ github.repository_owner }}
     secrets:

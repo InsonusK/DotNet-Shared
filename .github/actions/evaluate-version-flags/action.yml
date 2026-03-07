@@ -1,0 +1,10 @@
+name: 'Evaluate Version Flags'
+description: 'Reads ci-context.json and outputs version-change-flags.json based on rules.'
+runs:
+  using: 'node20'
+  main: 'index.js'
+outputs:
+  is_need_unittest:
+    description: 'Boolean flag indicating if any project needs updating'
+  matrix:
+    description: 'JSON matrix of changed projects for build/publish jobs'
