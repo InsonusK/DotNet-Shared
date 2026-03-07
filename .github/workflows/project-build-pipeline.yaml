@@ -46,27 +46,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Detect changes
-        id: detect
-        uses: ./.github/actions/detect-changes
-        with:
-          project-folder: ${{ inputs.project-folder }}
-
-      - name: Check version
-        id: check
-        if: steps.detect.outputs.changed == 'true'
-        uses: ./.github/actions/check-version
-        with:
-          csproj: ${{ inputs.csproj }}
-          package-id: ${{ inputs.package-id }}
-          owner: ${{ inputs.owner }}
-          github-token: ${{ secrets.github-token }}
-
-      - name: Testing
-        id: testing
-        if: steps.detect.outputs.changed == 'true'
-        uses: ./.github/actions/run-unittest
-
       - name: Build package
         id: build
         if: steps.detect.outputs.changed == 'true'
