@@ -2,8 +2,7 @@ using Microsoft.Extensions.Logging;
 using Divergic.Logging.Xunit;
 using Xunit.Abstractions;
 using Ardalis.Result;
-using InsonusK.Shared.Mediator.ExceptionHandler;
-using FluentValidation.Results;
+using InsonusK.Shared.Command.Exceptions;
 
 namespace InsonusK.Shared.Mediator.ExceptionHandler.Test;
 

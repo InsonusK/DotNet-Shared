@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using InsonusK.Shared.Mediator.ExceptionHandler.Service;
+using InsonusK.Shared.Command.Exceptions;
 
 namespace InsonusK.Shared.Mediator.ExceptionHandler.Handler;
 

@@ -1,28 +1,17 @@
 using Ardalis.GuardClauses;
 using Ardalis.Specification;
 using InsonusK.Shared.DataBase.Models;
+using InsonusK.Shared.Models.Common;
 
 namespace InsonusK.Shared.DataBase.Spec;
 
-public class ByStringIdSpec<T> : Specification<T>, ISingleResultSpecification<T> where T : ConstantGuidEntity
+public class ByStringIdSpec<T> : SingleResultSpecification<T>, ISingleResultSpecification<T> where T : EntityBase, IGuidModel
 {
     public readonly bool QueryIsEmpty = false;
     public static bool TryBuild(string stringId, out ByStringIdSpec<T> spec)
     {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-        spec = null;
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-
-        if (Guid.TryParse(stringId, out var guid))
-        {
-            spec = new ByStringIdSpec<T>(guid);
-        }
-        else if (int.TryParse(stringId, out var intId))
-        {
-            spec = new ByStringIdSpec<T>(intId);
-        }
-
-        return spec != null;
+        spec = new ByStringIdSpec<T>(stringId);
+        return !spec.QueryIsEmpty;
     }
     public ByStringIdSpec(Guid guidId)
     {
@@ -32,7 +21,7 @@ public class ByStringIdSpec<T> : Specification<T>, ISingleResultSpecification<T>
     {
         Query.Where(x => x.Id == Id);
     }
-    public ByStringIdSpec(string stringId, bool tryParse = false)
+    public ByStringIdSpec(string stringId, bool ExceptinoIfNotParsed = false)
     {
         if (Guid.TryParse(stringId, out var guid))
         {
@@ -42,18 +31,18 @@ public class ByStringIdSpec<T> : Specification<T>, ISingleResultSpecification<T>
         {
             Query.Where(x => x.Id == intId);
         }
-        else if (tryParse)
+        else if (ExceptinoIfNotParsed)
+            throw new ArgumentException($"String id is not Guid or Int: {stringId}");
+        else
         {
             Query.Where(x => false);
             this.QueryIsEmpty = true;
         }
-        else
-            throw new ArgumentException($"String id is not Guid or Int: {stringId}");
     }
 
 }
 
-public class ByStringIdsSpec<T> : Specification<T> where T : ConstantGuidEntity
+public class ByStringIdsSpec<T> : Specification<T>, ISpecification<T> where T : ConstantGuidEntity
 {
     private List<string> _wrongFormatList = new List<string>();
     public string[] WrongFormatList => _wrongFormatList.ToArray();

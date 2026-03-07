@@ -1,0 +1,5 @@
+name: 'Verify Version Bump'
+description: 'Verifies if versions were correctly bumped for changed projects.'
+runs:
+  using: 'node20'
+  main: 'index.js'

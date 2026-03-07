@@ -3,7 +3,6 @@ using Divergic.Logging.Xunit;
 using Xunit.Abstractions;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using InsonusK.Shared.Mediator.ExceptionHandler;
 using InsonusK.Shared.Mediator.ExceptionHandler.Handler;
 using InsonusK.Shared.Mediator.ExceptionHandler.Service;
 using InsonusK.Shared.Mediator.ExceptionHandler.Validators;
@@ -37,7 +36,6 @@ public class ExceptionHandlerModuleRegister_Test : LoggingTestsBase<ExceptionHan
         #region Assert
         Logger.LogDebug("Test ASSERT");
 
-        Assert.Contains(services, s => s.ServiceType == typeof(IPipelineBehavior<,>) && s.ImplementationType == typeof(CommandValidationHandler<,>));
         Assert.Contains(services, s => s.ServiceType == typeof(IPipelineBehavior<,>) && s.ImplementationType == typeof(ExceptionHandler<,>));
         Assert.Contains(services, s => s.ServiceType == typeof(ArdalisResultReflectionFactory<>) && s.ImplementationType == typeof(ArdalisResultReflectionFactory<>));
         

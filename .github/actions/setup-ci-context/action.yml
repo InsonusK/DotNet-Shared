@@ -1,0 +1,9 @@
+name: 'Setup CI Context'
+description: 'Dynamically analyses project modifications and dependencies to generate ci-context.json.'
+inputs:
+  base_ref:
+    description: 'Base ref (e.g. branch or commit SHA)'
+    required: true
+runs:
+  using: 'node20'
+  main: 'index.js'

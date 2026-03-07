@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>InsonusK.Shared.Command.Validation</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Description>Shared command validation logic</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="InsonusK.Shared.Command.Validation.Test" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj" />
+    <ProjectReference Include="../../Command.EntityLoading/InsonusK.Shared.Command.EntityLoading/InsonusK.Shared.Command.EntityLoading.csproj" />
+    <ProjectReference Include="../../Command.Interfaces/InsonusK.Shared.Command.Interfaces/InsonusK.Shared.Command.Interfaces.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Specification"/>
+    <PackageReference Include="FluentValidation"/>
+    <PackageReference Include="MediatR"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="./../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>

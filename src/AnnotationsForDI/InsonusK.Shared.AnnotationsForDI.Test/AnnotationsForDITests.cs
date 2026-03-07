@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit.Abstractions;
 
 namespace InsonusK.Shared.AnnotationsForDI.Test;
 public interface ITestService { }
