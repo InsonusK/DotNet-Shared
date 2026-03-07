@@ -10,13 +10,63 @@ permissions:
   packages: write
 
 jobs:
-  load-matrix:
-    uses: ./.github/workflows/get-matrix.yml
+  check-commit-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      is_need_unittest: ${{ steps.evaluate-version-flags.outputs.is_need_unittest }}
+      matrix: ${{ steps.evaluate-version-flags.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
 
-  build-and-publish:
-    needs: load-matrix
+      - name: Setup CI Context
+        id: setup-ci-context
+        uses: ./.github/actions/setup-ci-context
+        with:
+          base_ref: ${{ github.event.before }}
+
+      - name: Evaluate Version Flags
+        id: evaluate-version-flags
+        uses: ./.github/actions/evaluate-version-flags
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-context
+          path: |
+            ci-context.json
+            version-change-flags.json
+
+  run-unittest:
+    needs: [check-commit-changes]
+    runs-on: ubuntu-latest
+    if: needs.check-commit-changes.outputs.is_need_unittest == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test Project
+        uses: ./.github/actions/run-unittest
+
+  version-check:
+    needs: [check-commit-changes]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ci-context
+
+      - name: Verify Version Bump
+        uses: ./.github/actions/verify-version-bump
+
+  publish-package:
+    needs: [check-commit-changes, run-unittest, version-check]
+    if: needs.check-commit-changes.outputs.matrix != '{"project":[]}'
     strategy:
-      matrix: ${{ fromJSON(needs.load-matrix.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.check-commit-changes.outputs.matrix) }}
       fail-fast: false
     
     uses: ./.github/workflows/project-pipeline.yaml
@@ -25,8 +75,44 @@ jobs:
       csproj: ${{ matrix.project.csproj }}
       package-id: ${{ matrix.project.package-id }}
       artifact-name: ${{ matrix.project.artifact }}
-      create-release: true
+      create-release: false
       owner: ${{ github.repository_owner }}
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
       nuget-token: ${{ secrets.NUGET_TOKEN }}
+
+  release:
+    needs: [check-commit-changes, publish-package]
+    if: needs.check-commit-changes.outputs.matrix != '{"project":[]}'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ci-context
+
+      - name: Create Release Notes
+        id: release-notes
+        run: |
+          echo "## Updated Packages" > release-notes.md
+          node -e "
+            const fs = require('fs');
+            const flags = JSON.parse(fs.readFileSync('version-change-flags.json'));
+            const context = JSON.parse(fs.readFileSync('ci-context.json'));
+            for(const proj of Object.keys(flags)) {
+              if (flags[proj]) {
+                 console.log('- **' + proj + '**: \`' + context.projects[proj].version.new + '\`');
+              }
+            }
+          " >> release-notes.md
+          
+      - name: Create Global Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: release-${{ github.run_number }}
+          name: Release ${{ github.run_number }}
+          body_path: release-notes.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

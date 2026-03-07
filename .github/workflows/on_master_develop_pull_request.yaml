@@ -10,71 +10,66 @@ permissions:
   packages: read
 
 jobs:
-  define_project_changed:
+  check-commit-changes:
     runs-on: ubuntu-latest
     outputs:
-      changes: ${{ steps.proj-changed.outputs.changes }}
-      needs_change: ${{ steps.version-need.outputs.needs_change }}
-      is_need_unittest: ${{ steps.unittest-need.outputs.is_need_unittest }}
+      is_need_unittest: ${{ steps.evaluate-version-flags.outputs.is_need_unittest }}
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 
 
-      - name: Detect project changes
-        id: proj-changed
-        uses: ./.github/actions/define-project-has-changed
+      - name: Setup CI Context
+        id: setup-ci-context
+        uses: ./.github/actions/setup-ci-context
         with:
-          projects_path: '.github/config/projects.json'
           base_ref: ${{ github.event.pull_request.base.sha || github.event.before }}
 
-      - name: Define Version Need Changed
-        id: version-need
-        uses: ./.github/actions/define-version-need-changed
-        with:
-          changes: ${{ steps.proj-changed.outputs.changes }}
-          projects_path: '.github/config/projects.json'
+      - name: Evaluate Version Flags
+        id: evaluate-version-flags
+        uses: ./.github/actions/evaluate-version-flags
 
-      - name: Define Is Need Unittest
-        id: unittest-need
-        uses: ./.github/actions/define-is-need-unittest
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
         with:
-          needs_change: ${{ steps.version-need.outputs.needs_change }}
+          name: ci-context
+          path: |
+            ci-context.json
+            version-change-flags.json
 
   run-unittest:
-    needs: [define_project_changed]
+    needs: [check-commit-changes]
     runs-on: ubuntu-latest
-    if: needs.define_project_changed.outputs.is_need_unittest == 'true'
+    if: needs.check-commit-changes.outputs.is_need_unittest == 'true'
     steps:
       - uses: actions/checkout@v4
 
       - name: Test Project
         uses: ./.github/actions/run-unittest
 
-  check-version-changed:
-    needs: [define_project_changed]
+  version-check:
+    needs: [check-commit-changes]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
-          fetch-depth: 0
+          name: ci-context
 
-      - name: Check version status
-        uses: ./.github/actions/check-version-changed
-        with:
-          needs_change: ${{ needs.define_project_changed.outputs.needs_change }}
-          projects_path: '.github/config/projects.json'
-          base_ref: ${{ github.event.pull_request.base.sha || github.event.before }}
+      - name: Verify Version Bump
+        uses: ./.github/actions/verify-version-bump
 
   all_validations_passed:
     name: All Validations Passed
     runs-on: ubuntu-latest
-    needs: [run-unittest, check-version-changed]
+    needs: [run-unittest, version-check]
     if: ${{ always() }}
     steps:
       - name: Check validation results
         run: |
-          if [[ "${{ needs.run-unittest.result }}" == "failure" || "${{ needs.check-version-changed.result }}" == "failure" ]]; then
+          if [[ "${{ needs.run-unittest.result }}" == "failure" || "${{ needs.version-check.result }}" == "failure" ]]; then
             echo "❌ Some validation jobs failed"
             exit 1
           else
