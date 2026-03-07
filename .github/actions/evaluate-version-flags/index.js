@@ -18,12 +18,18 @@ const commonChanged = context.common_changes.licence_changed || context.common_c
 for (const projName of Object.keys(context.projects)) {
     const p = context.projects[projName];
 
-    const projectNeedsUpdate = commonChanged ||
-        p.changes.code_changed ||
-        p.changes.test_changed ||
-        p.changes.nuget_changed ||
-        p.changes.project_ref;
+    const reasons = {
+        licence_changed: context.common_changes.licence_changed,
+        directory_build_props_changed: context.common_changes.directory_build_props_changed,
+        code_changed: p.changes.code_changed,
+        test_changed: p.changes.test_changed,
+        nuget_changed: p.changes.nuget_changed,
+        project_ref: p.changes.project_ref
+    }
 
+    const projectNeedsUpdate = Object.values(reasons).some(r => r === true);
+    if (projectNeedsUpdate) 
+        console.log("Project " + projName + " needs update. Reason: " + reasons.filter(r => r === true));
     flags[projName] = !!projectNeedsUpdate;
 }
 
