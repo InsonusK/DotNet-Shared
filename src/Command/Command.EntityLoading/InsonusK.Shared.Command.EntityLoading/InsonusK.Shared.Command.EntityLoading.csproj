@@ -14,11 +14,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../../../DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj" />
+    <ProjectReference Include="../../Command.Exceptions/InsonusK.Shared.Command.Exceptions/InsonusK.Shared.Command.Exceptions.csproj" />
     <ProjectReference Include="../../Command.Interfaces/InsonusK.Shared.Command.Interfaces/InsonusK.Shared.Command.Interfaces.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Ardalis.Specification"/>
-    <PackageReference Include="MediatR"/>
+    <PackageReference Include="Ardalis.Specification" />
+    <PackageReference Include="MediatR" />
   </ItemGroup>
   <ItemGroup>
     <None Include="./../README.md" Pack="true" PackagePath="/" />

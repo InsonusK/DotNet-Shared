@@ -1,21 +1,21 @@
 ﻿using Ardalis.Result;
 
-namespace InsonusK.Shared.Mediator.ExceptionHandler;
+namespace InsonusK.Shared.Command.Exceptions;
 
 
 public class ResultException : Exception
 {
     public ResultException(IResult result) : base(result.ToString())
     {
-        innerResult = result;
+        InnerResult = result;
     }
 
-    public IResult innerResult { get; }
+    public IResult InnerResult { get; }
     public Result<T> ToResultOf<T>()
     {
         try
         {
-            switch (innerResult.Status)
+            switch (InnerResult.Status)
             {
                 case ResultStatus.Ok:
                 case ResultStatus.Created:
@@ -23,23 +23,23 @@ public class ResultException : Exception
                 case ResultStatus.NoContent:
                     return Result<T>.NoContent();
                 case ResultStatus.Error:
-                    return Result<T>.Error(new ErrorList(innerResult.Errors.ToArray()));
+                    return Result<T>.Error(new ErrorList(InnerResult.Errors.ToArray()));
                 case ResultStatus.Forbidden:
-                    return Result<T>.Forbidden([.. innerResult.Errors]);
+                    return Result<T>.Forbidden([.. InnerResult.Errors]);
                 case ResultStatus.Unauthorized:
-                    return Result<T>.Unauthorized([.. innerResult.Errors]);
+                    return Result<T>.Unauthorized([.. InnerResult.Errors]);
                 case ResultStatus.Unavailable:
-                    return Result<T>.Unavailable([.. innerResult.Errors]);
+                    return Result<T>.Unavailable([.. InnerResult.Errors]);
                 case ResultStatus.Invalid:
-                    return Result<T>.Invalid(innerResult.ValidationErrors);
+                    return Result<T>.Invalid(InnerResult.ValidationErrors);
                 case ResultStatus.Conflict:
-                    return Result<T>.Conflict([.. innerResult.Errors]);
+                    return Result<T>.Conflict([.. InnerResult.Errors]);
                 case ResultStatus.NotFound:
-                    return Result<T>.NotFound([.. innerResult.Errors]);
+                    return Result<T>.NotFound([.. InnerResult.Errors]);
                 case ResultStatus.CriticalError:
-                    return Result<T>.CriticalError([.. innerResult.Errors]);
+                    return Result<T>.CriticalError([.. InnerResult.Errors]);
                 default:
-                    throw new NotSupportedException($"Unhandled status {innerResult.Status}");
+                    throw new NotSupportedException($"Unhandled status {InnerResult.Status}");
             }
         }
         catch (System.Exception)
@@ -50,7 +50,7 @@ public class ResultException : Exception
 
     public Result ToResult()
     {
-        switch (innerResult.Status)
+        switch (InnerResult.Status)
         {
             case ResultStatus.Ok:
             case ResultStatus.Created:
@@ -58,23 +58,23 @@ public class ResultException : Exception
             case ResultStatus.NoContent:
                 return Result.NoContent();
             case ResultStatus.Error:
-                return Result.Error(new ErrorList(innerResult.Errors.ToArray()));
+                return Result.Error(new ErrorList(InnerResult.Errors.ToArray()));
             case ResultStatus.Forbidden:
-                return Result.Forbidden([.. innerResult.Errors]);
+                return Result.Forbidden([.. InnerResult.Errors]);
             case ResultStatus.Unauthorized:
-                return Result.Unauthorized([.. innerResult.Errors]);
+                return Result.Unauthorized([.. InnerResult.Errors]);
             case ResultStatus.Unavailable:
-                return Result.Unavailable([.. innerResult.Errors]);
+                return Result.Unavailable([.. InnerResult.Errors]);
             case ResultStatus.Invalid:
-                return Result.Invalid(innerResult.ValidationErrors);
+                return Result.Invalid(InnerResult.ValidationErrors);
             case ResultStatus.Conflict:
-                return Result.Conflict([.. innerResult.Errors]);
+                return Result.Conflict([.. InnerResult.Errors]);
             case ResultStatus.NotFound:
-                return Result.NotFound([.. innerResult.Errors]);
+                return Result.NotFound([.. InnerResult.Errors]);
             case ResultStatus.CriticalError:
-                return Result.CriticalError([.. innerResult.Errors]);
+                return Result.CriticalError([.. InnerResult.Errors]);
             default:
-                throw new NotSupportedException($"Unhandled status {innerResult.Status}");
+                throw new NotSupportedException($"Unhandled status {InnerResult.Status}");
         }
     }
 }
