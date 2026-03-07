@@ -186,6 +186,8 @@ for (const projName of Object.keys(context.projects)) {
 }
 
 const outputPath = path.join(workspace, 'ci-context.json');
+console.log('context', JSON.stringify(context, null, 2));
+
 fs.writeFileSync(outputPath, JSON.stringify(context, null, 2));
 console.log('ci-context.json generated successfully.');
 
