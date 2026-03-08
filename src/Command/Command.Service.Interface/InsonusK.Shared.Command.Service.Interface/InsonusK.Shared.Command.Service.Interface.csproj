@@ -4,7 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>InsonusK.Shared.Command.Service.Interface</PackageId>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <Description>Shared command service interfaces</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
