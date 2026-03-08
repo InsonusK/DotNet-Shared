@@ -32,6 +32,27 @@ Extracts an entity based on the identification key.
 
 Depends on the specific implementation of the interface (e.g., throwing exceptions if the entity is not found in the database).
 
+### TryGetAsync
+
+Attempts to extract an entity based on the identification key.
+
+#### Input
+
+| field | type | default value | description |
+| --- | --- | --- | --- |
+| entityKey | `IEntityKey` | required | The entity key containing its identifier and type. |
+| cancellationToken | `CancellationToken` | `default` | Cancellation token. |
+
+#### Output
+
+| field | type | description |
+| --- | --- | --- |
+| (return) | `Task<TEntity?>` | The loaded entity or null if not found. |
+
+#### Exceptions / Errors
+
+Contains no specific exceptions by default. Implementations should avoid throwing when the entity is simply absent.
+
 #### Usecases
 
 To use this interface:
