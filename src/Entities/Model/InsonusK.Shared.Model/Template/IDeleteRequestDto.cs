@@ -5,3 +5,8 @@ public interface IDeleteRequestWithLastStateOptionDto
 {
     bool ReturnLastState { get; }
 }
+
+public interface IDeleteRequestFilterDeleted
+{
+    bool OnlyActive { get; }
+}
