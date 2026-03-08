@@ -48,8 +48,39 @@ function getFileContent(ref, filePath) {
 
 function extractVersion(content) {
     if (!content) return null;
-    const match = content.match(/<PackageVersion>([^<]+)<\/PackageVersion>/i);
+    let match = content.match(/<Version>([^<]+)<\/Version>/i);
+    if (match) return match[1];
+    match = content.match(/<PackageVersion>([^<]+)<\/PackageVersion>/i);
     return match ? match[1] : null;
+}
+
+function resolveVersion(ref, startFilePath) {
+    let content = getFileContent(ref, startFilePath);
+    let version = extractVersion(content);
+    if (version) return version;
+
+    let dir = path.dirname(startFilePath).replace(/\\/g, '/');
+    while (dir && dir !== '.' && dir !== '/') {
+        let propsPath = dir + '/Directory.Build.props';
+        content = getFileContent(ref, propsPath);
+        version = extractVersion(content);
+        if (version) return version;
+        dir = path.dirname(dir).replace(/\\/g, '/');
+    }
+
+    content = getFileContent(ref, 'Directory.Build.props');
+    version = extractVersion(content);
+    return version;
+}
+
+function hasPropsChanged(projDir, changedFiles) {
+    let dir = projDir.replace(/\\/g, '/');
+    while (dir && dir !== '.' && dir !== '/') {
+        let propsPath = dir + '/Directory.Build.props';
+        if (changedFiles.includes(propsPath)) return true;
+        dir = path.dirname(dir).replace(/\\/g, '/');
+    }
+    return changedFiles.includes('Directory.Build.props');
 }
 
 function extractNugetLibs(content) {
@@ -80,8 +111,7 @@ const context = {
     projects: {},
     nuget_libs: {},
     common_changes: {
-        licence_changed: changedFiles.some(f => f.toLowerCase() === 'license' || f.toLowerCase() === 'licence'),
-        directory_build_props_changed: changedFiles.some(f => f.endsWith('Directory.Build.props'))
+        licence_changed: changedFiles.some(f => f.toLowerCase() === 'license' || f.toLowerCase() === 'licence')
     }
 };
 
@@ -150,8 +180,8 @@ for (const proj of projects) {
     const headContent = getFileContent('HEAD', proj);
     const baseContent = getFileContent(baseRef, proj);
 
-    const newVer = extractVersion(headContent);
-    const prevVer = extractVersion(baseContent);
+    const newVer = resolveVersion('HEAD', proj);
+    const prevVer = resolveVersion(baseRef, proj);
 
     const nugetLibs = extractNugetLibs(headContent);
     const projectRefs = extractProjectRefs(headContent);
@@ -168,6 +198,7 @@ for (const proj of projects) {
         changes: {
             code_changed: codeChanged,
             test_changed: testChanged,
+            props_changed: hasPropsChanged(projDir, changedFiles),
             nuget_changed: false, // will calculate below
             project_ref: false    // will calculate below
         }

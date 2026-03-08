@@ -1,9 +1,8 @@
 ﻿using Ardalis.Result;
 
-namespace InsonusK.Shared.Command.Exceptions;
+namespace InsonusK.Shared.Command.Exception;
 
-
-public class ResultException : Exception
+public class ResultException : System.Exception
 {
     public ResultException(IResult result) : base(result.ToString())
     {

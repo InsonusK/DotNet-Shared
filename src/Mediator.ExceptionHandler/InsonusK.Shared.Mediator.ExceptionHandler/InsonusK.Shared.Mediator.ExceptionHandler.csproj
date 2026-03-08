@@ -4,7 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>InsonusK.Shared.Mediator.ExceptionHandler</PackageId>
-    <PackageVersion>1.1.3</PackageVersion>
+    <PackageVersion>1.1.4</PackageVersion>
     <Description>Shared mediator exception handler </Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -20,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Command/Command.Exceptions/InsonusK.Shared.Command.Exceptions/InsonusK.Shared.Command.Exceptions.csproj" />
+    <ProjectReference Include="../../Command/Command.Exception/InsonusK.Shared.Command.Exception/InsonusK.Shared.Command.Exception.csproj" >
+      <Version>1.2.0</Version>
+    </ProjectReference>
     <ProjectReference Include="../../Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj" />
   </ItemGroup>
   <ItemGroup>

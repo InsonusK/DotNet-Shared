@@ -2,8 +2,8 @@ using Ardalis.GuardClauses;
 using Ardalis.Result;
 using InsonusK.Shared.Command.EntityLoading.Services;
 using InsonusK.Shared.Command.EntityLoading.Tools;
-using InsonusK.Shared.Command.Exceptions;
-using InsonusK.Shared.Command.Interfaces;
+using InsonusK.Shared.Command.Exception;
+using InsonusK.Shared.Command.Interface;
 
 namespace InsonusK.Shared.Command.EntityLoading.Helper;
 

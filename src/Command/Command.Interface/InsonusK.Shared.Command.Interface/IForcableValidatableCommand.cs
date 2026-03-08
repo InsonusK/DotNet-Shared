@@ -1,4 +1,4 @@
-namespace InsonusK.Shared.Command.Interfaces;
+namespace InsonusK.Shared.Command.Interface;
 
 /// <summary>
 /// Represents a validatable command that can bypass certain validation rules or force an action.

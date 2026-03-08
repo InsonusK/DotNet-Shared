@@ -1,4 +1,4 @@
-using InsonusK.Shared.Command.Interfaces;
+using InsonusK.Shared.Command.Interface;
 using InsonusK.Shared.DataBase.Models;
 using InsonusK.Shared.Models.Common;
 using System.Collections.Generic;
