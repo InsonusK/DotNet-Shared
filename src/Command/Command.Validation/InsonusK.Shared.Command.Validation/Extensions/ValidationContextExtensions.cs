@@ -1,6 +1,6 @@
 using FluentValidation;
-using InsonusK.Shared.Command.EntityLoading.Interfaces;
 using InsonusK.Shared.Command.Interface;
+using InsonusK.Shared.Command.Service.Interface;
 using InsonusK.Shared.DataBase.Models;
 namespace InsonusK.Shared.Command.Validation.Extensions;
 

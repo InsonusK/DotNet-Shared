@@ -1,4 +1,4 @@
-using InsonusK.Shared.Command.EntityLoading.Interfaces;
+using InsonusK.Shared.Command.Service.Interface;
 using InsonusK.Shared.DataBase.Models;
 
 namespace InsonusK.Shared.Command.EntityLoading.Tools;

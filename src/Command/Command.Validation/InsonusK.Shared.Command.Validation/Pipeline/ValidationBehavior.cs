@@ -5,8 +5,8 @@ using InsonusK.Shared.Command.Interface;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using InsonusK.Shared.Command.EntityLoading.Interfaces;
 using InsonusK.Shared.Command.EntityLoading.Services;
+using InsonusK.Shared.Command.Service.Interface;
 
 namespace InsonusK.Shared.Command.Validation.Pipeline;
 

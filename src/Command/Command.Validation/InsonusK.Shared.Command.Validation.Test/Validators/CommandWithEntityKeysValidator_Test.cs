@@ -5,13 +5,12 @@ using InsonusK.Shared.Command.Validation.Validators;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 using InsonusK.Shared.Command.Interface;
-using System.Collections.Generic;
 using InsonusK.Shared.Command.Interface.Models;
 using FluentValidation;
-using InsonusK.Shared.Command.EntityLoading.Interfaces;
 using NSubstitute;
 using InsonusK.Shared.Command.Validation.Extensions;
 using InsonusK.Shared.DataBase.Models;
+using InsonusK.Shared.Command.Service.Interface;
 
 namespace InsonusK.Shared.Command.Validation.Test.Validators;
 

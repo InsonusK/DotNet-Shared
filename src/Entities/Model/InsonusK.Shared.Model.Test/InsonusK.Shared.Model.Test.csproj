@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InsonusK.Shared.Models\InsonusK.Shared.Models.csproj" />
+    <ProjectReference Include="..\InsonusK.Shared.Model\InsonusK.Shared.Model.csproj" />
   </ItemGroup>
 
 </Project>

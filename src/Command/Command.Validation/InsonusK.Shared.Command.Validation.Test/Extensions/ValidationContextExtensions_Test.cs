@@ -1,6 +1,6 @@
 using Divergic.Logging.Xunit;
 using FluentValidation;
-using InsonusK.Shared.Command.EntityLoading.Interfaces;
+using InsonusK.Shared.Command.Service.Interface;
 using InsonusK.Shared.Command.Validation.Extensions;
 using InsonusK.Shared.DataBase.Models;
 using Microsoft.Extensions.Logging;
