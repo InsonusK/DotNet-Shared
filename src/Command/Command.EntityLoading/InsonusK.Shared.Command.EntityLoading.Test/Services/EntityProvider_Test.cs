@@ -1,5 +1,4 @@
 using Divergic.Logging.Xunit;
-using InsonusK.Shared.Command.EntityLoading.Interfaces;
 using InsonusK.Shared.Command.EntityLoading.Services;
 using InsonusK.Shared.Command.Interfaces;
 using InsonusK.Shared.DataBase.Models;
@@ -9,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit.Abstractions;
 using Ardalis.Specification;
+using InsonusK.Shared.Command.Services.Interfaces;
 
 namespace InsonusK.Shared.Command.EntityLoading.Test.Services;
 

@@ -57,6 +57,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsonusK.Shared.Command.Exc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsonusK.Shared.Command.Exceptions.Test", "src\Command\Command.Exceptions\InsonusK.Shared.Command.Exceptions.Test\InsonusK.Shared.Command.Exceptions.Test.csproj", "{63EF9185-B0A2-4716-A6DE-7E4E7C22A6D1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Command.Service.Interface", "Command.Service.Interface", "{F919BC78-3941-9FB8-6964-374052736899}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsonusK.Shared.Command.Service.Interface", "src\Command\Command.Service.Interface\InsonusK.Shared.Command.Service.Interface\InsonusK.Shared.Command.Service.Interface.csproj", "{06A453AD-3EF2-4AEC-BD13-119BF383818F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsonusK.Shared.Command.Service.Interface.Test", "src\Command\Command.Service.Interface\InsonusK.Shared.Command.Service.Interface.Test\InsonusK.Shared.Command.Service.Interface.Test.csproj", "{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -259,6 +265,30 @@ Global
 		{63EF9185-B0A2-4716-A6DE-7E4E7C22A6D1}.Release|x64.Build.0 = Release|Any CPU
 		{63EF9185-B0A2-4716-A6DE-7E4E7C22A6D1}.Release|x86.ActiveCfg = Release|Any CPU
 		{63EF9185-B0A2-4716-A6DE-7E4E7C22A6D1}.Release|x86.Build.0 = Release|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Debug|x64.Build.0 = Debug|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Debug|x86.Build.0 = Debug|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Release|x64.ActiveCfg = Release|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Release|x64.Build.0 = Release|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Release|x86.ActiveCfg = Release|Any CPU
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F}.Release|x86.Build.0 = Release|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Debug|x64.Build.0 = Debug|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Debug|x86.Build.0 = Debug|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Release|x64.ActiveCfg = Release|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Release|x64.Build.0 = Release|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -290,5 +320,8 @@ Global
 		{781273AE-CC02-1217-86C7-C6B21ADBB353} = {765E863F-92D1-9EC9-A760-0CE58F35DE60}
 		{7FACBA53-48DA-4F1B-AABF-8C89F04BF8A2} = {781273AE-CC02-1217-86C7-C6B21ADBB353}
 		{63EF9185-B0A2-4716-A6DE-7E4E7C22A6D1} = {781273AE-CC02-1217-86C7-C6B21ADBB353}
+		{F919BC78-3941-9FB8-6964-374052736899} = {765E863F-92D1-9EC9-A760-0CE58F35DE60}
+		{06A453AD-3EF2-4AEC-BD13-119BF383818F} = {F919BC78-3941-9FB8-6964-374052736899}
+		{D95D3FA6-05E9-4913-BEC8-8AB1895876A8} = {F919BC78-3941-9FB8-6964-374052736899}
 	EndGlobalSection
 EndGlobal
