@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit.Abstractions;
 using Ardalis.Specification;
-using InsonusK.Shared.Command.Services.Interfaces;
+using InsonusK.Shared.Command.Service.Interface;
 
 namespace InsonusK.Shared.Command.EntityLoading.Test.Services;
 

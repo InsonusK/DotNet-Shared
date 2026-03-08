@@ -3,8 +3,7 @@
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>InsonusK.Shared.Command.Interfaces</PackageId>
-    <PackageVersion>1.0.3</PackageVersion>
+    <PackageId>InsonusK.Shared.Command.Interface</PackageId>
     <Description>Shared command interfaces</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>

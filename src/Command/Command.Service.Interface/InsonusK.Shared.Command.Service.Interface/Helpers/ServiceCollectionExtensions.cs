@@ -1,5 +1,4 @@
 using System.Reflection;
-using InsonusK.Shared.Command.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

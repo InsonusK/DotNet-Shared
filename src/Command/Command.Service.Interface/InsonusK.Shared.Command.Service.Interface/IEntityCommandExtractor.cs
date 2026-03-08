@@ -1,6 +1,6 @@
 using InsonusK.Shared.Command.Interface;
 
-namespace InsonusK.Shared.Command.Services.Interfaces;
+namespace InsonusK.Shared.Command.Service.Interface;
 
 /// <summary>
 /// <para>Интерфейс для извлечения сущности из команды для контекста обработки</para>
