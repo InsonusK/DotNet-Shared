@@ -63,7 +63,7 @@ public class EntityProvider_Test : LoggingTestsBase<EntityProvider_Test>
         var ct = CancellationToken.None;
 
         serviceProvider.GetService(typeof(IEntityCommandExtractor<TestNormalClass>)).Returns(extractor);
-        extractor.GetAsync(entityKey, ct).Returns(expectedEntity);
+        extractor.TryGetAsync(entityKey, ct).Returns(expectedEntity);
 
         var provider = new EntityProvider(serviceProvider, Output.BuildLoggerFor<EntityProvider>());
         #endregion
