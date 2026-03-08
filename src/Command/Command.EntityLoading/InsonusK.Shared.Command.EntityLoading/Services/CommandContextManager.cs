@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using Ardalis.GuardClauses;
 using InsonusK.Shared.Command.EntityLoading.Interfaces;
 using InsonusK.Shared.Command.EntityLoading.Tools;
-using InsonusK.Shared.Command.Interfaces;
+using InsonusK.Shared.Command.Interface;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

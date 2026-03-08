@@ -2,7 +2,7 @@ using Divergic.Logging.Xunit;
 using FluentValidation;
 using FluentValidation.Results;
 using InsonusK.Shared.Command.EntityLoading.Interfaces;
-using InsonusK.Shared.Command.Interfaces;
+using InsonusK.Shared.Command.Interface;
 using InsonusK.Shared.Command.Validation.Pipeline;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

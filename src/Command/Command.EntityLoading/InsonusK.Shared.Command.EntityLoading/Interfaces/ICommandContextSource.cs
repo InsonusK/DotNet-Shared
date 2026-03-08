@@ -1,4 +1,4 @@
-using InsonusK.Shared.Command.Interfaces;
+using InsonusK.Shared.Command.Interface;
 using MediatR;
 
 namespace InsonusK.Shared.Command.EntityLoading.Interfaces;

@@ -1,6 +1,6 @@
-using InsonusK.Shared.Command.Interfaces.Models;
+using InsonusK.Shared.Command.Interface.Models;
 
-namespace InsonusK.Shared.Command.Interfaces.Helpers;
+namespace InsonusK.Shared.Command.Interface.Helpers;
 
 /// <summary>
 /// Extension methods for commands that contain entity keys.

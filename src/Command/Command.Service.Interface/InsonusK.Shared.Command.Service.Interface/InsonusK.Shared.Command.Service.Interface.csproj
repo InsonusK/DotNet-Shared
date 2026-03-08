@@ -15,7 +15,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="../../Command.Interfaces/InsonusK.Shared.Command.Interfaces/InsonusK.Shared.Command.Interfaces.csproj" />
+    <ProjectReference Include="../../Command.Interface/InsonusK.Shared.Command.Interface/InsonusK.Shared.Command.Interface.csproj" />
   </ItemGroup>
   
   <ItemGroup>

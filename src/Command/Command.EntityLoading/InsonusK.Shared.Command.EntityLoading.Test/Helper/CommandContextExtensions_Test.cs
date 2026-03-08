@@ -1,14 +1,13 @@
 using Divergic.Logging.Xunit;
 using InsonusK.Shared.Command.EntityLoading.Helper;
 using InsonusK.Shared.Command.EntityLoading.Services;
-using InsonusK.Shared.Command.Interfaces;
+using InsonusK.Shared.Command.Interface;
+using InsonusK.Shared.Command.Exception;
 using InsonusK.Shared.DataBase.Models;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit.Abstractions;
 using Ardalis.Specification;
-using Ardalis.GuardClauses;
-using InsonusK.Shared.Command.Exceptions;
 using Ardalis.Result;
 
 namespace InsonusK.Shared.Command.EntityLoading.Test.Helper;

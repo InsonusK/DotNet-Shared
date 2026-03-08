@@ -1,6 +1,6 @@
 using Divergic.Logging.Xunit;
 using InsonusK.Shared.Command.EntityLoading.Services;
-using InsonusK.Shared.Command.Interfaces;
+using InsonusK.Shared.Command.Interface;
 using InsonusK.Shared.DataBase.Models;
 using InsonusK.Shared.Models.Common;
 using MediatR;

@@ -8,7 +8,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using InsonusK.Shared.Mediator.ExceptionHandler.Handler;
 using InsonusK.Shared.Mediator.ExceptionHandler.Service;
-using InsonusK.Shared.Command.Exceptions;
+using InsonusK.Shared.Command.Exception;
 
 namespace InsonusK.Shared.Mediator.ExceptionHandler.Test;
 

@@ -5,7 +5,7 @@ using Divergic.Logging.Xunit;
 using Xunit.Abstractions;
 using InsonusK.Shared.Command.Service.Interface.Helpers;
 using InsonusK.Shared.Command.Services.Interfaces;
-using InsonusK.Shared.Command.Interfaces;
+using InsonusK.Shared.Command.Interface;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;

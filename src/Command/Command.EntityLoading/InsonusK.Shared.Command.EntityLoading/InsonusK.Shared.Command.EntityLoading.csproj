@@ -14,8 +14,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../../../DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj" />
-    <ProjectReference Include="../../Command.Exceptions/InsonusK.Shared.Command.Exceptions/InsonusK.Shared.Command.Exceptions.csproj" />
-    <ProjectReference Include="../../Command.Interfaces/InsonusK.Shared.Command.Interfaces/InsonusK.Shared.Command.Interfaces.csproj" />
+    <ProjectReference Include="../../Command.Exception/InsonusK.Shared.Command.Exception/InsonusK.Shared.Command.Exception.csproj" />
+    <ProjectReference Include="../../Command.Interface/InsonusK.Shared.Command.Interface/InsonusK.Shared.Command.Interface.csproj" />
     <ProjectReference Include="../../Command.Service.Interface/InsonusK.Shared.Command.Service.Interface/InsonusK.Shared.Command.Service.Interface.csproj" />
   </ItemGroup>
   <ItemGroup>

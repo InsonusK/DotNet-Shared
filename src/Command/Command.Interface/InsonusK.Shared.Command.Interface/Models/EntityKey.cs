@@ -1,4 +1,4 @@
-namespace InsonusK.Shared.Command.Interfaces.Models;
+namespace InsonusK.Shared.Command.Interface.Models;
 
 /// <summary>
 /// Represents a concrete implementation of <see cref="IEntityVersionedKey"/> for a specific entity type.

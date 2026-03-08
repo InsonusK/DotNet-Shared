@@ -1,4 +1,4 @@
-using InsonusK.Shared.Command.Interfaces;
+using InsonusK.Shared.Command.Interface;
 
 namespace InsonusK.Shared.Command.Services.Interfaces;
 

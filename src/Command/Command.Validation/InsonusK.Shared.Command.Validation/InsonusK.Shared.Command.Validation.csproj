@@ -16,13 +16,13 @@
   <ItemGroup>
     <ProjectReference Include="../../../DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj" />
     <ProjectReference Include="../../Command.EntityLoading/InsonusK.Shared.Command.EntityLoading/InsonusK.Shared.Command.EntityLoading.csproj" />
-    <ProjectReference Include="../../Command.Interfaces/InsonusK.Shared.Command.Interfaces/InsonusK.Shared.Command.Interfaces.csproj" />
+    <ProjectReference Include="../../Command.Interface/InsonusK.Shared.Command.Interface/InsonusK.Shared.Command.Interface.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.Specification"/>
-    <PackageReference Include="FluentValidation"/>
-    <PackageReference Include="MediatR"/>
+    <PackageReference Include="Ardalis.Specification" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="MediatR" />
   </ItemGroup>
 
   <ItemGroup>

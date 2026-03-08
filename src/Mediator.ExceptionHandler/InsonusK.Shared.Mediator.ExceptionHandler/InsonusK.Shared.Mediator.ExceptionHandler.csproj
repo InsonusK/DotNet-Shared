@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Command/Command.Exceptions/InsonusK.Shared.Command.Exceptions/InsonusK.Shared.Command.Exceptions.csproj" />
+    <ProjectReference Include="../../Command/Command.Exception/InsonusK.Shared.Command.Exception/InsonusK.Shared.Command.Exception.csproj" />
     <ProjectReference Include="../../Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj" />
   </ItemGroup>
   <ItemGroup>

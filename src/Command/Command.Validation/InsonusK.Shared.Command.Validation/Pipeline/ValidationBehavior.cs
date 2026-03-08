@@ -1,7 +1,7 @@
 using Ardalis.Specification;
 using FluentValidation;
 using InsonusK.Shared.Command.Validation.Extensions;
-using InsonusK.Shared.Command.Interfaces;
+using InsonusK.Shared.Command.Interface;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
