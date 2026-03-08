@@ -10,3 +10,8 @@ public interface IFetchRequest
     int PageSize { get; }
 
 }
+
+public interface IFetchIncludeDeleted
+{
+    bool IncludeDeleted { get; }
+}
