@@ -1,7 +1,5 @@
 using FluentValidation;
 using InsonusK.Shared.Command.Interface;
-using InsonusK.Shared.Command.Interface.Models;
-using InsonusK.Shared.DataBase.Models;
 using InsonusK.Shared.Command.Validation.Validators.Properties;
 
 namespace InsonusK.Shared.Command.Validation.Validators;
