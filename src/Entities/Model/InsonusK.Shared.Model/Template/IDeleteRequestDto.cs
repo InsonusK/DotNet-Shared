@@ -5,3 +5,4 @@ public interface IDeleteRequestWithLastStateOptionDto
 {
     bool ReturnLastState { get; }
 }
+
