@@ -74,6 +74,7 @@ jobs:
       project-folder: ${{ matrix.project.folder }}
       csproj: ${{ matrix.project.csproj }}
       package-id: ${{ matrix.project.package-id }}
+      version: ${{ matrix.project.version }}
       artifact-name: ${{ matrix.project.artifact }}
       create-release: true
       owner: ${{ github.repository_owner }}
