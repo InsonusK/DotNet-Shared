@@ -64,7 +64,7 @@ public class EntityProvider : ICommandContextSource
         if (entityExtractor != null)
         {
             _logger.LogInformation("Resolving entity of type {EntityType} with string id {StringId} using custom extractor", typeof(TEntity).Name, entityKey.StringId);
-            return await entityExtractor.GetAsync(entityKey, ct);
+            return await entityExtractor.TryGetAsync(entityKey, ct);
         }
         else if (typeof(IGuidModel).IsAssignableFrom(typeof(TEntity)))
         {

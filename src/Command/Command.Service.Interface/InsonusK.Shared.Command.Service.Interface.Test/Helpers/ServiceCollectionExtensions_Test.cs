@@ -22,11 +22,17 @@ public class ValidTestExtractor : IEntityCommandExtractor<TestEntity>
     {
         return Task.FromResult(new TestEntity());
     }
+    
+    public Task<TestEntity?> TryGetAsync(IEntityKey entityKey, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult<TestEntity?>(new TestEntity());
+    }
 }
 
 public abstract class AbstractTestExtractor : IEntityCommandExtractor<TestEntity>
 {
     public abstract Task<TestEntity> GetAsync(IEntityKey entityKey, CancellationToken cancellationToken = default);
+    public abstract Task<TestEntity?> TryGetAsync(IEntityKey entityKey, CancellationToken cancellationToken = default);
 }
 
 public interface IAnotherTestExtractor : IEntityCommandExtractor<TestEntity>
