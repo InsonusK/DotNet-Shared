@@ -8,5 +8,5 @@ public interface IDeleteRequestWithLastStateOptionDto
 
 public interface IDeleteRequestFilterDeleted
 {
-    bool OnlyActive { get; }
+    bool ShowDeleted { get; }
 }
