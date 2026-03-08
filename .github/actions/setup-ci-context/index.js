@@ -1,35 +1,40 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 const path = require('path');
+const core = require('@actions/core');
 
 const baseRef = process.env.INPUT_BASE_REF;
 if (!baseRef) {
-    console.error("INPUT_BASE_REF is not defined");
+    core.setFailed("INPUT_BASE_REF is not defined");
     process.exit(1);
 }
 
 const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
 
 // 1. Get changed files
+core.startGroup('1. Get changed files');
 let changedFiles = [];
 try {
     const output = execSync(`git diff --name-only ${baseRef} HEAD`, { encoding: 'utf-8', cwd: workspace });
     changedFiles = output.split('\n').map(f => f.trim()).filter(f => f.length > 0);
-    console.log("Changed files:", changedFiles);
+    core.info("Changed files:\n" + changedFiles.join('\n'));
 } catch (e) {
-    console.error("Error getting git diff:", e.message);
+    core.setFailed("Error getting git diff: " + e.message);
     process.exit(1);
 }
+core.endGroup();
 
 // 2. Discover projects
+core.startGroup('2. Discover projects');
 let csprojFiles = [];
 try {
     const output = execSync(`find src -name "*.csproj"`, { encoding: 'utf-8', cwd: workspace });
     csprojFiles = output.split('\n').map(f => f.trim()).filter(f => f.length > 0);
 } catch (e) {
-    console.error("Error finding csproj:", e.message);
+    core.setFailed("Error finding csproj: " + e.message);
     process.exit(1);
 }
+core.endGroup();
 
 const projects = csprojFiles.filter(f => !f.includes('.Test.'));
 
@@ -166,6 +171,7 @@ Object.keys(globalLibsBase).forEach(lib => {
 });
 
 // 4. Process each project
+core.startGroup('4. Process each project');
 for (const proj of projects) {
     const projName = path.basename(proj, '.csproj');
     const projDir = path.dirname(proj);
@@ -212,8 +218,10 @@ for (const proj of projects) {
         }
     };
 }
+core.endGroup();
 
 // 5. Calculate cross-project flag dependencies
+core.startGroup('5. Calculate cross-project flag dependencies');
 for (const projName of Object.keys(context.projects)) {
     const p = context.projects[projName];
 
@@ -223,10 +231,11 @@ for (const projName of Object.keys(context.projects)) {
     // check project ref changed
     p.changes.project_ref = p.project_refs.some(ref => context.projects[ref] && context.projects[ref].version.is_changed);
 }
+core.endGroup();
 
 const outputPath = path.join(workspace, 'ci-context.json');
-console.log('context: ', JSON.stringify(context, null, 2));
+core.info('context: \n' + JSON.stringify(context, null, 2));
 
 fs.writeFileSync(outputPath, JSON.stringify(context, null, 2));
-console.log('ci-context.json generated successfully.');
+core.info('ci-context.json generated successfully.');
 
