@@ -1,20 +1,22 @@
 const fs = require('fs');
 const path = require('path');
+const core = require('@actions/core');
 
 const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
 const contextPath = path.join(workspace, 'ci-context.json');
 
 if (!fs.existsSync(contextPath)) {
-    console.error(`ci-context.json not found at ${contextPath}`);
+    core.setFailed(`ci-context.json not found at ${contextPath}`);
     process.exit(1);
 }
 
 const context = JSON.parse(fs.readFileSync(contextPath, 'utf8'));
-console.log('context: ', JSON.stringify(context, null, 2));
+core.info('context: \n' + JSON.stringify(context, null, 2));
 const flags = {};
 
 const commonChanged = context.common_changes.licence_changed;
 
+core.startGroup('Evaluate Projects');
 for (const projName of Object.keys(context.projects)) {
     const p = context.projects[projName];
 
@@ -30,14 +32,16 @@ for (const projName of Object.keys(context.projects)) {
 
     const projectNeedsUpdate = Object.values(reasons).some(r => r === true);
     if (projectNeedsUpdate)
-        console.log("Project " + projName + " needs update.\nReason: " + JSON.stringify(reasons, null, 2));
+        core.info("Project " + projName + " needs update.\nReason: " + JSON.stringify(reasons, null, 2));
     flags[projName] = !!projectNeedsUpdate;
 }
+core.endGroup();
 
 const flagsPath = path.join(workspace, 'version-change-flags.json');
 fs.writeFileSync(flagsPath, JSON.stringify(flags, null, 2));
-console.log('version-change-flags.json generated successfully.');
+core.info('version-change-flags.json generated successfully.');
 
+core.startGroup('Generate Matrix');
 const matrixProjects = [];
 for (const projName of Object.keys(flags)) {
     if (flags[projName]) {
@@ -51,16 +55,13 @@ for (const projName of Object.keys(flags)) {
         });
     }
 }
+core.endGroup();
 
 // Write to GITHUB_OUTPUT so subsequent steps can check if tests are needed
 const isNeedUnittest = Object.values(flags).some(f => f === true);
-console.log('isNeedUnittest', isNeedUnittest);
-console.log('matrixProjects: ', JSON.stringify(matrixProjects, null, 2));
-if (process.env.GITHUB_OUTPUT) {
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `is_need_unittest=${isNeedUnittest}\n`);
+core.info('isNeedUnittest: ' + isNeedUnittest);
+core.info('matrixProjects: \n' + JSON.stringify(matrixProjects, null, 2));
 
-    // Output matrix JSON string with no spaces to avoid issues
-    const matrixJson = JSON.stringify({ project: matrixProjects });
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${matrixJson}\n`);
-}
+core.setOutput('is_need_unittest', isNeedUnittest);
+core.setOutput('matrix', { project: matrixProjects });
 

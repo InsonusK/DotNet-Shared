@@ -1,0 +1,15 @@
+{
+    "name": "custom-github-actions",
+    "version": "1.0.0",
+    "description": "Custom GitHub Actions for the repository",
+    "private": true,
+    "scripts": {
+        "build": "ncc build evaluate-version-flags/index.js -o evaluate-version-flags/dist && ncc build setup-ci-context/index.js -o setup-ci-context/dist && ncc build verify-version-bump/index.js -o verify-version-bump/dist"
+    },
+    "dependencies": {
+        "@actions/core": "^1.11.1"
+    },
+    "devDependencies": {
+        "@vercel/ncc": "^0.38.3"
+    }
+}
