@@ -8,10 +8,4 @@ public interface IFetchRequest
 
     // Количество элементов на странице, по умолчанию 10
     int PageSize { get; }
-
-}
-
-public interface IFetchIncludeDeleted
-{
-    bool IncludeDeleted { get; }
 }
