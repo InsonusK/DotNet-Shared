@@ -6,7 +6,3 @@ public interface IDeleteRequestWithLastStateOptionDto
     bool ReturnLastState { get; }
 }
 
-public interface IDeleteRequestFilterDeleted
-{
-    bool ShowDeleted { get; }
-}
