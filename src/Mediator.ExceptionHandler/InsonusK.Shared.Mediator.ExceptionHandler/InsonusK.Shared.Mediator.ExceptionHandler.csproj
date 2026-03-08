@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../Command/Command.Exception/InsonusK.Shared.Command.Exception/InsonusK.Shared.Command.Exception.csproj" >
-      <Version>1.2.0</Version>
+      <Version>1.2.1</Version>
     </ProjectReference>
     <ProjectReference Include="../../Models/InsonusK.Shared.Models/InsonusK.Shared.Models.csproj" />
   </ItemGroup>
