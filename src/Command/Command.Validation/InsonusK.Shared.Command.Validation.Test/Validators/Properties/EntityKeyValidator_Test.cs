@@ -1,5 +1,4 @@
 using Divergic.Logging.Xunit;
-using FluentValidation.TestHelper;
 using InsonusK.Shared.Command.Validation.Test.Mocks;
 using InsonusK.Shared.Command.Validation.Validators.Properties;
 using InsonusK.Shared.Command.Validation.Extensions;
@@ -8,10 +7,9 @@ using Xunit.Abstractions;
 using FluentValidation;
 using InsonusK.Shared.Command.Interface;
 using InsonusK.Shared.DataBase.Models;
-using System.Collections.Generic;
-using InsonusK.Shared.Command.EntityLoading.Interfaces;
 using NSubstitute;
 using InsonusK.Shared.Command.Interface.Models;
+using InsonusK.Shared.Command.Service.Interface;
 
 namespace InsonusK.Shared.Command.Validation.Test.Validators.Properties;
 

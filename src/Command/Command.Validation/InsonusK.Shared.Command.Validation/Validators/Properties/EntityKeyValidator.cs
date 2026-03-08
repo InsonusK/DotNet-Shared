@@ -1,9 +1,7 @@
 using FluentValidation;
-using FluentValidation.Validators;
 using InsonusK.Shared.Command.Interface;
 using InsonusK.Shared.Command.Validation.Extensions;
 using InsonusK.Shared.Models.Common;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace InsonusK.Shared.Command.Validation.Validators.Properties;
 public class EntityKeyValidator : AbstractValidator<IEntityKey>

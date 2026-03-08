@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 using FluentValidation;
 using NSubstitute;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace InsonusK.Shared.Command.Validation.Test.Validators;
 

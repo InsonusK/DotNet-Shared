@@ -48,10 +48,18 @@ function getFileContent(ref, filePath) {
 
 function extractVersion(content) {
     if (!content) return null;
-    let match = content.match(/<Version>([^<]+)<\/Version>/i);
-    if (match) return match[1];
-    match = content.match(/<PackageVersion>([^<]+)<\/PackageVersion>/i);
-    return match ? match[1] : null;
+
+    // Find all PropertyGroup blocks
+    const propertyGroupRegex = /<PropertyGroup[^>]*>([\s\S]*?)<\/PropertyGroup>/gi;
+    let match;
+    while ((match = propertyGroupRegex.exec(content)) !== null) {
+        const groupContent = match[1];
+        let vMatch = groupContent.match(/<Version>([^<]+)<\/Version>/i);
+        if (vMatch) return vMatch[1];
+        vMatch = groupContent.match(/<PackageVersion>([^<]+)<\/PackageVersion>/i);
+        if (vMatch) return vMatch[1];
+    }
+    return null;
 }
 
 function resolveVersion(ref, startFilePath) {

@@ -1,6 +1,6 @@
 using InsonusK.Shared.DataBase.Models;
 
-namespace InsonusK.Shared.Command.EntityLoading.Interfaces;
+namespace InsonusK.Shared.Command.Service.Interface;
 
 /// <summary>
 /// Интерфейс для чтения данных контекста обработки Command.

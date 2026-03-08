@@ -1,7 +1,7 @@
 using InsonusK.Shared.Command.Interface;
 using MediatR;
 
-namespace InsonusK.Shared.Command.EntityLoading.Interfaces;
+namespace InsonusK.Shared.Command.Service.Interface;
 
 /// <summary>
 /// Интерфейс источника контекста обработки команды.

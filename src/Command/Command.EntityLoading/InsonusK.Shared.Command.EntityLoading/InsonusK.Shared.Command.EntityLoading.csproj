@@ -12,10 +12,12 @@
     <InternalsVisibleTo Include="InsonusK.Shared.Command.EntityLoading.Test" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj" />
     <ProjectReference Include="../../Command.Exception/InsonusK.Shared.Command.Exception/InsonusK.Shared.Command.Exception.csproj" />
-    <ProjectReference Include="../../Command.Interface/InsonusK.Shared.Command.Interface/InsonusK.Shared.Command.Interface.csproj" />
     <ProjectReference Include="../../Command.Service.Interface/InsonusK.Shared.Command.Service.Interface/InsonusK.Shared.Command.Service.Interface.csproj" />
+    <ProjectReference Include="../../Command.Interface/InsonusK.Shared.Command.Interface/InsonusK.Shared.Command.Interface.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Ardalis.Specification" />
