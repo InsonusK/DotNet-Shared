@@ -6,6 +6,7 @@ This library provides interfaces and dependency injection helpers for extracting
 
 - [IEntityCommandExtractor<TEntity>](#ientitycommandextractortentity)
 - [ServiceCollectionExtensions](#servicecollectionextensions)
+- [CommandContextSourceExtensions](#commandcontextsourceextensions)
 
 ## IEntityCommandExtractor<TEntity>
 
@@ -95,3 +96,43 @@ services.AddEntityCommandExtractor();
 // Register extractors from specific assemblies
 services.AddEntityCommandExtractor(null, typeof(MyExtractor).Assembly);
 ```
+
+## CommandContextSourceExtensions
+
+Provides extension methods for `ICommandContextSource` to simplify entity retrieval.
+
+### GetEntityAsync
+
+Gets an entity from the command context source using the provided command.
+
+#### Input
+
+| field | type | default value | description |
+| --- | --- | --- | --- |
+| source | `ICommandContextSource` | required | The command context source. |
+| command | `TCommand` | required | The command containing entity keys. |
+| cancellationToken | `CancellationToken` | `default` | Cancellation token. |
+
+#### Output
+
+| field | type | description |
+| --- | --- | --- |
+| (return) | `Task<TEntity>` | The loaded entity. |
+
+### TryGetEntityAsync
+
+Attempts to get an entity from the command context source using the provided command.
+
+#### Input
+
+| field | type | default value | description |
+| --- | --- | --- | --- |
+| source | `ICommandContextSource` | required | The command context source. |
+| command | `TCommand` | required | The command containing entity keys. |
+| cancellationToken | `CancellationToken` | `default` | Cancellation token. |
+
+#### Output
+
+| field | type | description |
+| --- | --- | --- |
+| (return) | `Task<TEntity?>` | The loaded entity or null if not found. |
