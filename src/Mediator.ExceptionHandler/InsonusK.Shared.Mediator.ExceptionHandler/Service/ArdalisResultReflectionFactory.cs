@@ -2,8 +2,8 @@ using System.Reflection;
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using FluentValidation.Results;
-using InsonusK.Shared.Command.Exceptions;
 using Microsoft.Extensions.Logging;
+using InsonusK.Shared.Command.Exception;
 
 namespace InsonusK.Shared.Mediator.ExceptionHandler.Service;
 

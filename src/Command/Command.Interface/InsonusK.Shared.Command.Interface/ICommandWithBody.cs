@@ -1,4 +1,4 @@
-namespace InsonusK.Shared.Command.Interfaces;
+namespace InsonusK.Shared.Command.Interface;
 
 /// <summary>
 /// Represents a command that provides a body.

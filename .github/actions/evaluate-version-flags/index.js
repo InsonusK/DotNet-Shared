@@ -13,14 +13,15 @@ const context = JSON.parse(fs.readFileSync(contextPath, 'utf8'));
 console.log('context: ', JSON.stringify(context, null, 2));
 const flags = {};
 
-const commonChanged = context.common_changes.licence_changed || context.common_changes.directory_build_props_changed;
+const commonChanged = context.common_changes.licence_changed;
 
 for (const projName of Object.keys(context.projects)) {
     const p = context.projects[projName];
 
     const reasons = {
         licence_changed: context.common_changes.licence_changed,
-        directory_build_props_changed: context.common_changes.directory_build_props_changed,
+        props_changed: p.changes.props_changed,
+        version_changed: p.version.is_changed,
         code_changed: p.changes.code_changed,
         test_changed: p.changes.test_changed,
         nuget_changed: p.changes.nuget_changed,
@@ -28,7 +29,7 @@ for (const projName of Object.keys(context.projects)) {
     }
 
     const projectNeedsUpdate = Object.values(reasons).some(r => r === true);
-    if (projectNeedsUpdate) 
+    if (projectNeedsUpdate)
         console.log("Project " + projName + " needs update.\nReason: " + JSON.stringify(reasons, null, 2));
     flags[projName] = !!projectNeedsUpdate;
 }
@@ -45,6 +46,7 @@ for (const projName of Object.keys(flags)) {
             "folder": path.dirname(p.csproj_path) + "/**",
             "csproj": p.csproj_path,
             "package-id": projName,
+            "version": p.version.new,
             "artifact": "nupkg-" + projName.replace(/\./g, '-').toLowerCase()
         });
     }

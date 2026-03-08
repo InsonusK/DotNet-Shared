@@ -4,7 +4,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>InsonusK.Shared.Command.Service.Interface</PackageId>
-    <PackageVersion>1.0.1</PackageVersion>
     <Description>Shared command service interfaces</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
@@ -15,7 +14,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="../../Command.Interfaces/InsonusK.Shared.Command.Interfaces/InsonusK.Shared.Command.Interfaces.csproj" />
+    <ProjectReference Include="../../Command.Interface/InsonusK.Shared.Command.Interface/InsonusK.Shared.Command.Interface.csproj" />
   </ItemGroup>
   
   <ItemGroup>

@@ -15,6 +15,10 @@ on:
         description: 'NuGet package ID'
         required: true
         type: string
+      version:
+        description: 'NuGet package version'
+        required: true
+        type: string
       artifact-name:
         description: 'Name for the uploaded artifact'
         required: true
@@ -51,6 +55,7 @@ jobs:
         uses: ./.github/actions/build
         with:
           csproj: ${{ inputs.csproj }}
+          version: ${{ inputs.version }}
           artifact-name: ${{ inputs.artifact-name }}
           version-suffix: ${{ inputs.version-suffix }}
 

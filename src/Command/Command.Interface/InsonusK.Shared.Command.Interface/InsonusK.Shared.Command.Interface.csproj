@@ -1,18 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>InsonusK.Shared.Command.Exceptions</PackageId>
-    <PackageVersion>1.0.3</PackageVersion>
-    <Description>Shared mediator command exception</Description>
+    <PackageId>InsonusK.Shared.Command.Interface</PackageId>
+    <Description>Shared command interfaces</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Ardalis.Result"/>
-  </ItemGroup>
   <ItemGroup>
     <None Include="./../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
