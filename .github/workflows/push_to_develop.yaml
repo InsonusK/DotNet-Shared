@@ -79,6 +79,7 @@ jobs:
       project-folder: ${{ matrix.project.folder }}
       csproj: ${{ matrix.project.csproj }}
       package-id: ${{ matrix.project.package-id }}
+      version: ${{ matrix.project.version }}
       artifact-name: ${{ matrix.project.artifact }}
       version-suffix: beta.${{ needs.check-commit-changes.outputs.suffix }}
       create-release: false

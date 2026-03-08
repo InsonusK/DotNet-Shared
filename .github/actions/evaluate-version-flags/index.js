@@ -46,6 +46,7 @@ for (const projName of Object.keys(flags)) {
             "folder": path.dirname(p.csproj_path) + "/**",
             "csproj": p.csproj_path,
             "package-id": projName,
+            "version": p.version.new,
             "artifact": "nupkg-" + projName.replace(/\./g, '-').toLowerCase()
         });
     }
