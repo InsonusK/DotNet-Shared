@@ -16,12 +16,7 @@
   
   <ItemGroup>
     <ProjectReference Include="../../Command.Interface/InsonusK.Shared.Command.Interface/InsonusK.Shared.Command.Interface.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="../../../Entities/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj" >
-      <Version>1.3.2</Version>
-    </ProjectReference>
+    <ProjectReference Include="../../../Entities/DataBase/InsonusK.Shared.DataBase/InsonusK.Shared.DataBase.csproj" />
   </ItemGroup>
   
   <ItemGroup>

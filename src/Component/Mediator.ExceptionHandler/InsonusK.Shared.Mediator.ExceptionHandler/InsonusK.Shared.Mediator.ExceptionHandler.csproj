@@ -4,7 +4,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>InsonusK.Shared.Mediator.ExceptionHandler</PackageId>
-    <PackageVersion>1.1.8</PackageVersion>
     <Description>Shared mediator exception handler </Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -20,12 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Command/Command.Exception/InsonusK.Shared.Command.Exception/InsonusK.Shared.Command.Exception.csproj" >
-      <Version>1.3.3</Version>
-    </ProjectReference>
-    <ProjectReference Include="../../Entities/Model/InsonusK.Shared.Model/InsonusK.Shared.Model.csproj" >
-      <Version>1.3.2</Version>
-    </ProjectReference>
+    <ProjectReference Include="../../Command/Command.Exception/InsonusK.Shared.Command.Exception/InsonusK.Shared.Command.Exception.csproj" />
+    <ProjectReference Include="../../Entities/Model/InsonusK.Shared.Model/InsonusK.Shared.Model.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="./../README.md" Pack="true" PackagePath="/" />
