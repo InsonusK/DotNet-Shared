@@ -1,4 +1,3 @@
-using Ardalis.GuardClauses;
 using Ardalis.Specification;
 using InsonusK.Shared.DataBase.Models;
 using InsonusK.Shared.Model.Template;
