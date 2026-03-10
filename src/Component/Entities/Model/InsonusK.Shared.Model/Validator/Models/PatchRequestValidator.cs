@@ -1,7 +1,7 @@
 using FluentValidation;
 using InsonusK.Shared.Model.Interfaces;
 
-namespace InsonusK.Shared.Model.Validator;
+namespace InsonusK.Shared.Model.Validator.Models;
 
 public class PatchRequestValidator : AbstractValidator<IPatchRequest>
 {

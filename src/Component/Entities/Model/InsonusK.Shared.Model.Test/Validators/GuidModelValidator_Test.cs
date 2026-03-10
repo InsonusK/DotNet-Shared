@@ -1,8 +1,9 @@
 using Divergic.Logging.Xunit;
-using Microsoft.Extensions.Logging;
-using InsonusK.Shared.Model.Validator;
-using InsonusK.Shared.Model.Common;
 using FluentValidation;
+using InsonusK.Shared.Model.Common;
+using InsonusK.Shared.Model.Validator.Models;
+using InsonusK.Shared.Model.Validator.Properties;
+using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
 namespace InsonusK.Shared.Model.Test.Validators;
@@ -19,13 +20,13 @@ public class GuidModelValidator_Test : LoggingTestsBase<GuidModelValidator_Test>
     private sealed record GuidModelStub(Guid Guid) : IGuidModel;
 
     [Fact]
-    public void test_Guid_WHEN_guid_is_empty__THEN_validation_fails_with_error()
+    public void test_Guid_WHEN_guid_is_empty__THEN_validation_fails_with_IsEmpty_code()
     {
         #region Array
         Logger.LogDebug("Test ARRAY");
 
         var asserted_model = new GuidModelStub(Guid.Empty);
-        string expected_errorCode = GuidModelValidator.GuidEmptyCode;
+        string expected_errorCode = IsNotEmptyValidationExtensions.Code;
 
         #endregion
 
