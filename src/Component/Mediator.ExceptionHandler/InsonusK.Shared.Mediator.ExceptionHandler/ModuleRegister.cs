@@ -14,7 +14,6 @@ public static class ExceptionHandlerModuleRegister
         var assembly = typeof(ExceptionHandlerModuleRegister).Assembly;
         sc.AddScoped(typeof(IPipelineBehavior<,>), typeof(ExceptionHandler<,>));
         sc.AddScoped(typeof(ArdalisResultReflectionFactory<>));
-        sc.AddValidatorsFromAssembly(assembly);
         return sc;
     }
 }

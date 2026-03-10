@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using InsonusK.Shared.Mediator.ExceptionHandler.Handler;
 using InsonusK.Shared.Mediator.ExceptionHandler.Service;
-using InsonusK.Shared.Mediator.ExceptionHandler.Validators;
 
 namespace InsonusK.Shared.Mediator.ExceptionHandler.Test;
 
@@ -38,10 +37,6 @@ public class ExceptionHandlerModuleRegister_Test : LoggingTestsBase<ExceptionHan
 
         Assert.Contains(services, s => s.ServiceType == typeof(IPipelineBehavior<,>) && s.ImplementationType == typeof(ExceptionHandler<,>));
         Assert.Contains(services, s => s.ServiceType == typeof(ArdalisResultReflectionFactory<>) && s.ImplementationType == typeof(ArdalisResultReflectionFactory<>));
-        
-        // Check for validator
-        Assert.Contains(services, s => s.ImplementationType == typeof(CommandValidator));
-
         #endregion
     }
 }
