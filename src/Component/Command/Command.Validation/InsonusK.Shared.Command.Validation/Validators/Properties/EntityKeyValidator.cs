@@ -1,7 +1,7 @@
 using FluentValidation;
 using InsonusK.Shared.Command.Interface;
 using InsonusK.Shared.Command.Validation.Extensions;
-using InsonusK.Shared.Models.Common;
+using InsonusK.Shared.Model.Common;
 
 namespace InsonusK.Shared.Command.Validation.Validators.Properties;
 public class EntityKeyValidator : AbstractValidator<IEntityKey>

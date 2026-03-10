@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Divergic.Logging.Xunit;
 using Xunit.Abstractions;
 using InsonusK.Shared.Mediator.ExceptionHandler.Validators;
-using InsonusK.Shared.Models.Common;
+using InsonusK.Shared.Model.Common;
 
 namespace InsonusK.Shared.Mediator.ExceptionHandler.Test;
 

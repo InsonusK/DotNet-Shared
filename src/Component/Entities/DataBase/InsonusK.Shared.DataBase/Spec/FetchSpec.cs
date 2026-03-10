@@ -1,7 +1,7 @@
 using Ardalis.GuardClauses;
 using Ardalis.Specification;
 using InsonusK.Shared.DataBase.Models;
-using InsonusK.Shared.Models.Template;
+using InsonusK.Shared.Model.Template;
 
 namespace InsonusK.Shared.DataBase.Spec;
 public class FetchSpec<TEntity> : Specification<TEntity> where TEntity:EntityBase

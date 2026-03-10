@@ -1,11 +1,11 @@
 using Divergic.Logging.Xunit;
 using Microsoft.Extensions.Logging;
-using InsonusK.Shared.Models.Validators;
-using InsonusK.Shared.Models.Interfaces;
+using InsonusK.Shared.Model.Validator;
+using InsonusK.Shared.Model.Interfaces;
 using FluentValidation;
 using Xunit.Abstractions;
 
-namespace InsonusK.Shared.Models.Test.Validators;
+namespace InsonusK.Shared.Model.Test.Validators;
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class PatchRequestValidator_Test : LoggingTestsBase<PatchRequestValidator_Test>

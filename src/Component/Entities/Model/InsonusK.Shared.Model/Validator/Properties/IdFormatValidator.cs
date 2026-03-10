@@ -1,7 +1,7 @@
 using FluentValidation;
 using FluentValidation.Validators;
 
-namespace InsonusK.Shared.Models.Validators;
+namespace InsonusK.Shared.Model.Validator;
 
 public class IdFormatValidator<T> : PropertyValidator<T, int>
 {

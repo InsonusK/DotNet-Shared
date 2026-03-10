@@ -3,7 +3,7 @@ using FluentValidation;
 using FluentValidation.Validators;
 using InsonusK.Shared.DataBase.Models;
 using InsonusK.Shared.DataBase.Spec;
-using InsonusK.Shared.Models.Validators;
+using InsonusK.Shared.Model.Validator;
 
 namespace InsonusK.Shared.DataBase.Validators;
 

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace InsonusK.Shared.Models.Validators;
+namespace InsonusK.Shared.Model.Validator;
 public static class IsNotEmptyValidatorExtension
 {
     public const string ErrorCode = "IsNotEmpty";

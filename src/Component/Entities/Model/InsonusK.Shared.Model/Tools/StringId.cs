@@ -1,4 +1,4 @@
-namespace InsonusK.Shared.Models.Tools;
+namespace InsonusK.Shared.Model.Tools;
 public static class StringIdExtension
 {
     public static bool ToId(this string value, out int id, out Guid guid)

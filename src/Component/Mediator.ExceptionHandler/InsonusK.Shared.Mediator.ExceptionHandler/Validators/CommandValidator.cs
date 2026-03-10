@@ -1,6 +1,6 @@
 using FluentValidation;
-using InsonusK.Shared.Models.Common;
-using InsonusK.Shared.Models.Validators;
+using InsonusK.Shared.Model.Common;
+using InsonusK.Shared.Model.Validator;
 
 namespace InsonusK.Shared.Mediator.ExceptionHandler.Validators;
 

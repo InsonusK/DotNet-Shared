@@ -1,7 +1,7 @@
 using FluentValidation;
-using InsonusK.Shared.Models.Template;
+using InsonusK.Shared.Model.Template;
 
-namespace InsonusK.Shared.Models.Validators;
+namespace InsonusK.Shared.Model.Validator;
 public class FetchRequestValidator : AbstractValidator<IFetchRequest>
 {
     public FetchRequestValidator()

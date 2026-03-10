@@ -1,7 +1,7 @@
 using Ardalis.GuardClauses;
 using Ardalis.Specification;
 using InsonusK.Shared.DataBase.Models;
-using InsonusK.Shared.Models.Common;
+using InsonusK.Shared.Model.Common;
 
 namespace InsonusK.Shared.DataBase.Spec;
 

@@ -1,8 +1,8 @@
 using FluentValidation;
 using FluentValidation.Validators;
-using InsonusK.Shared.Models.Tools;
+using InsonusK.Shared.Model.Tools;
 
-namespace InsonusK.Shared.Models.Validators;
+namespace InsonusK.Shared.Model.Validator;
 
 public class StirngIdFormatValidator<T> : PropertyValidator<T, string>
 {

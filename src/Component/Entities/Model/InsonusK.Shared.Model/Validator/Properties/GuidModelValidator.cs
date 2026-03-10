@@ -1,7 +1,7 @@
 using FluentValidation;
-using InsonusK.Shared.Models.Common;
+using InsonusK.Shared.Model.Common;
 
-namespace InsonusK.Shared.Models.Validators;
+namespace InsonusK.Shared.Model.Validator;
 
 public class GuidModelValidator : AbstractValidator<IGuidModel>
 {

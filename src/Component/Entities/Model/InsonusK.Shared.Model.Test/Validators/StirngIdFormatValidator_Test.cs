@@ -1,10 +1,10 @@
 using Divergic.Logging.Xunit;
 using Microsoft.Extensions.Logging;
-using InsonusK.Shared.Models.Validators;
+using InsonusK.Shared.Model.Validator;
 using FluentValidation;
 using Xunit.Abstractions;
 
-namespace InsonusK.Shared.Models.Test.Validators;
+namespace InsonusK.Shared.Model.Test.Validators;
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class StirngIdFormatValidator_Test : LoggingTestsBase<StirngIdFormatValidator_Test>
