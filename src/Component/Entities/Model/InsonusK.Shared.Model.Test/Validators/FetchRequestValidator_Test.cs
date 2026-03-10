@@ -1,10 +1,10 @@
 using Divergic.Logging.Xunit;
 using Microsoft.Extensions.Logging;
-using InsonusK.Shared.Models.Validators;
-using InsonusK.Shared.Models.Template;
+using InsonusK.Shared.Model.Validator.Models;
+using InsonusK.Shared.Model.Template;
 using Xunit.Abstractions;
 
-namespace InsonusK.Shared.Models.Test.Validators;
+namespace InsonusK.Shared.Model.Test.Validators;
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class FetchRequestValidator_Test : LoggingTestsBase<FetchRequestValidator_Test>

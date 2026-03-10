@@ -1,4 +1,4 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+b// For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
 	"name": "C# (.NET)",
@@ -14,11 +14,9 @@
 		"SSH_AUTH_SOCK": "${localEnv:SSH_AUTH_SOCK}",
 	},
 	"mounts": [
-		// 1. Проброс сокета агента
-		"source=${localEnv:SSH_AUTH_SOCK},target=${localEnv:SSH_AUTH_SOCK},type=bind",
-		// 2. Временное монтирование папки .ssh для копирования authorized_keys и known_hosts
+		// 1. Временное монтирование папки .ssh для копирования authorized_keys и known_hosts
 		"source=${localEnv:HOME}/.ssh,target=/tmp/host_ssh,type=bind,readonly",
-		// 3. Временное монтирование .gitconfig
+		// 2. Временное монтирование .gitconfig
 		"source=${localEnv:HOME}/.gitconfig,target=/tmp/host_gitconfig,type=bind,readonly"
 	],
 	"postCreateCommand": "sh .agent/scripts/ssh_server_init.sh",

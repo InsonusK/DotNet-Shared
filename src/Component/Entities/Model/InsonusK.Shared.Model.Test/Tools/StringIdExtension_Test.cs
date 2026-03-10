@@ -1,9 +1,9 @@
 using Divergic.Logging.Xunit;
 using Microsoft.Extensions.Logging;
-using InsonusK.Shared.Models.Tools;
+using InsonusK.Shared.Model.Tools;
 using Xunit.Abstractions;
 
-namespace InsonusK.Shared.Models.Test.Tools;
+namespace InsonusK.Shared.Model.Test.Tools;
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class StringIdExtension_Test : LoggingTestsBase<StringIdExtension_Test>

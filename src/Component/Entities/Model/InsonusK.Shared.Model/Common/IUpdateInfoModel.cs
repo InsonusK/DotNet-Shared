@@ -1,4 +1,4 @@
-namespace InsonusK.Shared.Models.Common;
+namespace InsonusK.Shared.Model.Common;
 
 public interface IUpdateInfoModelReadOnly : IVersionatedModel
 {

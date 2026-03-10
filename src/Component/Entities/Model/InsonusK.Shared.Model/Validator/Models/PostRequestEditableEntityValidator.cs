@@ -1,7 +1,7 @@
-using InsonusK.Shared.Models.Template;
+using InsonusK.Shared.Model.Template;
 using FluentValidation;
 
-namespace InsonusK.Shared.Models.Validators;
+namespace InsonusK.Shared.Model.Validator.Models;
 
 public class PostRequestEditableEntityValidator : AbstractValidator<IPostRequestEditableEntity>
 {

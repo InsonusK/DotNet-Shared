@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using InsonusK.Shared.Mediator.ExceptionHandler.Handler;
@@ -14,7 +13,6 @@ public static class ExceptionHandlerModuleRegister
         var assembly = typeof(ExceptionHandlerModuleRegister).Assembly;
         sc.AddScoped(typeof(IPipelineBehavior<,>), typeof(ExceptionHandler<,>));
         sc.AddScoped(typeof(ArdalisResultReflectionFactory<>));
-        sc.AddValidatorsFromAssembly(assembly);
         return sc;
     }
 }

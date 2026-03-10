@@ -1,7 +1,7 @@
 using Ardalis.Result;
-using InsonusK.Shared.Models.Common;
+using InsonusK.Shared.Model.Common;
 
-namespace InsonusK.Shared.Models.Template;
+namespace InsonusK.Shared.Model.Template;
 
 public interface IResponseWithValidationInfo
 {

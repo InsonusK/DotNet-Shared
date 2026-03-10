@@ -5,7 +5,7 @@ using NSubstitute;
 using Ardalis.Specification;
 using FluentValidation;
 using FluentValidation.Internal;
-using InsonusK.Shared.DataBase.Validators;
+using InsonusK.Shared.DataBase.Validators.Properties;
 
 namespace InsonusK.Shared.DataBase.Test.Validators;
 

@@ -6,7 +6,7 @@ using InsonusK.Shared.Command.Interface;
 using InsonusK.Shared.Command.Service.Interface;
 using InsonusK.Shared.DataBase.Models;
 using InsonusK.Shared.DataBase.Spec;
-using InsonusK.Shared.Models.Common;
+using InsonusK.Shared.Model.Common;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

@@ -1,3 +1,3 @@
-namespace InsonusK.Shared.Models.Template;
+namespace InsonusK.Shared.Model.Template;
 
 public interface IPutRequestEditableEntity  { }

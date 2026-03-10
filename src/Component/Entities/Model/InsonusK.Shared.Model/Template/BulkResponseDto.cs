@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Ardalis.Result;
 
-namespace InsonusK.Shared.Models.Template;
+namespace InsonusK.Shared.Model.Template;
 
 public class BulkResponseDto<TSingleDto>
 {
