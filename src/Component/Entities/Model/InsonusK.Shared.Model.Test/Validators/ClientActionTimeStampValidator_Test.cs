@@ -1,11 +1,12 @@
 using Divergic.Logging.Xunit;
-using Microsoft.Extensions.Logging;
-using InsonusK.Shared.Models.Validators;
-using InsonusK.Shared.Models.Common;
 using FluentValidation;
+using InsonusK.Shared.Model.Common;
+using InsonusK.Shared.Model.Validator.Models;
+using InsonusK.Shared.Model.Validator.Properties;
+using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace InsonusK.Shared.Models.Test.Validators;
+namespace InsonusK.Shared.Model.Test.Validators;
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class ClientActionTimeStampValidator_Test : LoggingTestsBase<ClientActionTimeStampValidator_Test>
@@ -19,13 +20,13 @@ public class ClientActionTimeStampValidator_Test : LoggingTestsBase<ClientAction
     private sealed record ClientActionTimeStampStub(DateTimeOffset ActionTimeStamp) : IClientActionTimeStamp;
 
     [Fact]
-    public void test_ActionTimeStamp_WHEN_actionTimeStamp_is_default__THEN_validation_fails_with_error()
+    public void test_ActionTimeStamp_WHEN_actionTimeStamp_is_default__THEN_validation_fails_with_IsEmpty_code()
     {
         #region Array
         Logger.LogDebug("Test ARRAY");
 
         var asserted_model = new ClientActionTimeStampStub(default(DateTimeOffset));
-        string expected_errorCode = ClientActionTimeStampValidator.ActionTimeStampEmptyCode;
+        string expected_errorCode = IsNotEmptyValidationExtensions.Code;
 
         #endregion
 
@@ -73,4 +74,5 @@ public class ClientActionTimeStampValidator_Test : LoggingTestsBase<ClientAction
 
         #endregion
     }
+
 }

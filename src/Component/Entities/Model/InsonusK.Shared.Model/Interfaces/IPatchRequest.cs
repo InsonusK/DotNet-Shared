@@ -1,4 +1,4 @@
-namespace InsonusK.Shared.Models.Interfaces;
+namespace InsonusK.Shared.Model.Interfaces;
 
 public interface IPatchRequest
 {

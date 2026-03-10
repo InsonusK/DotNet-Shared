@@ -1,6 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
-using InsonusK.Shared.Models.Common;
+using InsonusK.Shared.Model.Common;
 
 namespace InsonusK.Shared.DataBase.Models;
 

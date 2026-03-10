@@ -1,6 +1,6 @@
 using InsonusK.Shared.Command.Interface;
 using InsonusK.Shared.DataBase.Models;
-using InsonusK.Shared.Models.Common;
+using InsonusK.Shared.Model.Common;
 
 namespace InsonusK.Shared.Command.Validation.Test.Mocks;
 
