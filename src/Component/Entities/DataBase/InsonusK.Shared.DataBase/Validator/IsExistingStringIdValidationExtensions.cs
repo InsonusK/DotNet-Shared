@@ -13,14 +13,13 @@ public static class IsExistingStringIdValidationExtensions
     /// </summary>
     public static IRuleBuilderOptions<TDto, string> IsExistingStringId<TDto, TEntity>(
         this IRuleBuilderInitial<TDto, string> ruleBuilder,
-        IReadRepositoryBase<TEntity> repository,
-        Guid? newGuid = null)
+        IReadRepositoryBase<TEntity> repository)
         where TEntity : ConstantGuidEntity
     {
         return ruleBuilder
             .Cascade(CascadeMode.Stop)
             .IsValidStringId()
-            .SetAsyncValidator(new StringIdExistValidator<TDto, TEntity>(repository, false, newGuid))
+            .SetAsyncValidator(new StringIdExistValidator<TDto, TEntity>(repository))
             .WithErrorCode(StringIdExistValidator<TDto, TEntity>.Code)
             .WithSeverity(Severity.Error);
     }
@@ -30,14 +29,13 @@ public static class IsExistingStringIdValidationExtensions
     /// </summary>
     public static IRuleBuilderOptions<TDto, string> IsExistingStringId<TDto, TEntity>(
         this IRuleBuilderInitialCollection<TDto, string> ruleBuilder,
-        IReadRepositoryBase<TEntity> repository,
-        Guid? newGuid = null)
+        IReadRepositoryBase<TEntity> repository)
         where TEntity : ConstantGuidEntity
     {
         return ruleBuilder
             .Cascade(CascadeMode.Stop)
             .IsValidStringId()
-            .SetAsyncValidator(new StringIdExistValidator<TDto, TEntity>(repository, false, newGuid))
+            .SetAsyncValidator(new StringIdExistValidator<TDto, TEntity>(repository))
             .WithErrorCode(StringIdExistValidator<TDto, TEntity>.Code)
             .WithSeverity(Severity.Error);
     }

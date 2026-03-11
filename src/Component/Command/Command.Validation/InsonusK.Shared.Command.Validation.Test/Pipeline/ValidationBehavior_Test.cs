@@ -49,7 +49,7 @@ public class ValidationBehavior_Test : LoggingTestsBase<ValidationBehavior_Test>
         var validators = Enumerable.Empty<IValidator<TestCommand>>();
 
         Logger.LogDebug("Test ACT");
-        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider);
+        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider,Output.BuildLoggerFor<ValidationBehavior<TestCommand, TestResponse>>());
 
         Logger.LogDebug("Test ASSERT");
         Assert.NotNull(behavior);
@@ -70,7 +70,7 @@ public class ValidationBehavior_Test : LoggingTestsBase<ValidationBehavior_Test>
         var validators = Enumerable.Empty<IValidator<TestCommand>>();
 
         Logger.LogDebug("Test ACT");
-        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider);
+        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider,Output.BuildLoggerFor<ValidationBehavior<TestCommand, TestResponse>>());
 
         Logger.LogDebug("Test ASSERT");
         Assert.NotNull(behavior);
@@ -91,7 +91,7 @@ public class ValidationBehavior_Test : LoggingTestsBase<ValidationBehavior_Test>
         var serviceProvider = serviceCollection.BuildServiceProvider();
 
         var validators = Enumerable.Empty<IValidator<TestCommand>>();
-        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider);
+        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider,Output.BuildLoggerFor<ValidationBehavior<TestCommand, TestResponse>>());
 
         var command = new TestCommand();
         var nextMock = Substitute.For<RequestHandlerDelegate<TestResponse>>();
@@ -126,7 +126,7 @@ public class ValidationBehavior_Test : LoggingTestsBase<ValidationBehavior_Test>
             .Returns(new ValidationResult());
 
         var validators = new[] { validatorMock };
-        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider);
+        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider,Output.BuildLoggerFor<ValidationBehavior<TestCommand, TestResponse>>());
 
         var command = new TestCommand();
         var nextMock = Substitute.For<RequestHandlerDelegate<TestResponse>>();
@@ -160,7 +160,7 @@ public class ValidationBehavior_Test : LoggingTestsBase<ValidationBehavior_Test>
             .Returns(new ValidationResult(new[] { validationFailure }));
 
         var validators = new[] { validatorMock };
-        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider);
+        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider,Output.BuildLoggerFor<ValidationBehavior<TestCommand, TestResponse>>());
         var command = new TestCommand();
         var nextMock = Substitute.For<RequestHandlerDelegate<TestResponse>>();
 
@@ -192,7 +192,7 @@ public class ValidationBehavior_Test : LoggingTestsBase<ValidationBehavior_Test>
             .Returns(new ValidationResult(new[] { validationFailure }));
 
         var validators = new[] { validatorMock };
-        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider);
+        var behavior = new ValidationBehavior<TestCommand, TestResponse>(validators, serviceProvider,Output.BuildLoggerFor<ValidationBehavior<TestCommand, TestResponse>>());
         var command = new TestCommand();
         var nextMock = Substitute.For<RequestHandlerDelegate<TestResponse>>();
 
@@ -220,7 +220,7 @@ public class ValidationBehavior_Test : LoggingTestsBase<ValidationBehavior_Test>
             .Returns(new ValidationResult(new[] { validationFailure }));
 
         var validators = new[] { validatorMock };
-        var behavior = new ValidationBehavior<TestForcableCommand, TestResponse>(validators, serviceProvider);
+        var behavior = new ValidationBehavior<TestForcableCommand, TestResponse>(validators, serviceProvider,Output.BuildLoggerFor<ValidationBehavior<TestForcableCommand, TestResponse>>());
         var command = new TestForcableCommand { Force = false };
         var nextMock = Substitute.For<RequestHandlerDelegate<TestResponse>>();
 
@@ -248,7 +248,7 @@ public class ValidationBehavior_Test : LoggingTestsBase<ValidationBehavior_Test>
             .Returns(new ValidationResult(new[] { validationFailure }));
 
         var validators = new[] { validatorMock };
-        var behavior = new ValidationBehavior<TestForcableCommand, TestResponse>(validators, serviceProvider);
+        var behavior = new ValidationBehavior<TestForcableCommand, TestResponse>(validators, serviceProvider,Output.BuildLoggerFor<ValidationBehavior<TestForcableCommand, TestResponse>>());
         var command = new TestForcableCommand { Force = true };
         var nextMock = Substitute.For<RequestHandlerDelegate<TestResponse>>();
 
@@ -276,7 +276,7 @@ public class ValidationBehavior_Test : LoggingTestsBase<ValidationBehavior_Test>
             .Returns(new ValidationResult(new[] { validationFailure1, validationFailure2 }));
 
         var validators = new[] { validatorMock };
-        var behavior = new ValidationBehavior<TestForcableCommand, TestResponse>(validators, serviceProvider);
+        var behavior = new ValidationBehavior<TestForcableCommand, TestResponse>(validators, serviceProvider,Output.BuildLoggerFor<ValidationBehavior<TestForcableCommand, TestResponse>>());
         var command = new TestForcableCommand { Force = true }; // Force is true, but there is still an Error severity
         var nextMock = Substitute.For<RequestHandlerDelegate<TestResponse>>();
 
