@@ -7,12 +7,8 @@ namespace InsonusK.Shared.Command.Validation.Validators;
 public class CommandWithBodyValidator<TCommand> : AbstractValidator<TCommand>
     where TCommand : ICommandWithBody
 {
-    private readonly IServiceProvider _serviceProvider;
-
     public CommandWithBodyValidator(IServiceProvider serviceProvider)
     {
-        this._serviceProvider = serviceProvider;
-
         RuleFor(cmd => cmd.objBody)
             .NotNull()
             .When(cmd => cmd.BodyRequired)

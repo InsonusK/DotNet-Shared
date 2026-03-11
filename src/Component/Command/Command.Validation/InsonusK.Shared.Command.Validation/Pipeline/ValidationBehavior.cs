@@ -38,7 +38,7 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         _validators = validators;
         _commandContextSrc = serviceProvider.GetService<ICommandContextSource>();
         if (_commandContextSrc == null){
-            _logger.LogDebug("No ICommandContextSource registered, entity context will not be available in validators");
+            _logger.LogWarning("No ICommandContextSource registered, entity context will not be available in validators");
             _commandContextSrc = serviceProvider.GetRequiredService<EntityProvider>();
         }
     }
@@ -55,8 +55,9 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
     /// <exception cref="ValidationException">Thrown when there are validation errors, or warnings if the command does not force execution.</exception>
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
     {
-        if (!_validators.Any())
+        if (!_validators.Any()){
             return await next();
+        }
 
         ICommandContext cmdCtx = await _commandContextSrc.GetForAsync(request,ct);
         var validationContext = new ValidationContext<TRequest>(request);
