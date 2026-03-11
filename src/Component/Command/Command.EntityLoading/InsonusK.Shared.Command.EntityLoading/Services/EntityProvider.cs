@@ -114,7 +114,7 @@ public class EntityProvider : ICommandContextSource
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Готовый контекст с сущностями.</returns>
     /// <exception cref="NotFoundException">Выбрасывается (из <see cref="CommandContextExtensions.CreateNewFor"/>), если хотя бы одна сущность не найдена в хранилище.</exception>
-    public async Task<ICommandContext> GetForAsync<TRequest>(TRequest command, CancellationToken cancellationToken) where TRequest : ICommandWithEntityKeys, IBaseRequest
+    public async Task<ICommandContext> GetForAsync<TRequest>(TRequest command, CancellationToken cancellationToken) where TRequest : ICommandWithEntityKeys
     {
         return await this.CreateNewFor(command, cancellationToken);
     }
