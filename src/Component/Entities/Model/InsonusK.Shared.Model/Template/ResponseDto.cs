@@ -10,3 +10,11 @@ public class BulkResponseDto<TSingleDto>
 
     public IEnumerable<ValidationError> ValidationMessages { get; init; } = [];
 }
+
+public class SingleResponseDto<TSingleDto>
+{
+    [Required]
+    public required TSingleDto Item { get; init; }
+
+    public IEnumerable<ValidationError> ValidationMessages { get; init; } = [];
+}
