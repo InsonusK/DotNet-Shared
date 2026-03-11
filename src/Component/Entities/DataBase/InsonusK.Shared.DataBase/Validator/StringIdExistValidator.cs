@@ -4,7 +4,7 @@ using FluentValidation.Validators;
 using InsonusK.Shared.DataBase.Models;
 using InsonusK.Shared.DataBase.Spec;
 
-namespace InsonusK.Shared.DataBase.Validators.Properties;
+namespace InsonusK.Shared.DataBase.Validator.Properties;
 
 public class StringIdExistValidator<TValidatedDto, TEntity> : AsyncPropertyValidator<TValidatedDto, string>
     where TEntity : ConstantGuidEntity

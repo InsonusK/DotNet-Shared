@@ -2,12 +2,12 @@ using Ardalis.Specification;
 using Divergic.Logging.Xunit;
 using FluentValidation.Internal;
 using FluentValidation;
-using InsonusK.Shared.DataBase.Validators.Properties;
+using InsonusK.Shared.DataBase.Validator.Properties;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit.Abstractions;
 
-namespace InsonusK.Shared.DataBase.Test.Validators;
+namespace InsonusK.Shared.DataBase.Test.Validator;
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class IdExistValidator_Test : LoggingTestsBase<IdExistValidator_Test>

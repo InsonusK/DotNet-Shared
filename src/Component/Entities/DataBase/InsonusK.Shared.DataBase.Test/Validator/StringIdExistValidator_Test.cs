@@ -5,9 +5,9 @@ using NSubstitute;
 using Ardalis.Specification;
 using FluentValidation;
 using FluentValidation.Internal;
-using InsonusK.Shared.DataBase.Validators.Properties;
+using InsonusK.Shared.DataBase.Validator.Properties;
 
-namespace InsonusK.Shared.DataBase.Test.Validators;
+namespace InsonusK.Shared.DataBase.Test.Validator;
 
 [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class StringIdExistValidator_Test : LoggingTestsBase<StringIdExistValidator_Test>
