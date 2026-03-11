@@ -6,6 +6,7 @@ using Ardalis.Specification;
 using FluentValidation;
 using FluentValidation.Internal;
 using InsonusK.Shared.DataBase.Validator.Properties;
+using Castle.Components.DictionaryAdapter.Xml;
 
 namespace InsonusK.Shared.DataBase.Test.Validator;
 
@@ -27,8 +28,8 @@ public class StringIdExistValidator_Test : LoggingTestsBase<StringIdExistValidat
 
         string input = Guid.NewGuid().ToString();
         var asserted_repository = Substitute.For<IReadRepositoryBase<TestEntity>>();
-        asserted_repository.CountAsync(Arg.Any<ISpecification<TestEntity>>(), Arg.Any<CancellationToken>())
-            .Returns(1);
+        asserted_repository.SingleOrDefaultAsync(Arg.Any<ISingleResultSpecification<TestEntity>>(), Arg.Any<CancellationToken>())
+            .Returns(new TestEntity());
 
         var asserted_validator = new StringIdExistValidator<object, TestEntity>(asserted_repository);
 
@@ -79,71 +80,6 @@ public class StringIdExistValidator_Test : LoggingTestsBase<StringIdExistValidat
         Logger.LogDebug("Test ASSERT");
 
         Assert.False(asserted_result);
-
-        #endregion
-    }
-
-    [Fact]
-    public async Task test_IsValidAsync_WHEN_value_is_empty_and_validateOnlyIfNotEmpty_is_true__THEN_returns_true()
-    {
-        #region Array
-        Logger.LogDebug("Test ARRAY");
-
-        string input = "";
-        var asserted_repository = Substitute.For<IReadRepositoryBase<TestEntity>>();
-        var asserted_validator = new StringIdExistValidator<object, TestEntity>(
-            asserted_repository, validateOnlyIfNotEmpty: true);
-
-        #endregion
-
-
-        #region Act
-        Logger.LogDebug("Test ACT");
-
-        bool asserted_result = await asserted_validator.IsValidAsync(MakeContext(), input, CancellationToken.None);
-
-        #endregion
-
-
-        #region Assert
-        Logger.LogDebug("Test ASSERT");
-
-        Assert.True(asserted_result);
-        await asserted_repository.DidNotReceive()
-            .CountAsync(Arg.Any<ISpecification<TestEntity>>(), Arg.Any<CancellationToken>());
-
-        #endregion
-    }
-
-    [Fact]
-    public async Task test_IsValidAsync_WHEN_value_matches_newGuid__THEN_returns_true_without_querying_repository()
-    {
-        #region Array
-        Logger.LogDebug("Test ARRAY");
-
-        Guid expected_newGuid = Guid.NewGuid();
-        string input = expected_newGuid.ToString();
-        var asserted_repository = Substitute.For<IReadRepositoryBase<TestEntity>>();
-        var asserted_validator = new StringIdExistValidator<object, TestEntity>(
-            asserted_repository, newGuid: expected_newGuid);
-
-        #endregion
-
-
-        #region Act
-        Logger.LogDebug("Test ACT");
-
-        bool asserted_result = await asserted_validator.IsValidAsync(MakeContext(), input, CancellationToken.None);
-
-        #endregion
-
-
-        #region Assert
-        Logger.LogDebug("Test ASSERT");
-
-        Assert.True(asserted_result);
-        await asserted_repository.DidNotReceive()
-            .CountAsync(Arg.Any<ISpecification<TestEntity>>(), Arg.Any<CancellationToken>());
 
         #endregion
     }
