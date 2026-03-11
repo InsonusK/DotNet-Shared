@@ -19,9 +19,9 @@ namespace InsonusK.Shared.Command.Validation.Pipeline;
 /// <typeparam name="TResponse">The type of the response.</typeparam>
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : ICommandWithEntityKeys,IBaseRequest
+    where TRequest : IBaseRequest
 {
-    private readonly ILogger<ValidationBehavior<TRequest, TResponse>> _logger;
+    private readonly ILogger _logger;
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     private readonly ICommandContextSource _commandContextSrc;
 
@@ -31,13 +31,15 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
     /// <param name="validators">Collection of validators for the request.</param>
     /// <param name="serviceProvider">The service provider to resolve dependencies.</param>
     public ValidationBehavior(
-        IEnumerable<IValidator<TRequest>> validators, 
-        IServiceProvider serviceProvider)
+        IEnumerable<IValidator<TRequest>> validators,
+        IServiceProvider serviceProvider,
+        ILogger<ValidationBehavior<TRequest, TResponse>> logger)
     {
-        _logger = serviceProvider.GetService<ILogger<ValidationBehavior<TRequest, TResponse>>>()!;
+        _logger = logger;
         _validators = validators;
         _commandContextSrc = serviceProvider.GetService<ICommandContextSource>();
-        if (_commandContextSrc == null){
+        if (_commandContextSrc == null)
+        {
             _logger.LogWarning("No ICommandContextSource registered, entity context will not be available in validators");
             _commandContextSrc = serviceProvider.GetRequiredService<EntityProvider>();
         }
@@ -55,13 +57,19 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
     /// <exception cref="ValidationException">Thrown when there are validation errors, or warnings if the command does not force execution.</exception>
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
     {
-        if (!_validators.Any()){
+        if (!_validators.Any())
+        {
+            _logger.LogWarning("No validators registered for command {CommandType}, skipping validation", typeof(TRequest).Name);
             return await next();
         }
 
-        ICommandContext cmdCtx = await _commandContextSrc.GetForAsync(request,ct);
         var validationContext = new ValidationContext<TRequest>(request);
-        validationContext.SetEntitiesContext(cmdCtx);
+        
+        if (request is ICommandWithEntityKeys cmdWithKey)
+        {
+            ICommandContext cmdCtx = await _commandContextSrc.GetForAsync(cmdWithKey, ct);
+            validationContext.SetEntitiesContext(cmdCtx);
+        }
 
         _logger.LogInformation("Validating command {CommandType} with {ValidatorCount} validators", typeof(TRequest).Name, _validators.Count());
         var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(validationContext, ct)));
@@ -81,5 +89,5 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         return await next();
     }
 
-    
+
 }
