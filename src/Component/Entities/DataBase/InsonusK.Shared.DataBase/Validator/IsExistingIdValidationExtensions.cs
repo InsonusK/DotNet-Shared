@@ -1,10 +1,10 @@
 using Ardalis.Specification;
 using FluentValidation;
 using InsonusK.Shared.DataBase.Models;
-using InsonusK.Shared.DataBase.Validators.Properties;
+using InsonusK.Shared.DataBase.Validator.Properties;
 using InsonusK.Shared.Model.Validator.Properties;
 
-namespace InsonusK.Shared.DataBase.Validators;
+namespace InsonusK.Shared.DataBase.Validator;
 
 public static class IsExistingIdValidationExtensions
 {

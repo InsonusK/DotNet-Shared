@@ -3,7 +3,7 @@ using FluentValidation;
 using FluentValidation.Validators;
 using InsonusK.Shared.DataBase.Models;
 
-namespace InsonusK.Shared.DataBase.Validators.Properties;
+namespace InsonusK.Shared.DataBase.Validator.Properties;
 
 public class IdExistValidator<TEntity, TDb> : AsyncPropertyValidator<TEntity, int>
     where TDb : EntityBase

@@ -3,7 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace InsonusK.Shared.DataBase.Test.Validators;
+namespace InsonusK.Shared.DataBase.Test.Validator;
 
 public class SandBox
 {
